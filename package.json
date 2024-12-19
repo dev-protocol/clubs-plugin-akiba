@@ -38,7 +38,7 @@
 	"dependencies": {
 		"@devprotocol/dev-kit": "8.7.0",
 		"@devprotocol/util-ts": "4.0.0",
-		"@wagmi/core": "^1.4.1",
+		"@wagmi/core": "^2.0.0",
 		"@web3modal/wagmi": "^3.5.7",
 		"bignumber.js": "9.1.2",
 		"fast-average-color": "^9.4.0",
