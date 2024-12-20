@@ -8,12 +8,10 @@ import { whenDefined, type UndefinedOr } from '@devprotocol/util-ts'
 import type { ComposedItem, Override } from '../types'
 import type { Membership } from '@devprotocol/clubs-core'
 
-// eslint-disable-next-line functional/type-declaration-immutability
 export type CollectionMembership = Membership & {
 	memberCount?: number
 }
 
-// eslint-disable-next-line functional/type-declaration-immutability
 export type Collection = {
 	id: string
 	name: string

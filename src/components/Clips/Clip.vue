@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { defineProps, onMounted, ref, computed } from 'vue'
+import { defineProps, onMounted, ref, computed, watch } from 'vue'
 import { FastAverageColor, FastAverageColorResult } from 'fast-average-color'
 import type { ComposedCheckoutOptions } from '@devprotocol/clubs-plugin-passports'
 
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
+
+import VideoFetch from './VideoFetch.vue'
+
 import {
 	BGM,
 	CLIP,
@@ -20,6 +23,7 @@ type Props = {
 const { composedItem } = defineProps<Props>()
 
 const isDiscountActive = ref(false)
+const imageRef = ref<HTMLImageElement | null>(null)
 
 const discountStart = computed(() => {
 	return composedItem.props.discount?.start_utc
@@ -111,7 +115,28 @@ onMounted(async () => {
 			return undefined
 		})
 	}
+	await updateImageIfNeeded()
 })
+watch(image, async (newVal, oldVal) => {
+	if (newVal !== oldVal) {
+		await updateImageIfNeeded()
+	}
+})
+async function updateImageIfNeeded() {
+	if (image.value) {
+		try {
+			console.log({ image: image.value })
+			const response = await fetch(image.value)
+			const blob = await response.blob()
+			const blobDataUrl = URL.createObjectURL(blob)
+			if (imageRef.value) {
+				imageRef.value.src = blobDataUrl
+			}
+		} catch (error) {
+			console.error('Error loading video:', error)
+		}
+	}
+}
 </script>
 
 <style scoped>
@@ -145,19 +170,15 @@ onMounted(async () => {
 	>
 		<div class="relative overflow-hidden rounded">
 			<img
+				ref="imageRef"
 				v-if="CLIP.includes(tag)"
 				class="aspect-square w-full object-cover"
-				:src="image"
 				alt="Clip"
 			/>
-			<video
+			<VideoFetch
 				v-if="VIDEO.includes(tag) && video"
-				class="aspect-square w-full object-cover"
-				autoplay
-				muted
-				loop
-				controlsList="nodownload"
-				:src="video"
+				:videoClass="`rounded-md w-full max-w-full object-cover aspect-square pointer-events-none`"
+				:url="video"
 				alt="Clip"
 			/>
 			<div

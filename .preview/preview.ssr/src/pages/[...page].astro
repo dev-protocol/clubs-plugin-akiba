@@ -35,7 +35,7 @@ const Layout = path?.props.layout
 	Layout && Content && (
 		<Layout {...path.props}>
 			<ConnectButton
-				client:load
+				client:only="vue"
 				projectId="clubs"
 				label="SignIn"
 				slot="clubs:connect-button"
