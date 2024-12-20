@@ -1,65 +1,24 @@
 <script setup lang="ts">
-import { Component as VueComponent } from 'vue'
+import { useTemplateRef, Component as VueComponent, watch } from 'vue'
 
-defineProps<{
+const props = defineProps<{
 	isVisible: boolean
 	modalContent: VueComponent
 	attrs?: { [key: string]: any }
 }>()
+
+const dialog = useTemplateRef('dialog')
+
+watch(props, () => {
+	if (props.isVisible) {
+		dialog.value?.showModal()
+	} else {
+		dialog.value?.close()
+	}
+})
 </script>
 
 <style>
-.modal-container {
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	display: flex;
-	justify-content: center;
-	align-items: flex-end;
-}
-
-@media (min-width: 1024px) {
-	.modal-container {
-		align-items: center;
-	}
-}
-
-.modal-overlay {
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background: rgba(0, 0, 0, 0.6);
-	z-index: -1;
-}
-
-.modal-content {
-	display: flex;
-	flex-direction: column;
-	padding: 1rem;
-	width: 100%;
-	max-width: 64rem;
-	background: white;
-	border-top-left-radius: 0.5rem;
-	border-top-right-radius: 0.5rem;
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-	box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-
-	max-height: 80vh;
-	overflow-y: auto;
-}
-
-@media (min-width: 1024px) {
-	.modal-content {
-		border-bottom-left-radius: 0.5rem;
-		border-bottom-right-radius: 0.5rem;
-	}
-}
-
 .v-enter-active {
 	transition: transform 600ms cubic-bezier(0.07, 1.28, 0.5, 1);
 }
@@ -76,25 +35,33 @@ defineProps<{
 	transform: translate(0, 0);
 }
 
-html:has(#modal-container[data-active='true']) {
+html:has(dialog[open]) {
 	overflow: hidden;
 }
 </style>
 
 <template>
-	<div
-		id="modal-container"
-		v-show="isVisible"
-		class="modal-container z-50"
-		:data-active="isVisible"
+	<dialog
+		ref="dialog"
+		class="fixed inset-0 flex items-center justify-center overflow-y-auto"
+		:class="{ hidden: !isVisible }"
 	>
-		<div class="modal-overlay" @click.stop="$emit('closeEvent')"></div>
+		<div
+			class="fixed inset-0 bg-black/60"
+			@click.stop="$emit('closeEvent')"
+		></div>
 		<Transition>
-			<component class="modal-content" :is="modalContent" v-bind="attrs">
-				<template #after:description>
-					<slot name="after:description" />
-				</template>
-			</component>
+			<div
+				class="pointer-events-none relative m-auto flex w-full justify-center py-4"
+			>
+				<div class="pointer-events-auto">
+					<component v-show="isVisible" :is="modalContent" v-bind="attrs">
+						<template #after:description>
+							<slot name="after:description" />
+						</template>
+					</component>
+				</div>
+			</div>
 		</Transition>
-	</div>
+	</dialog>
 </template>

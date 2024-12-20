@@ -1,4 +1,3 @@
-/* eslint-disable functional/type-declaration-immutability */
 import type { ClubsOffering, Membership } from '@devprotocol/clubs-core'
 import type { PassportItemDocument } from '@devprotocol/clubs-plugin-passports'
 
