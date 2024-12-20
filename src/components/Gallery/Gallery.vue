@@ -23,7 +23,7 @@ onMounted(() => {
 	mounted.value = true
 
 	swiperEl.value?.addEventListener('swiperslidechange', (event) => {
-		const [swiper, progress] = event.detail;
+		const [swiper, progress] = event.detail
 		console.log('bar', swiper, progress)
 		current.value = swiper.activeIndex
 	})
@@ -33,7 +33,7 @@ onMounted(() => {
 <template>
 	<swiper-container
 		ref="swiperEl"
-		:slides-per-view="2"
+		:slides-per-view="1"
 		:space-between="20"
 		:navigation="false"
 		:breakpoints="{
@@ -45,7 +45,6 @@ onMounted(() => {
 		<swiper-slide
 			v-for="(feature, index) in features"
 			:key="index"
-			:class="`number-slide${index + 1}`"
 		>
 			<SlideContent
 				:feature="feature"
@@ -55,16 +54,20 @@ onMounted(() => {
 		</swiper-slide>
 	</swiper-container>
 
-	<div v-if="features.length > 2" class="mt-4 w-full text-center" style="line-height: 0">
+	<div
+		v-if="features.length > 2"
+		class="mt-4 w-full text-center"
+		style="line-height: 0"
+	>
 		<div class="relative inline-flex gap-0 overflow-hidden rounded-full">
 			<div
 				class="absolute h-[5px] w-[50px] rounded-full bg-gray-600 transition-all"
 				:style="`left: calc((100% / (${features.length} - 1)) * ${current})`"
 			/>
 			<div
-				v-for="index in (features.length - 1)"
+				v-for="index in features.length - 1"
 				class="h-[5px] w-[50px] bg-gray-200"
-				@click="swiperEl?.swiper.slideTo(index);"
+				@click="swiperEl?.swiper.slideTo(index)"
 			></div>
 		</div>
 	</div>
