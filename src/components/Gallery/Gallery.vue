@@ -61,6 +61,18 @@ const onClickSlideTo = (index: number) => {
 		</swiper-slide>
 	</swiper-container>
 
+	<div v-if="!mounted" class="flex w-full gap-4">
+		<!-- Loading placeholder -->
+		<SlideContent
+			v-for="(feature, index) in features.slice(0, 2)"
+			:key="index"
+			:feature="feature"
+			:as-placeholder="true"
+			:langs="langs"
+			:class="[{ 'hidden md:flex': index > 0 }]"
+		/>
+	</div>
+
 	<div
 		v-if="features.length > 2"
 		class="mt-4 w-full text-center"
