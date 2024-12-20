@@ -5,6 +5,7 @@ import { defineProps, onMounted, ref } from 'vue'
 import 'swiper/swiper-bundle.css'
 import SlideContent from './SlideContent.vue'
 import type { HomeConfig } from '../../types.ts'
+import type { Swiper as SwiperInstance } from 'swiper'
 
 type Props = {
 	features: HomeConfig['features']
@@ -13,30 +14,45 @@ type Props = {
 const { features, langs } = defineProps<Props>()
 
 register()
+
+const swiperInstance = ref<SwiperInstance | null>(null)
+const swiperEl = ref<HTMLElement | null>(null)
+const current = ref(0)
+
 const mounted = ref(false)
 
 onMounted(() => {
 	mounted.value = true
+
+	if (swiperEl.value) {
+		swiperInstance.value = (swiperEl.value as any).swiper as SwiperInstance
+	}
+
+	swiperEl.value?.addEventListener('swiperslidechange', (event) => {
+		const customEvent = event as CustomEvent<[SwiperInstance]>
+		const swiper = customEvent.detail[0]
+		current.value = swiper.activeIndex
+	})
 })
+
+const onClickSlideTo = (index: number) => {
+	swiperInstance.value?.slideTo(index)
+}
 </script>
 
 <template>
 	<swiper-container
-		:slides-per-view="2"
+		ref="swiperEl"
+		:slides-per-view="1"
 		:space-between="20"
-		:navigation="true"
+		:navigation="false"
 		:breakpoints="{
 			768: {
 				slidesPerView: 2,
 			},
 		}"
 	>
-		<swiper-slide
-			v-for="(feature, index) in features"
-			:key="index"
-			:class="`number-slide${index + 1}`"
-			:style="`min-width: 535.07px; max-width: 535.07px; transform: translate3d(${20 * index}px, 0px, 0px);`"
-		>
+		<swiper-slide v-for="(feature, index) in features" :key="index">
 			<SlideContent
 				:feature="feature"
 				:langs="langs"
@@ -44,4 +60,22 @@ onMounted(() => {
 			/>
 		</swiper-slide>
 	</swiper-container>
+
+	<div
+		v-if="features.length > 2"
+		class="mt-4 w-full text-center"
+		style="line-height: 0"
+	>
+		<div class="relative inline-flex gap-0 overflow-hidden rounded-full">
+			<div
+				class="absolute h-[5px] w-[50px] rounded-full bg-gray-600 transition-all"
+				:style="`left: calc((100% / (${features.length} - 1)) * ${current})`"
+			/>
+			<div
+				v-for="index in features.length - 1"
+				class="h-[5px] w-[50px] bg-gray-200"
+				@click="onClickSlideTo(index)"
+			></div>
+		</div>
+	</div>
 </template>

@@ -38,6 +38,7 @@
 	"dependencies": {
 		"@devprotocol/dev-kit": "8.7.0",
 		"@devprotocol/util-ts": "4.0.0",
+		"@types/swiper": "^6.0.0",
 		"bignumber.js": "9.1.2",
 		"fast-average-color": "^9.4.0",
 		"mp4box": "^0.5.3",
