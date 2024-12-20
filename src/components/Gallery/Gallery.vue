@@ -38,7 +38,6 @@ onMounted(() => {
 const onClickSlideTo = (index: number) => {
 	swiperInstance.value?.slideTo(index)
 }
-
 </script>
 
 <template>
