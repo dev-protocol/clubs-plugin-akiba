@@ -14,7 +14,7 @@ const { features, langs } = defineProps<Props>()
 
 register()
 
-const swiperEl = ref(undefined)
+const swiperEl = ref<HTMLDivElement | null>(null)
 const current = ref(0)
 
 const mounted = ref(false)
@@ -24,8 +24,9 @@ onMounted(() => {
 
 	swiperEl.value?.addEventListener(
 		'swiperslidechange',
-		(event: CustomEvent) => {
-			const [swiper] = event.detail
+		(event) => {
+			const customEvent = event as CustomEvent
+			const [swiper] = customEvent.detail
 			current.value = swiper.activeIndex
 		},
 	)
