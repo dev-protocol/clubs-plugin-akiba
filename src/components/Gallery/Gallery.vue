@@ -42,10 +42,7 @@ onMounted(() => {
 			},
 		}"
 	>
-		<swiper-slide
-			v-for="(feature, index) in features"
-			:key="index"
-		>
+		<swiper-slide v-for="(feature, index) in features" :key="index">
 			<SlideContent
 				:feature="feature"
 				:langs="langs"
