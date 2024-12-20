@@ -645,6 +645,7 @@ __metadata:
     fast-average-color: "npm:^9.4.0"
     globals: "npm:^15.14.0"
     husky: "npm:9.1.7"
+    mp4box: "npm:^0.5.3"
     prettier: "npm:3.4.2"
     prettier-plugin-astro: "npm:^0.14.0"
     prettier-plugin-svelte: "npm:^3.0.0"
@@ -6539,6 +6540,13 @@ __metadata:
   bin:
     mkdirp: dist/cjs/src/bin.js
   checksum: 10c0/9f2b975e9246351f5e3a40dcfac99fcd0baa31fbfab615fe059fb11e51f10e4803c63de1f384c54d656e4db31d000e4767e9ef076a22e12a641357602e31d57d
+  languageName: node
+  linkType: hard
+
+"mp4box@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "mp4box@npm:0.5.3"
+  checksum: 10c0/901d39813b3ea792bce34b7c111013304de4ea14376d4e42f70a96659e94a4eb00f22923619d045c96c6d27336f107456f00b2bfb05db015b872c7db0aecf53f
   languageName: node
   linkType: hard
 
