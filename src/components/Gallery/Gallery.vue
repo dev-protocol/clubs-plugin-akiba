@@ -5,6 +5,7 @@ import { defineProps, onMounted, ref } from 'vue'
 import 'swiper/swiper-bundle.css'
 import SlideContent from './SlideContent.vue'
 import type { HomeConfig } from '../../types.ts'
+import type { Swiper as SwiperInstance } from 'swiper'
 
 type Props = {
 	features: HomeConfig['features']
@@ -14,7 +15,8 @@ const { features, langs } = defineProps<Props>()
 
 register()
 
-const swiperEl = ref<HTMLDivElement | null>(null)
+const swiperInstance = ref<SwiperInstance | null>(null)
+const swiperEl = ref<HTMLElement | null>(null)
 const current = ref(0)
 
 const mounted = ref(false)
@@ -22,9 +24,13 @@ const mounted = ref(false)
 onMounted(() => {
 	mounted.value = true
 
+	if (swiperEl.value) {
+		swiperInstance.value = (swiperEl.value as any).swiper as SwiperInstance
+	}
+
 	swiperEl.value?.addEventListener('swiperslidechange', (event) => {
-		const customEvent = event as CustomEvent
-		const [swiper] = customEvent.detail
+		const customEvent = event as CustomEvent<[SwiperInstance]>
+		const swiper = customEvent.detail[0]
 		current.value = swiper.activeIndex
 	})
 })
@@ -64,7 +70,7 @@ onMounted(() => {
 			<div
 				v-for="index in features.length - 1"
 				class="h-[5px] w-[50px] bg-gray-200"
-				@click="swiperEl?.swiper.slideTo(index)"
+				@click="swiperInstance?.value.slideTo(index)"
 			></div>
 		</div>
 	</div>
