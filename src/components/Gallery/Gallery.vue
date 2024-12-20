@@ -34,6 +34,11 @@ onMounted(() => {
 		current.value = swiper.activeIndex
 	})
 })
+
+const onClickSlideTo = (index: number) => {
+	swiperInstance.value?.slideTo(index)
+}
+
 </script>
 
 <template>
@@ -70,7 +75,7 @@ onMounted(() => {
 			<div
 				v-for="index in features.length - 1"
 				class="h-[5px] w-[50px] bg-gray-200"
-				@click="swiperInstance?.value.slideTo(index)"
+				@click="onClickSlideTo(index)"
 			></div>
 		</div>
 	</div>
