@@ -22,10 +22,13 @@ const mounted = ref(false)
 onMounted(() => {
 	mounted.value = true
 
-	swiperEl.value?.addEventListener('swiperslidechange', (event: CustomEvent) => {
-		const [swiper] = event.detail
-		current.value = swiper.activeIndex
-	})
+	swiperEl.value?.addEventListener(
+		'swiperslidechange',
+		(event: CustomEvent) => {
+			const [swiper] = event.detail
+			current.value = swiper.activeIndex
+		},
+	)
 })
 </script>
 
