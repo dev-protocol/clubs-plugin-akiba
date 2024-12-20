@@ -43,16 +43,14 @@ html:has(dialog[open]) {
 <template>
 	<dialog
 		ref="dialog"
-		class="fixed inset-0 flex items-center justify-center overflow-y-auto"
+		class="fixed inset-0 flex items-center justify-center overflow-y-auto backdrop:bg-black/60"
 		:class="{ hidden: !isVisible }"
+		@click.stop="$emit('closeEvent')"
 	>
-		<div
-			class="fixed inset-0 bg-black/60"
-			@click.stop="$emit('closeEvent')"
-		></div>
 		<Transition>
 			<div
 				class="pointer-events-none relative m-auto flex w-full justify-center py-4"
+				@click.stop
 			>
 				<div class="pointer-events-auto">
 					<component v-show="isVisible" :is="modalContent" v-bind="attrs">
