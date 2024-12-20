@@ -13,18 +13,29 @@ type Props = {
 const { features, langs } = defineProps<Props>()
 
 register()
+
+const swiperEl = ref(undefined)
+const current = ref(0)
+
 const mounted = ref(false)
 
 onMounted(() => {
 	mounted.value = true
+
+	swiperEl.value?.addEventListener('swiperslidechange', (event) => {
+		const [swiper, progress] = event.detail;
+		console.log('bar', swiper, progress)
+		current.value = swiper.activeIndex
+	})
 })
 </script>
 
 <template>
 	<swiper-container
+		ref="swiperEl"
 		:slides-per-view="2"
 		:space-between="20"
-		:navigation="true"
+		:navigation="false"
 		:breakpoints="{
 			768: {
 				slidesPerView: 2,
@@ -35,7 +46,6 @@ onMounted(() => {
 			v-for="(feature, index) in features"
 			:key="index"
 			:class="`number-slide${index + 1}`"
-			:style="`min-width: 535.07px; max-width: 535.07px; transform: translate3d(${20 * index}px, 0px, 0px);`"
 		>
 			<SlideContent
 				:feature="feature"
@@ -44,4 +54,18 @@ onMounted(() => {
 			/>
 		</swiper-slide>
 	</swiper-container>
+
+	<div v-if="features.length > 2" class="mt-4 w-full text-center" style="line-height: 0">
+		<div class="relative inline-flex gap-0 overflow-hidden rounded-full">
+			<div
+				class="absolute h-[5px] w-[50px] rounded-full bg-gray-600 transition-all"
+				:style="`left: calc((100% / (${features.length} - 1)) * ${current})`"
+			/>
+			<div
+				v-for="index in (features.length - 1)"
+				class="h-[5px] w-[50px] bg-gray-200"
+				@click="swiperEl?.swiper.slideTo(index);"
+			></div>
+		</div>
+	</div>
 </template>
