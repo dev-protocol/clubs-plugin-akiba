@@ -1,118 +1,44 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/vue'
-import { mainnet, polygon, polygonMumbai } from '@wagmi/core/chains'
-import { useWeb3Modal } from '@web3modal/wagmi/vue'
-import { watchWalletClient } from '@wagmi/core'
-import { whenDefined } from '@devprotocol/util-ts'
 import { BrowserProvider } from 'ethers'
-import { ClubsConnectionSignal } from '@devprotocol/clubs-core'
+import { connection } from '@devprotocol/clubs-core/connection'
 
-const props = defineProps<{
-	projectId?: string
-	label?: string
-	class?: string
-	overrideClass?: string
-	chainId?: number
-	isDisabled?: boolean
-	redirectOnSignin?: boolean
-}>()
+const walletAddress = ref<string | undefined>('')
 
-const projectId = props.projectId
+const handleConnection = async () => {
+	const signer = connection().signer.value
+	if (!signer) {
+		return
+	}
 
-const truncatedAddress = ref<string>()
-const error = ref<Error>()
-const loaded = ref<boolean>()
-const truncateAddress = (address: string) => {
-	const match = address.match(
-		/^(0x[a-zA-Z0-9]{4})[a-zA-Z0-9]+([a-zA-Z0-9]{4})$/,
-	)
-	return !match ? address : `${match[1]}\u2026${match[2]}`
+	// get wallet address
+	const connectedAddress = await signer.getAddress()
+	walletAddress.value = connectedAddress
 }
 
-const defaultChain =
-	props.chainId === 137
-		? polygon
-		: props.chainId === 80001
-			? polygonMumbai
-			: props.chainId === 1
-				? mainnet
-				: polygon
-const chains = [defaultChain]
-
-const wagmiConfig = defaultWagmiConfig({
-	chains,
-	projectId,
+onMounted(() => {
+	connection().signer.subscribe(handleConnection)
 })
 
-createWeb3Modal({ wagmiConfig, projectId, chains, defaultChain })
-
-const modal = useWeb3Modal()
-
-onMounted(async () => {
-	loaded.value = true
-	const connectionPromise = import('@devprotocol/clubs-core/connection')
-	watchWalletClient({}, async (wallet) => {
-		console.log({ wallet })
-		const { connection } = await connectionPromise
-		whenDefined(wallet, async (wal) =>
-			connection().setEip1193Provider(wal.transport, BrowserProvider),
-		) ?? connection().signer.next(undefined)
-	})
-	const { connection } = await connectionPromise
-
-	connection().account.subscribe((account) => {
-		if (account && props.redirectOnSignin) {
-			window.location.href = new URL(
-				`/passport/${account}`,
-				window.location.origin,
-			).toString()
-		}
-		truncatedAddress.value = whenDefined(account, (a) => truncateAddress(a))
-	})
-	connection().chain.subscribe((chain) => {
-		error.value = whenDefined(chain, (chainId) =>
-			props.chainId && chainId !== props.chainId // There might be a case where we don't have chainId in props (eg. signin, publish flow, etc)
-				? new Error(`Wrong chain: Please switch it to ${defaultChain.name}`)
-				: undefined,
-		)
-	})
-	connection().signal.subscribe((signal) => {
-		if (signal === ClubsConnectionSignal.SignInRequest) {
-			modal.open()
-		}
-	})
-})
+const onClick = async () => {
+	try {
+		const eth = (window as any).ethereum
+		await eth.send('eth_requestAccounts')
+		connection().setEip1193Provider(eth, BrowserProvider)
+	} catch (error) {
+		console.error(error)
+	}
+}
 </script>
 
 <template>
-	<span class="relative block">
-		<div
-			v-if="error"
-			class="absolute top-[100%] -mt-1 w-full rounded-b-lg bg-dp-red-400 p-2 pt-3 text-center text-sm text-white opacity-50"
-		>
-			{{ error.message }}
-		</div>
+	<span>
 		<button
-			:class="`${
-				props.overrideClass
-					? props.overrideClass
-					: 'rounded-lg bg-black px-4 py-2 text-xs font-bold text-white'
-			} ${error ? 'is-error' : ''}`"
-			v-bind:class="props.class"
-			:disabled="props.isDisabled"
-			:data-is-loading="!loaded"
-			@click="modal.open()"
+			v-if="!walletAddress"
+			class="w-full rounded-3xl border border-transparent bg-blue-600 px-8 py-2 text-base text-white shadow-sm focus:outline-none"
+			@click="onClick"
 		>
-			{{
-				truncatedAddress
-					? truncatedAddress
-					: props.label
-						? props.label
-						: 'Connect'
-			}}
+			Wallet connect
 		</button>
 	</span>
 </template>
-
-<style scoped></style>
