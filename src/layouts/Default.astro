@@ -91,7 +91,7 @@ const truncatedDescription = ((desc) =>
 		</Header>
 
 		{
-			page && (
+			!page && (
 				<Hero
 					client:load
 					image={homeConfig?.hero?.image}
