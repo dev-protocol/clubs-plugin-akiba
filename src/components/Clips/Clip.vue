@@ -24,6 +24,7 @@ const { composedItem } = defineProps<Props>()
 
 const isDiscountActive = ref(false)
 const imageRef = ref<HTMLImageElement | null>(null)
+const mounted = ref<boolean>()
 
 const discountStart = computed(() => {
 	return composedItem.props.discount?.start_utc
@@ -108,6 +109,7 @@ const modalClose = () => {
 const color = ref<FastAverageColorResult>()
 
 onMounted(async () => {
+	mounted.value = true
 	if (SKIN.includes(tag.value)) {
 		const fac = new FastAverageColor()
 		color.value = await fac.getColorAsync(image.value || '').catch((e) => {
@@ -255,6 +257,7 @@ async function updateImageIfNeeded() {
 			</div>
 		</div>
 		<Modal
+			v-if="mounted"
 			:is-visible="modalVisible"
 			:modal-content="ModalContent"
 			:attrs="{

@@ -1,21 +1,11 @@
 <script setup lang="ts">
-import { useTemplateRef, Component as VueComponent, watch } from 'vue'
+import { Component as VueComponent } from 'vue'
 
-const props = defineProps<{
+defineProps<{
 	isVisible: boolean
 	modalContent: VueComponent
 	attrs?: { [key: string]: any }
 }>()
-
-const dialog = useTemplateRef('dialog')
-
-watch(props, () => {
-	if (props.isVisible) {
-		dialog.value?.showModal()
-	} else {
-		dialog.value?.close()
-	}
-})
 </script>
 
 <style>
@@ -41,25 +31,28 @@ html:has(dialog[open]) {
 </style>
 
 <template>
-	<dialog
-		ref="dialog"
-		class="fixed inset-0 flex items-center justify-center overflow-y-auto backdrop:bg-black/60"
-		:class="{ hidden: !isVisible }"
-		@click.stop="$emit('closeEvent')"
-	>
-		<Transition>
-			<div
-				class="pointer-events-none relative m-auto flex w-full justify-center py-4"
-				@click.stop
-			>
-				<div class="pointer-events-auto">
-					<component v-show="isVisible" :is="modalContent" v-bind="attrs">
-						<template #after:description>
-							<slot name="after:description" />
-						</template>
-					</component>
+	<Teleport to="body">
+		<dialog
+			class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto backdrop:bg-black/60"
+			v-if="isVisible"
+			:open="isVisible"
+			@click.stop="$emit('closeEvent')"
+		>
+			<div class="fixed inset-0 bg-black/60"></div>
+			<Transition>
+				<div
+					class="pointer-events-none relative m-auto flex w-full justify-center py-4"
+					@click.stop
+				>
+					<div class="pointer-events-auto">
+						<component v-show="isVisible" :is="modalContent" v-bind="attrs">
+							<template #after:description>
+								<slot name="after:description" />
+							</template>
+						</component>
+					</div>
 				</div>
-			</div>
-		</Transition>
-	</dialog>
+			</Transition>
+		</dialog>
+	</Teleport>
 </template>
