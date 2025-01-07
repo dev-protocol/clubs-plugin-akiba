@@ -65,19 +65,19 @@ const propertyAddress = computed(() => {
 })
 
 const price = computed(() => {
-	return composedItem.props.amount // TODO: confirm this.
+	return composedItem.props.fiat.price.yen
 })
 
 const currency = computed(() => {
-	return composedItem.props.currency
+	return '¥'
 })
 
 const discountCurrency = computed(() => {
-	return 'usdc'
+	return '¥'
 })
 
 const discountPrice = computed(() => {
-	return composedItem.props.discount?.price?.usdc
+	return composedItem.props.discount?.price?.yen
 })
 
 const chainId = computed(() => {
@@ -244,14 +244,14 @@ async function updateImageIfNeeded() {
 						class="text-right text-[inherit]"
 						:class="{ 'text-sm': isDiscountActive }"
 					>
-						{{ price }}
+						{{ currency }}
 					</span>
 
 					<span
 						class="text-right text-[inherit]"
 						:class="{ 'text-sm': isDiscountActive }"
 					>
-						{{ currency }}
+						{{ price }}
 					</span>
 				</p>
 			</div>
