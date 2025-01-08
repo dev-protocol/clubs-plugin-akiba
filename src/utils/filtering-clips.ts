@@ -13,6 +13,8 @@ const VIDEO: PassportItemAssetType[] = [
 	'video-link',
 	'short-video',
 	'short-video-link',
+	'short-video-controlled',
+	'short-video-controlled-link',
 ]
 
 export const getTagName = (tag: PassportItemAssetType) => {

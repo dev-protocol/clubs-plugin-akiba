@@ -669,7 +669,7 @@ __metadata:
     vue-tsc: "npm:^2.0.0"
   peerDependencies:
     "@devprotocol/clubs-core": ^2.1.1 || ^3.0.0
-    "@devprotocol/clubs-plugin-passports": ^0.1.0-beta.35
+    "@devprotocol/clubs-plugin-passports": ^0.1.0-beta.43
     "@devprotocol/clubs-plugin-payments": ^0.3.0
     ethers: ^6.0.0
   languageName: unknown

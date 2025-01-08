@@ -188,6 +188,13 @@ async function updateImageIfNeeded() {
 				:videoClass="`rounded-md w-full max-w-full object-cover aspect-square pointer-events-none`"
 				:url="video"
 				alt="Clip"
+				:poster-url="composedItem.props.itemImageSrc"
+				:is-controlled="
+					composedItem.props.passportItem.itemAssetType ===
+						'short-video-controlled' ||
+					composedItem.props.passportItem.itemAssetType ===
+						'short-video-controlled-link'
+				"
 			/>
 			<div
 				v-if="SKIN.includes(tag)"
