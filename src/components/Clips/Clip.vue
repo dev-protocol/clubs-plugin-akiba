@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { defineProps, onMounted, ref, computed, watch } from 'vue'
+import {
+	defineProps,
+	onMounted,
+	ref,
+	useTemplateRef,
+	computed,
+	watch,
+} from 'vue'
 import { FastAverageColor, FastAverageColorResult } from 'fast-average-color'
 import type { ComposedCheckoutOptions } from '@devprotocol/clubs-plugin-passports'
 
@@ -23,7 +30,7 @@ type Props = {
 const { composedItem } = defineProps<Props>()
 
 const isDiscountActive = ref(false)
-const imageRef = ref<HTMLImageElement | null>(null)
+const imageRef = useTemplateRef(`imageRef`)
 const mounted = ref<boolean>()
 
 const discountStart = computed(() => {
@@ -127,7 +134,6 @@ watch(image, async (newVal, oldVal) => {
 async function updateImageIfNeeded() {
 	if (image.value) {
 		try {
-			console.log({ image: image.value })
 			const response = await fetch(image.value)
 			const blob = await response.blob()
 			const blobDataUrl = URL.createObjectURL(blob)
