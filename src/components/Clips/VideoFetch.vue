@@ -1,6 +1,6 @@
 <script setup>
 import MP4Box from 'mp4box'
-import { onMounted, useTemplateRef } from 'vue'
+import { onMounted, ref, useTemplateRef } from 'vue'
 
 const props = defineProps({
 	isControlled: {
@@ -24,7 +24,7 @@ const props = defineProps({
 
 // Refs and variables
 let isPaused = ref(true)
-const videoElement = useTemplateRef('videoElement')
+const videoElement = useTemplateRef(`videoElement`)
 let mediaSource = null
 let sourceBuffers = {}
 let mp4boxfile = null
@@ -154,7 +154,7 @@ function fetchFileSize() {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				const length = parseInt(
 					xhr.getResponseHeader('Content-Length') || '0',
-					10,
+					10
 				)
 				resolve(length)
 			} else {
@@ -173,8 +173,10 @@ function downloadChunk() {
 	if (nextRangeStart >= totalFileSize) {
 		mp4boxfile.flush()
 		maybeEndOfStream()
-		// Start playback after all data is processed
-		videoElement.value?.play().catch((e) => console.error('Play error:', e))
+		if (!props.isControlled) {
+			// If controlled, then it will play when clicked.
+			togglePlay()
+		}
 		return
 	}
 
@@ -212,7 +214,7 @@ function maybeEndOfStream() {
 	if (nextRangeStart >= totalFileSize) {
 		// Verify no pending segments and no buffers updating
 		const noPending = Object.values(pendingSegments).every(
-			(arr) => arr.length === 0,
+			(arr) => arr.length === 0
 		)
 		const noUpdating = Object.values(sourceBuffers).every((sb) => !sb.updating)
 
@@ -224,6 +226,10 @@ function maybeEndOfStream() {
 }
 
 function togglePlay() {
+	if (!videoElement.value) {
+		return
+	}
+
 	if (videoElement.value?.paused) {
 		videoElement.value
 			?.play()
