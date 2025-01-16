@@ -41,53 +41,55 @@ const onClickSlideTo = (index: number) => {
 </script>
 
 <template>
-	<swiper-container
-		ref="swiperEl"
-		:slides-per-view="1"
-		:space-between="20"
-		:navigation="false"
-		:breakpoints="{
-			768: {
-				slidesPerView: 2,
-			},
-		}"
-	>
-		<swiper-slide v-for="(feature, index) in features" :key="index">
+	<div>
+		<swiper-container
+			ref="swiperEl"
+			:slides-per-view="1"
+			:space-between="20"
+			:navigation="false"
+			:breakpoints="{
+				768: {
+					slidesPerView: 2,
+				},
+			}"
+		>
+			<swiper-slide v-for="(feature, index) in features" :key="index">
+				<SlideContent
+					:feature="feature"
+					:langs="langs"
+					:as-placeholder="!mounted"
+				/>
+			</swiper-slide>
+		</swiper-container>
+
+		<div v-if="!mounted" class="flex w-full gap-4">
+			<!-- Loading placeholder -->
 			<SlideContent
+				v-for="(feature, index) in features.slice(0, 2)"
+				:key="index"
 				:feature="feature"
+				:as-placeholder="true"
 				:langs="langs"
-				:as-placeholder="!mounted"
+				:class="[{ 'hidden md:flex': index > 0 }]"
 			/>
-		</swiper-slide>
-	</swiper-container>
+		</div>
 
-	<div v-if="!mounted" class="flex w-full gap-4">
-		<!-- Loading placeholder -->
-		<SlideContent
-			v-for="(feature, index) in features.slice(0, 2)"
-			:key="index"
-			:feature="feature"
-			:as-placeholder="true"
-			:langs="langs"
-			:class="[{ 'hidden md:flex': index > 0 }]"
-		/>
-	</div>
-
-	<div
-		v-if="features.length > 2"
-		class="mt-4 w-full text-center"
-		style="line-height: 0"
-	>
-		<div class="relative inline-flex gap-0 overflow-hidden rounded-full">
-			<div
-				class="absolute h-[5px] w-[50px] rounded-full bg-gray-600 transition-all"
-				:style="`left: calc((100% / (${features.length} - 1)) * ${current})`"
-			/>
-			<div
-				v-for="index in features.length - 1"
-				class="h-[5px] w-[50px] bg-gray-200"
-				@click="onClickSlideTo(index)"
-			></div>
+		<div
+			v-if="features.length > 2"
+			class="mt-4 w-full text-center"
+			style="line-height: 0"
+		>
+			<div class="relative inline-flex gap-0 overflow-hidden rounded-full">
+				<div
+					class="absolute h-[5px] w-[50px] rounded-full bg-gray-600 transition-all"
+					:style="`left: calc((100% / (${features.length} - 1)) * ${current})`"
+				/>
+				<div
+					v-for="index in features.length - 1"
+					class="h-[5px] w-[50px] bg-gray-200"
+					@click="onClickSlideTo(index)"
+				></div>
+			</div>
 		</div>
 	</div>
 </template>

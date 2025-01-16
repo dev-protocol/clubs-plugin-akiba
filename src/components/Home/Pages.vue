@@ -47,10 +47,8 @@ watch(
 		/>
 
 		<!-- content -->
-		<div class="flex w-full flex-col gap-9 md:gap-16">
-			<div>
-				<Gallery :features="homeConfig.features" :langs="langs" />
-			</div>
+		<div class="flex flex-col gap-9 md:gap-16 w-full md:w-[calc(100%_-_64px_-_4rem)]">
+			<Gallery :features="homeConfig.features" :langs="langs" />
 
 			<FilteringMenu
 				class="-mx-2 flex md:hidden"
