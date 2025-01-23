@@ -215,7 +215,7 @@ async function updateImageIfNeeded() {
 		</div>
 		<div class="z-10 flex flex-col gap-1">
 			<h3
-				class="overflow-hidden font-bold text-nowrap text-ellipsis"
+				class="overflow-hidden text-ellipsis text-nowrap font-bold"
 				:class="{
 					'text-base':
 						CLIP.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
@@ -237,7 +237,7 @@ async function updateImageIfNeeded() {
 			>
 				<p
 					v-if="isDiscountActive"
-					class="flex gap-1 overflow-hidden text-nowrap text-ellipsis"
+					class="flex gap-1 overflow-hidden text-ellipsis text-nowrap"
 				>
 					<span class="text-right" :class="{ 'font-bold': isDiscountActive }">
 						{{ discountPrice }}
@@ -248,7 +248,7 @@ async function updateImageIfNeeded() {
 					</span>
 				</p>
 				<p
-					class="flex gap-1 overflow-hidden text-nowrap text-ellipsis"
+					class="flex gap-1 overflow-hidden text-ellipsis text-nowrap"
 					:class="{
 						'line-through': isDiscountActive,
 					}"
