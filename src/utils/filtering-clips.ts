@@ -17,16 +17,25 @@ const VIDEO: PassportItemAssetType[] = [
 	'short-video-controlled-link',
 ]
 
-export const getTagName = (tag: PassportItemAssetType) => {
+export type PassportItemAssetCategory =
+	| 'Skin'
+	| 'Clip'
+	| 'BGM'
+	| 'Video'
+	| 'Unknown'
+
+export const getTagName = (
+	tag: PassportItemAssetType,
+): PassportItemAssetCategory => {
 	return SKIN.includes(tag)
-		? 'Skin'
+		? ('Skin' as PassportItemAssetCategory)
 		: CLIP.includes(tag)
-			? 'Clip'
+			? ('Clip' as PassportItemAssetCategory)
 			: BGM.includes(tag)
-				? 'BGM'
+				? ('BGM' as PassportItemAssetCategory)
 				: VIDEO.includes(tag)
-					? 'Video'
-					: 'Unknown'
+					? ('Video' as PassportItemAssetCategory)
+					: ('Unknown' as PassportItemAssetCategory)
 }
 
 export { SKIN, CLIP, BGM, VIDEO }
