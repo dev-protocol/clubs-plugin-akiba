@@ -15,7 +15,7 @@ const { image, logo, text } = defineProps<Props>()
 <template>
 	<section class="md:mb-2 md:p-2">
 		<div
-			class="relative md:flex overflow-hidden rounded-b-xl md:aspect-[2/1] md:justify-end md:rounded-2xl"
+			class="relative overflow-hidden rounded-b-xl md:flex md:aspect-[2/1] md:justify-end md:rounded-2xl"
 		>
 			<img
 				:src="image"
@@ -24,9 +24,11 @@ const { image, logo, text } = defineProps<Props>()
 			<div
 				class="relative inset-0 grid grid-cols-1 grid-rows-[auto_1fr] justify-center md:absolute md:grid-cols-2 md:grid-rows-1"
 			>
-				<span class="hidden md:inline row-start-1 aspect-square md:col-start-2"></span>
 				<span
-					class="absolute md:relative md:flex bottom-0 md:bottom-auto left-0 md:left-0 gradient row-start-2 flex flex-col justify-center gap-2 p-8 md:col-start-1 md:row-start-1"
+					class="row-start-1 hidden aspect-square md:col-start-2 md:inline"
+				></span>
+				<span
+					class="gradient absolute bottom-0 left-0 row-start-2 flex flex-col justify-center gap-2 p-8 md:relative md:bottom-auto md:left-0 md:col-start-1 md:row-start-1 md:flex"
 				>
 					<img :src="logo" class="" alt="" />
 					<p v-if="text" class="leading-none text-white md:leading-normal">
