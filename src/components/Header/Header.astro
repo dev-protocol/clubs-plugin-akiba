@@ -95,7 +95,7 @@ const { navigationLinks } = Astro.props as ClubsPropsPages & {
 		</a>
 		<ul
 			class:list={[
-				'menu fixed left-0 top-0 z-40 flex h-[100dvh] w-[100dvw] flex-col gap-4 bg-black px-10 py-12', // MB
+				'menu fixed top-0 left-0 z-40 flex h-[100dvh] w-[100dvw] flex-col gap-4 bg-black px-10 py-12', // MB
 				'md:relative md:h-auto md:w-auto md:flex-row md:gap-4 md:bg-transparent md:px-0 md:py-0', // PC
 			]}
 		>
@@ -127,7 +127,7 @@ const { navigationLinks } = Astro.props as ClubsPropsPages & {
 	<!-- Close button -->
 	<button
 		id="close-button"
-		class="close-button absolute right-[6.11vw] top-[5.60vw] h-12 w-12 md:hidden"
+		class="close-button absolute top-[5.60vw] right-[6.11vw] h-12 w-12 md:hidden"
 	>
 		<img src={closeIcon.src} alt="close" />
 	</button>

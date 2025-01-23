@@ -13,7 +13,7 @@ import type { ComposedCheckoutOptions } from '@devprotocol/clubs-plugin-passport
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
 
-import VideoFetch from './VideoFetch.vue'
+import { VideoFetch } from '@devprotocol/clubs-core/ui/vue'
 
 import {
 	BGM,
@@ -215,7 +215,7 @@ async function updateImageIfNeeded() {
 		</div>
 		<div class="z-10 flex flex-col gap-1">
 			<h3
-				class="overflow-hidden text-ellipsis text-nowrap font-bold"
+				class="overflow-hidden font-bold text-nowrap text-ellipsis"
 				:class="{
 					'text-base':
 						CLIP.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
@@ -237,7 +237,7 @@ async function updateImageIfNeeded() {
 			>
 				<p
 					v-if="isDiscountActive"
-					class="flex gap-1 overflow-hidden text-ellipsis text-nowrap"
+					class="flex gap-1 overflow-hidden text-nowrap text-ellipsis"
 				>
 					<span class="text-right" :class="{ 'font-bold': isDiscountActive }">
 						{{ discountPrice }}
@@ -248,7 +248,7 @@ async function updateImageIfNeeded() {
 					</span>
 				</p>
 				<p
-					class="flex gap-1 overflow-hidden text-ellipsis text-nowrap"
+					class="flex gap-1 overflow-hidden text-nowrap text-ellipsis"
 					:class="{
 						'line-through': isDiscountActive,
 					}"
