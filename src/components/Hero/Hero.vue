@@ -15,22 +15,21 @@ const { image, logo, text } = defineProps<Props>()
 <template>
 	<section class="md:mb-2 md:p-2">
 		<div
-			class="relative overflow-hidden rounded-b-xl md:flex md:aspect-[2/1] md:justify-end md:rounded-2xl"
+			class="relative flex overflow-hidden rounded-b-xl md:aspect-[2/1] md:justify-end md:rounded-2xl"
+			:style="`background-color: ${gradientColor};`"
 		>
 			<img
-				:src="image"
-				class="pointer-events-none aspect-[3/4] w-full object-cover md:relative md:aspect-[4/3] md:h-full md:w-auto"
+				src="https://storage.clubs.place/iwjlLc_RQxaNyA7YSC7FE"
+				class="pointer-events-none absolute top-0 aspect-[3/4] w-full object-cover md:relative md:aspect-[4/3] md:h-full md:w-auto"
 			/>
 			<div
 				class="relative inset-0 grid grid-cols-1 grid-rows-[auto_1fr] justify-center md:absolute md:grid-cols-2 md:grid-rows-1"
 			>
+				<span class="row-start-1 aspect-square md:col-start-2"></span>
 				<span
-					class="row-start-1 hidden aspect-square md:col-start-2 md:inline"
-				></span>
-				<span
-					class="gradient absolute bottom-0 left-0 row-start-2 flex flex-col justify-center gap-2 p-8 md:relative md:bottom-auto md:left-0 md:col-start-1 md:row-start-1 md:flex"
+					class="gradient row-start-2 flex flex-col justify-center gap-2 p-8 md:col-start-1 md:row-start-1"
 				>
-					<img :src="logo" class="" alt="" />
+					<img src="https://storage.clubs.place/wcMOmBw9qvRPAJijkwp9R" class="" alt="" />
 					<p v-if="text" class="leading-none text-white md:leading-normal">
 						{{ text }}
 					</p>
@@ -50,7 +49,7 @@ const { image, logo, text } = defineProps<Props>()
 .gradient {
 	background-image: linear-gradient(
 		0deg,
-		v-bind(gradientColor) 43%,
+		v-bind(gradientColor) 63%,
 		transparent 100%
 	);
 }
