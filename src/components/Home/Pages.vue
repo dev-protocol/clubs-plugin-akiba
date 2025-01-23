@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { defineProps, ref, watch, watchEffect } from 'vue'
+import {
+	computed,
+	defineProps,
+	onMounted,
+	ref,
+	useTemplateRef,
+	watch,
+} from 'vue'
 import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-passports'
 
 import Clip from '../Clips/Clip.vue'
@@ -19,6 +26,47 @@ const { homeConfig, langs, passportOfferingsWithComposedData } =
 
 const selectedCategory = ref<ClipCategory>('All')
 const filteredItems = ref<CheckoutFromPassportOffering>([])
+const grid = useTemplateRef('grid')
+const cols = ref<2 | 3 | 5>(3)
+const colItems = computed(() => {
+	return [
+		filteredItems.value.filter((_, index) => {
+			const i = index + 1
+			return cols.value === 2
+				? i % 2 !== 0
+				: cols.value === 3
+					? i === 1 || (i !== 3 && (i - 1) % 3 === 0)
+					: i === 1 || (i !== 5 && (i - 1) % 5 === 0)
+		}),
+		filteredItems.value.filter((_, index) => {
+			const i = index + 1
+			return cols.value === 2
+				? i % 2 === 0
+				: cols.value === 3
+					? i === 2 || (i - 2) % 3 === 0
+					: i === 2 || (i - 2) % 5 === 0
+		}),
+		cols.value >= 3
+			? filteredItems.value.filter((_, index) => {
+					const i = index + 1
+					return cols.value === 3 ? i % 3 === 0 : i === 3 || (i - 3) % 5 === 0
+				})
+			: undefined,
+		cols.value === 5
+			? filteredItems.value.filter((_, index) => {
+					const i = index + 1
+					return i === 4 || (i - 4) % 5 === 0
+				})
+			: undefined,
+		cols.value === 5
+			? filteredItems.value.filter((_, index) => {
+					const i = index + 1
+					return i % 5 === 0
+				})
+			: undefined,
+	]
+})
+const colsUpdated = ref(false)
 
 watch(
 	selectedCategory,
@@ -31,6 +79,20 @@ watch(
 	},
 	{ immediate: true },
 )
+
+onMounted(() => {
+	if (!grid.value) return
+	const observer = new ResizeObserver(([entry]) => {
+		const w = entry.contentRect.width
+		const r = w / 250
+		cols.value = r > 4 ? 5 : r > 2 ? 3 : 2
+		if (!colsUpdated.value) {
+			colsUpdated.value = true
+		}
+	})
+
+	observer.observe(grid.value)
+})
 </script>
 
 <template>
@@ -63,9 +125,29 @@ watch(
 			/>
 
 			<section
-				class="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] justify-between gap-4 md:gap-4 lg:grid-cols-5"
+				ref="grid"
+				class="grid justify-between gap-4"
+				:class="{
+					'grid-cols-5': cols === 5,
+					'grid-cols-3': cols === 3,
+					'grid-cols-2': cols === 2,
+				}"
 			>
-				<Clip v-for="item in filteredItems" :composedItem="item" />
+				<div
+					v-for="(items, i) in colItems"
+					:index="i"
+					class="flex flex-col gap-4"
+				>
+					<Clip
+						v-for="item in items"
+						:composedItem="item"
+						:class="
+							colsUpdated
+								? ''
+								: `relative border-0 after:absolute after:inset-0 after:z-[999] after:bg-gray-100/50 after:backdrop-blur after:content-['']`
+						"
+					/>
+				</div>
 			</section>
 		</div>
 	</div>

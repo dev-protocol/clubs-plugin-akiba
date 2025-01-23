@@ -25,9 +25,10 @@ import {
 
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
+	class?: string
 }
 
-const { composedItem } = defineProps<Props>()
+const { composedItem, class: className } = defineProps<Props>()
 
 const isDiscountActive = ref(false)
 const imageRef = useTemplateRef(`imageRef`)
@@ -165,11 +166,12 @@ async function updateImageIfNeeded() {
 
 <template>
 	<div
-		class="flex aspect-[3/4] flex-col gap-4 overflow-hidden rounded border border-gray-300 p-1 shadow md:p-2"
+		class="flex flex-col gap-4 overflow-hidden rounded border border-gray-300 p-1 shadow md:p-2"
 		:class="{
 			'bg-white':
 				CLIP.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
 			'gradation bg-cover bg-no-repeat': SKIN.includes(tag),
+			[className ?? '']: className,
 		}"
 		:style="{
 			backgroundImage: SKIN.includes(tag) ? `url(${image})` : '',
