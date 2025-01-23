@@ -19,7 +19,7 @@ const { image, logo, text } = defineProps<Props>()
 			:style="`background-color: ${gradientColor};`"
 		>
 			<img
-				src="https://storage.clubs.place/iwjlLc_RQxaNyA7YSC7FE"
+				:src="image"
 				class="pointer-events-none absolute top-0 aspect-[3/4] w-full object-cover md:relative md:aspect-[4/3] md:h-full md:w-auto"
 			/>
 			<div
@@ -30,7 +30,7 @@ const { image, logo, text } = defineProps<Props>()
 					class="gradient row-start-2 flex flex-col justify-center gap-2 p-8 md:col-start-1 md:row-start-1"
 				>
 					<img
-						src="https://storage.clubs.place/wcMOmBw9qvRPAJijkwp9R"
+						:src="logo"
 						class=""
 						alt=""
 					/>
