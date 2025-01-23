@@ -1,12 +1,17 @@
 <script setup lang="ts">
-import { defineProps, ref } from 'vue'
+import { defineProps, onMounted, ref } from 'vue'
 import type {
 	CheckoutFromPassportOffering,
 	ComposedCheckoutOptions,
 } from '@devprotocol/clubs-plugin-passports'
 
 import { ClipCategory } from '../../types.ts'
-import { getTagName } from '../../utils/filtering-clips.ts'
+import {
+	getTagName,
+	PassportItemAssetCategory,
+} from '../../utils/filtering-clips.ts'
+import { i18nFactory } from '@devprotocol/clubs-core'
+import { Strings } from '../../i18n/index.ts'
 
 type Props = {
 	items: CheckoutFromPassportOffering
@@ -31,6 +36,12 @@ const groupedItems = items.reduce(
 )
 
 const selectedCategory = ref<ClipCategory>('All')
+
+const i18nBase = i18nFactory(Strings)
+const i18n = ref<ReturnType<typeof i18nBase>>(i18nBase(['en']))
+onMounted(() => {
+	i18n.value = i18nBase(navigator.languages)
+})
 </script>
 
 <template>
@@ -52,7 +63,7 @@ const selectedCategory = ref<ClipCategory>('All')
 					}
 				"
 			>
-				All
+				{{ i18n('All') }}
 			</button>
 		</li>
 		<li v-for="[category, _] of Object.entries(groupedItems)">
@@ -70,7 +81,7 @@ const selectedCategory = ref<ClipCategory>('All')
 					}
 				"
 			>
-				{{ category }}
+				{{ i18n(category as PassportItemAssetCategory) }}
 				<span
 					class="rounded-2xl bg-blue-100 px-2 py-1 text-xs font-bold text-cyan-800"
 					>{{ groupedItems[category].length }}</span
