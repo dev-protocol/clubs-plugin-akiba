@@ -13,7 +13,7 @@ import type { ComposedCheckoutOptions } from '@devprotocol/clubs-plugin-passport
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
 
-import VideoFetch from './VideoFetch.vue'
+import { VideoFetch } from '@devprotocol/clubs-core/ui/vue'
 
 import {
 	BGM,
