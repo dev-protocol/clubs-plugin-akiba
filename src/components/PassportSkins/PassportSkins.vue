@@ -14,12 +14,12 @@ import Image01 from '../../assets/passportSkins/image01.png'
 				</div>
 				<div class="flex w-[9.357rem] flex-col gap-1">
 					<h3
-						class="overflow-hidden text-ellipsis text-nowrap text-base font-bold"
+						class="overflow-hidden text-base font-bold text-nowrap text-ellipsis"
 					>
 						Mystic Horizon
 					</h3>
 					<p
-						class="overflow-hidden text-ellipsis text-nowrap text-sm text-white"
+						class="overflow-hidden text-sm text-nowrap text-ellipsis text-white"
 						style="--tw-text-opacity: 0.6"
 					>
 						$4.9
