@@ -29,11 +29,7 @@ const { image, logo, text } = defineProps<Props>()
 				<span
 					class="gradient row-start-2 flex flex-col justify-center gap-2 p-8 md:col-start-1 md:row-start-1"
 				>
-					<img
-						:src="logo"
-						class=""
-						alt=""
-					/>
+					<img :src="logo" class="" alt="" />
 					<p v-if="text" class="leading-none text-white md:leading-normal">
 						{{ text }}
 					</p>
