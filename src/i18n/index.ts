@@ -1,6 +1,30 @@
 import type { ClubsI18nParts } from '@devprotocol/clubs-core'
 
 export const Strings = {
+	All: {
+		en: 'All',
+		ja: 'すべてのアイテム',
+	},
+	Clip: {
+		en: 'Clip',
+		ja: 'クリップ',
+	},
+	Video: {
+		en: 'Video',
+		ja: 'GIF・動画',
+	},
+	Skin: {
+		en: 'Skin',
+		ja: 'スキン',
+	},
+	BGM: {
+		en: 'BGM',
+		ja: 'BGM',
+	},
+	Unknown: {
+		en: 'Uknown',
+		ja: 'その他',
+	},
 	SelectMembership: {
 		en: 'Select a membership',
 		ja: 'メンバーシップを選択してください',

@@ -154,7 +154,7 @@ function fetchFileSize() {
 			if (xhr.status >= 200 && xhr.status < 300) {
 				const length = parseInt(
 					xhr.getResponseHeader('Content-Length') || '0',
-					10
+					10,
 				)
 				resolve(length)
 			} else {
@@ -214,7 +214,7 @@ function maybeEndOfStream() {
 	if (nextRangeStart >= totalFileSize) {
 		// Verify no pending segments and no buffers updating
 		const noPending = Object.values(pendingSegments).every(
-			(arr) => arr.length === 0
+			(arr) => arr.length === 0,
 		)
 		const noUpdating = Object.values(sourceBuffers).every((sb) => !sb.updating)
 
