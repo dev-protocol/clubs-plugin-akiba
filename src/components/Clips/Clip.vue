@@ -24,6 +24,8 @@ import {
 	SHORT_VOICE,
 	VIDEO,
 	getTagName,
+	MEDIATYPE_IMAGE,
+	MEDIATYPE_VIDEO,
 } from '../../utils/filtering-clips.ts'
 import { Strings } from '../../i18n/index.ts'
 
@@ -53,7 +55,7 @@ const discountEnd = computed(() => {
 })
 
 const image = computed(() => {
-	return DIGITAL_CARD.includes(composedItem.props.passportItem.itemAssetType)
+	return MEDIATYPE_IMAGE.includes(composedItem.props.passportItem.itemAssetType)
 		? composedItem.props.passportItem.itemAssetValue
 		: SKIN.includes(composedItem.props.passportItem.itemAssetType)
 			? composedItem.props.itemImageSrc
@@ -65,7 +67,7 @@ const tag = computed(() => {
 })
 
 const video = computed(() => {
-	return VIDEO.includes(composedItem.props.passportItem.itemAssetType)
+	return MEDIATYPE_VIDEO.includes(composedItem.props.passportItem.itemAssetType)
 		? composedItem.props.passportItem.itemAssetValue
 		: undefined
 })
@@ -194,12 +196,12 @@ async function updateImageIfNeeded() {
 		<div class="relative overflow-hidden rounded">
 			<img
 				ref="imageRef"
-				v-if="DIGITAL_CARD.includes(tag)"
+				v-if="MEDIATYPE_IMAGE.includes(tag)"
 				class="aspect-square w-full object-cover"
 				alt="Clip"
 			/>
 			<VideoFetch
-				v-if="VIDEO.includes(tag) && video"
+				v-if="MEDIATYPE_VIDEO.includes(tag) && video"
 				:videoClass="`rounded-md w-full max-w-full object-cover aspect-square pointer-events-none`"
 				:url="video"
 				alt="Clip"

@@ -14,6 +14,17 @@ const SHORT_VOICE: PassportItemAssetType[] = [
 	'short-video-controlled',
 	'short-video-controlled-link',
 ]
+const MEDIATYPE_IMAGE: PassportItemAssetType[] = [
+	...DIGITAL_CARD,
+	'image-playable',
+	'image-playable-link',
+]
+const MEDIATYPE_VIDEO: PassportItemAssetType[] = [
+	...VIDEO,
+	...SHORT_VOICE,
+	'short-video',
+	'short-video-link',
+]
 
 export type PassportItemAssetCategory =
 	| 'Skin'
@@ -42,4 +53,13 @@ export const getTagName = (
 							: ('Unknown' as PassportItemAssetCategory)
 }
 
-export { SKIN, DIGITAL_CARD, SHORT_CLIP, SHORT_VOICE, BGM, VIDEO }
+export {
+	SKIN,
+	DIGITAL_CARD,
+	SHORT_CLIP,
+	SHORT_VOICE,
+	BGM,
+	VIDEO,
+	MEDIATYPE_IMAGE,
+	MEDIATYPE_VIDEO,
+}
