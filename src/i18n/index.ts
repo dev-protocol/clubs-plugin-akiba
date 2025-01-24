@@ -5,9 +5,17 @@ export const Strings = {
 		en: 'All',
 		ja: 'すべてのアイテム',
 	},
-	Clip: {
-		en: 'Clip',
-		ja: 'クリップ',
+	'Digital Card': {
+		en: 'Digital Card',
+		ja: 'デジタルカード',
+	},
+	'Short Clip': {
+		en: 'Short Clip',
+		ja: 'ショートクリップ',
+	},
+	'Short Voice': {
+		en: 'Short Voice',
+		ja: 'ショートボイス',
 	},
 	Video: {
 		en: 'Video',

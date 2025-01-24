@@ -12,7 +12,12 @@ import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-pas
 import Clip from '../Clips/Clip.vue'
 import Gallery from '../Gallery/Gallery.vue'
 import FilteringMenu from '../Clips/FilteringMenu.vue'
-import { CLIP, getTagName, SKIN, VIDEO } from '../../utils/filtering-clips.ts'
+import {
+	DIGITAL_CARD,
+	getTagName,
+	SKIN,
+	VIDEO,
+} from '../../utils/filtering-clips.ts'
 import type { ClipCategory, HomeConfig, PassportItemData } from '../../types.ts'
 
 type Props = {

@@ -18,11 +18,14 @@ import { VideoFetch } from '@devprotocol/clubs-core/ui/vue'
 
 import {
 	BGM,
-	CLIP,
-	getTagName,
+	DIGITAL_CARD,
 	SKIN,
+	SHORT_CLIP,
+	SHORT_VOICE,
 	VIDEO,
+	getTagName,
 } from '../../utils/filtering-clips.ts'
+import { Strings } from '../../i18n/index.ts'
 
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
@@ -37,7 +40,9 @@ const mounted = ref<boolean>()
 const i18nBase = i18nFactory(
 	composedItem.props.offering.i18n ?? { name: {}, description: {} },
 )
+const i18nBaseAkiba = i18nFactory(Strings)
 const i18n = ref(i18nBase(['en']))
+const i18nAkiba = ref<ReturnType<typeof i18nBaseAkiba>>(i18nBaseAkiba(['en']))
 
 const discountStart = computed(() => {
 	return composedItem.props.discount?.start_utc
@@ -48,7 +53,7 @@ const discountEnd = computed(() => {
 })
 
 const image = computed(() => {
-	return CLIP.includes(composedItem.props.passportItem.itemAssetType)
+	return DIGITAL_CARD.includes(composedItem.props.passportItem.itemAssetType)
 		? composedItem.props.passportItem.itemAssetValue
 		: SKIN.includes(composedItem.props.passportItem.itemAssetType)
 			? composedItem.props.itemImageSrc
@@ -124,6 +129,8 @@ const color = ref<FastAverageColorResult>()
 onMounted(async () => {
 	mounted.value = true
 	i18n.value = i18nBase(navigator.languages)
+	i18nAkiba.value = i18nBaseAkiba(navigator.languages)
+
 	if (SKIN.includes(tag.value)) {
 		const fac = new FastAverageColor()
 		color.value = await fac.getColorAsync(image.value || '').catch((e) => {
@@ -175,7 +182,7 @@ async function updateImageIfNeeded() {
 		class="flex flex-col gap-4 overflow-hidden rounded border border-gray-300 p-1 shadow md:p-2"
 		:class="{
 			'bg-white':
-				CLIP.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
+				DIGITAL_CARD.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
 			'gradation bg-cover bg-no-repeat': SKIN.includes(tag),
 			[className ?? '']: className,
 		}"
@@ -187,7 +194,7 @@ async function updateImageIfNeeded() {
 		<div class="relative overflow-hidden rounded">
 			<img
 				ref="imageRef"
-				v-if="CLIP.includes(tag)"
+				v-if="DIGITAL_CARD.includes(tag)"
 				class="aspect-square w-full object-cover"
 				alt="Clip"
 			/>
@@ -210,15 +217,17 @@ async function updateImageIfNeeded() {
 				role="presentation"
 			/>
 			<div
-				class="absolute bottom-1 left-1 rounded px-2 py-1 text-xs text-white"
+				class="absolute bottom-1 left-1 rounded px-1.5 py-1 text-xs"
 				:class="{
-					'bg-indigo-600': CLIP.includes(tag),
-					'bg-fuchsia-500': SKIN.includes(tag),
-					'bg-orange-500': BGM.includes(tag),
-					'bg-yellow-500': VIDEO.includes(tag),
+					'bg-[#00F329] text-black': DIGITAL_CARD.includes(tag),
+					'bg-[#DB00FF] text-white': SKIN.includes(tag),
+					'bg-[#FF5C00] text-white': BGM.includes(tag),
+					'bg-[#FF003C] text-white': VIDEO.includes(tag),
+					'bg-[#4200FF] text-white': SHORT_CLIP.includes(tag),
+					'bg-[#00D4FF] text-black': SHORT_VOICE.includes(tag),
 				}"
 			>
-				{{ getTagName(tag) }}
+				{{ i18nAkiba(getTagName(tag)) }}
 			</div>
 		</div>
 		<div class="z-10 flex flex-col gap-1">
@@ -226,7 +235,9 @@ async function updateImageIfNeeded() {
 				class="overflow-hidden text-ellipsis text-nowrap font-bold"
 				:class="{
 					'text-base':
-						CLIP.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
+						DIGITAL_CARD.includes(tag) ||
+						BGM.includes(tag) ||
+						VIDEO.includes(tag),
 					'text-white': SKIN.includes(tag) && color?.isDark,
 					'text-black': SKIN.includes(tag) && color?.isLight,
 				}"
@@ -237,7 +248,9 @@ async function updateImageIfNeeded() {
 				class="flex w-full flex-col justify-start gap-0 text-sm"
 				:class="{
 					'text-gray-800':
-						CLIP.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
+						DIGITAL_CARD.includes(tag) ||
+						BGM.includes(tag) ||
+						VIDEO.includes(tag),
 					'text-white': SKIN.includes(tag) && color?.isDark,
 					'text-black': SKIN.includes(tag) && color?.isLight,
 				}"
