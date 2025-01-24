@@ -9,6 +9,7 @@ import {
 } from 'vue'
 import { FastAverageColor, FastAverageColorResult } from 'fast-average-color'
 import type { ComposedCheckoutOptions } from '@devprotocol/clubs-plugin-passports'
+import { i18nFactory } from '@devprotocol/clubs-core'
 
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
@@ -33,6 +34,10 @@ const { composedItem, class: className } = defineProps<Props>()
 const isDiscountActive = ref(false)
 const imageRef = useTemplateRef(`imageRef`)
 const mounted = ref<boolean>()
+const i18nBase = i18nFactory(
+	composedItem.props.offering.i18n ?? { name: {}, description: {} },
+)
+const i18n = ref(i18nBase(['en']))
 
 const discountStart = computed(() => {
 	return composedItem.props.discount?.start_utc
@@ -61,11 +66,11 @@ const video = computed(() => {
 })
 
 const title = computed(() => {
-	return composedItem.props.itemName
+	return i18n.value('name') ?? composedItem.props.itemName
 })
 
 const description = computed(() => {
-	return composedItem.props.description
+	return i18n.value('description') ?? composedItem.props.description
 })
 
 const propertyAddress = computed(() => {
@@ -118,6 +123,7 @@ const color = ref<FastAverageColorResult>()
 
 onMounted(async () => {
 	mounted.value = true
+	i18n.value = i18nBase(navigator.languages)
 	if (SKIN.includes(tag.value)) {
 		const fac = new FastAverageColor()
 		color.value = await fac.getColorAsync(image.value || '').catch((e) => {
