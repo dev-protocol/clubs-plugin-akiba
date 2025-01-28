@@ -32,45 +32,50 @@ const { homeConfig, langs, passportOfferingsWithComposedData } =
 const selectedCategory = ref<ClipCategory>('All')
 const filteredItems = ref<CheckoutFromPassportOffering>([])
 const grid = useTemplateRef('grid')
-const cols = ref<2 | 3 | 5>(3)
+const cols = ref<2 | 3 | 4>(3)
 const colItems = computed(() => {
+	const items = filteredItems.value
+	const columns = cols.value
+
+	// 共通ロジックを抽出した関数
+	const matchesColumnRule = (
+		itemIndex: number,
+		offset: number,
+		mod: number,
+	) => {
+		return itemIndex === offset || (itemIndex - offset) % mod === 0
+	}
+
 	return [
-		filteredItems.value.filter((_, index) => {
-			const i = index + 1
-			return cols.value === 2
-				? i % 2 !== 0
-				: cols.value === 3
-					? i === 1 || (i !== 3 && (i - 1) % 3 === 0)
-					: i === 1 || (i !== 5 && (i - 1) % 5 === 0)
+		items.filter((_, index) => {
+			const itemIndex = index + 1
+			return columns === 2
+				? itemIndex % 2 !== 0
+				: matchesColumnRule(itemIndex, 1, columns === 3 ? 3 : 4)
 		}),
-		filteredItems.value.filter((_, index) => {
-			const i = index + 1
-			return cols.value === 2
-				? i % 2 === 0
-				: cols.value === 3
-					? i === 2 || (i - 2) % 3 === 0
-					: i === 2 || (i - 2) % 5 === 0
+		items.filter((_, index) => {
+			const itemIndex = index + 1
+			return columns === 2
+				? itemIndex % 2 === 0
+				: matchesColumnRule(itemIndex, 2, columns === 3 ? 3 : 4)
 		}),
-		cols.value >= 3
-			? filteredItems.value.filter((_, index) => {
-					const i = index + 1
-					return cols.value === 3 ? i % 3 === 0 : i === 3 || (i - 3) % 5 === 0
+		columns >= 3
+			? items.filter((_, index) => {
+					const itemIndex = index + 1
+					return columns === 3
+						? itemIndex % 3 === 0
+						: matchesColumnRule(itemIndex, 3, 4)
 				})
 			: undefined,
-		cols.value === 5
-			? filteredItems.value.filter((_, index) => {
-					const i = index + 1
-					return i === 4 || (i - 4) % 5 === 0
-				})
-			: undefined,
-		cols.value === 5
-			? filteredItems.value.filter((_, index) => {
-					const i = index + 1
-					return i % 5 === 0
+		columns === 4
+			? items.filter((_, index) => {
+					const itemIndex = index + 1
+					return matchesColumnRule(itemIndex, 4, 4)
 				})
 			: undefined,
 	]
 })
+
 const colsUpdated = ref(false)
 
 watch(
@@ -90,7 +95,7 @@ onMounted(() => {
 	const observer = new ResizeObserver(([entry]) => {
 		const w = entry.contentRect.width
 		const r = w / 250
-		cols.value = r > 4 ? 5 : r > 2 ? 3 : 2
+		cols.value = r > 3 ? 4 : r > 2 ? 3 : 2
 		if (!colsUpdated.value) {
 			colsUpdated.value = true
 		}
@@ -101,7 +106,9 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="relative flex grow flex-col items-start gap-9 md:flex-row">
+	<div
+		class="relative flex grow flex-col items-start gap-4 md:flex-row md:justify-between md:gap-0"
+	>
 		<!-- filtering menu -->
 		<FilteringMenu
 			class="hidden md:flex"
@@ -115,12 +122,12 @@ onMounted(() => {
 
 		<!-- content -->
 		<div
-			class="flex w-full flex-col gap-9 md:w-[calc(100%_-_64px_-_4rem)] md:gap-16"
+			class="flex w-full flex-col gap-9 md:w-[calc(100%_-_150px_-_4rem)] md:gap-16"
 		>
 			<Gallery :features="homeConfig.features" :langs="langs" />
 
 			<FilteringMenu
-				class="-mx-2 flex md:hidden"
+				class="-mx-2 flex whitespace-nowrap md:hidden"
 				:items="passportOfferingsWithComposedData"
 				@selected-category="
 					(category) => {
@@ -133,7 +140,7 @@ onMounted(() => {
 				ref="grid"
 				class="grid justify-between gap-4"
 				:class="{
-					'grid-cols-5': cols === 5,
+					'grid-cols-4': cols === 4,
 					'grid-cols-3': cols === 3,
 					'grid-cols-2': cols === 2,
 				}"
@@ -147,11 +154,6 @@ onMounted(() => {
 						v-for="item in items"
 						:key="item.payload"
 						:composedItem="item"
-						:class="
-							colsUpdated
-								? ''
-								: `relative border-0 after:absolute after:inset-0 after:z-[999] after:bg-gray-100/50 after:backdrop-blur after:content-['']`
-						"
 					/>
 				</div>
 			</section>
