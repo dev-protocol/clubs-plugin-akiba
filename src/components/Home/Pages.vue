@@ -145,6 +145,7 @@ onMounted(() => {
 				>
 					<Clip
 						v-for="item in items"
+						:key="item.payload"
 						:composedItem="item"
 						:class="
 							colsUpdated

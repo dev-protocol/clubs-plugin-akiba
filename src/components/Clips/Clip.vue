@@ -9,7 +9,7 @@ import {
 } from 'vue'
 import { FastAverageColor, FastAverageColorResult } from 'fast-average-color'
 import type { ComposedCheckoutOptions } from '@devprotocol/clubs-plugin-passports'
-import { i18nFactory } from '@devprotocol/clubs-core'
+import { bytes32Hex, i18nFactory } from '@devprotocol/clubs-core'
 
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
@@ -108,6 +108,10 @@ const rpcUrl = computed(() => {
 	return composedItem.props.rpcUrl
 })
 
+const payload = computed(() => {
+	return bytes32Hex(composedItem.payload)
+})
+
 if (discountStart.value && discountEnd.value) {
 	const now = new Date().getTime()
 	isDiscountActive.value = discountStart.value < now && now < discountEnd.value
@@ -191,6 +195,7 @@ async function updateImageIfNeeded() {
 		:style="{
 			backgroundImage: SKIN.includes(tag) ? `url(${image})` : '',
 		}"
+		:data-payload="payload"
 		@click.stop="modalOpen"
 	>
 		<div class="relative overflow-hidden rounded">
