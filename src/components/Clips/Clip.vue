@@ -202,7 +202,7 @@ async function updateImageIfNeeded() {
 			<img
 				ref="imageRef"
 				v-if="MEDIATYPE_IMAGE.includes(tag)"
-				class="aspect-square w-full object-cover"
+				class="w-full object-cover [&:not([src])]:aspect-square"
 				alt="Clip"
 			/>
 			<VideoFetch
