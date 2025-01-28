@@ -38,7 +38,11 @@ const colItems = computed(() => {
 	const columns = cols.value
 
 	// 共通ロジックを抽出した関数
-	const matchesColumnRule = (itemIndex: number, offset: number, mod: number) => {
+	const matchesColumnRule = (
+		itemIndex: number,
+		offset: number,
+		mod: number,
+	) => {
 		return itemIndex === offset || (itemIndex - offset) % mod === 0
 	}
 
@@ -57,17 +61,17 @@ const colItems = computed(() => {
 		}),
 		columns >= 3
 			? items.filter((_, index) => {
-				const itemIndex = index + 1
-				return columns === 3
-					? itemIndex % 3 === 0
-					: matchesColumnRule(itemIndex, 3, 4)
-			})
+					const itemIndex = index + 1
+					return columns === 3
+						? itemIndex % 3 === 0
+						: matchesColumnRule(itemIndex, 3, 4)
+				})
 			: undefined,
 		columns === 4
 			? items.filter((_, index) => {
-				const itemIndex = index + 1
-				return matchesColumnRule(itemIndex, 4, 4)
-			})
+					const itemIndex = index + 1
+					return matchesColumnRule(itemIndex, 4, 4)
+				})
 			: undefined,
 	]
 })
@@ -102,7 +106,9 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="relative flex grow flex-col items-start gap-4 md:justify-between md:flex-row md:gap-0">
+	<div
+		class="relative flex grow flex-col items-start gap-4 md:flex-row md:justify-between md:gap-0"
+	>
 		<!-- filtering menu -->
 		<FilteringMenu
 			class="hidden md:flex"
@@ -121,7 +127,7 @@ onMounted(() => {
 			<Gallery :features="homeConfig.features" :langs="langs" />
 
 			<FilteringMenu
-				class="-mx-2 flex md:hidden whitespace-nowrap"
+				class="-mx-2 flex whitespace-nowrap md:hidden"
 				:items="passportOfferingsWithComposedData"
 				@selected-category="
 					(category) => {
