@@ -139,12 +139,10 @@ onMounted(async () => {
 
 	if (SKIN.includes(tag.value)) {
 		const fac = new FastAverageColor()
-		color.value = await fac
-			.getColorAsync('https://storage.clubs.place/3zS5PXdjvLHgP7p1aAV7q')
-			.catch((e) => {
-				console.error(e)
-				return undefined
-			})
+		color.value = await fac.getColorAsync(image.value || '').catch((e) => {
+			console.error(e)
+			return undefined
+		})
 	}
 	await updateImageIfNeeded()
 })
