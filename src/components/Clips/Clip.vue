@@ -146,6 +146,7 @@ onMounted(async () => {
 	}
 	await updateImageIfNeeded()
 })
+
 watch(image, async (newVal, oldVal) => {
 	if (newVal !== oldVal) {
 		await updateImageIfNeeded()
@@ -170,6 +171,7 @@ async function updateImageIfNeeded() {
 <style scoped>
 .gradation {
 	position: relative;
+	--gradient-color: #6e4f68;
 }
 
 .gradation::before {
@@ -179,7 +181,7 @@ async function updateImageIfNeeded() {
 	height: 100%;
 	top: 0;
 	left: 0;
-	background: linear-gradient(0deg, v-bind(color?.hex) 25%, transparent);
+	background: linear-gradient(0deg, var(--gradient-color) 25%, transparent);
 }
 </style>
 
