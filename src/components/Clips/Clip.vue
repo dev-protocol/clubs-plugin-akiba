@@ -179,7 +179,7 @@ async function updateImageIfNeeded() {
 	height: 100%;
 	top: 0;
 	left: 0;
-	background: linear-gradient(0deg, v-bind(color?.hex) 25%, transparent);
+	background: linear-gradient(0deg, v-bind(color?.hex) 25%, transparent 50%);
 }
 </style>
 
@@ -239,7 +239,7 @@ async function updateImageIfNeeded() {
 		</div>
 		<div class="z-10 flex flex-col gap-1">
 			<h3
-				class="overflow-hidden text-ellipsis text-nowrap font-bold"
+				class="overflow-hidden font-bold text-nowrap text-ellipsis"
 				:class="{
 					'text-base':
 						DIGITAL_CARD.includes(tag) ||
@@ -265,7 +265,7 @@ async function updateImageIfNeeded() {
 			>
 				<p
 					v-if="isDiscountActive"
-					class="flex gap-1 overflow-hidden text-ellipsis text-nowrap"
+					class="flex gap-1 overflow-hidden text-nowrap text-ellipsis"
 				>
 					<span class="text-right" :class="{ 'font-bold': isDiscountActive }">
 						{{ discountPrice }}
@@ -276,7 +276,7 @@ async function updateImageIfNeeded() {
 					</span>
 				</p>
 				<p
-					class="flex gap-1 overflow-hidden text-ellipsis text-nowrap"
+					class="flex gap-1 overflow-hidden text-nowrap text-ellipsis"
 					:class="{
 						'line-through': isDiscountActive,
 					}"
