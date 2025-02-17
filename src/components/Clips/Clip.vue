@@ -189,7 +189,7 @@ async function updateImageIfNeeded() {
 		:class="{
 			'bg-white':
 				DIGITAL_CARD.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
-			'gradation bg-cover bg-no-repeat': SKIN.includes(tag),
+			'gradation bg-cover bg-center bg-no-repeat': SKIN.includes(tag),
 			[className ?? '']: className,
 		}"
 		:style="{
