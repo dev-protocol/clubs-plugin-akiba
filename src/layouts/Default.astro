@@ -52,6 +52,16 @@ const truncatedDescription = ((desc) =>
 	desc.slice(0, 139).join('') + (desc.length > 139 ? '...' : ''))([
 	...(description?.replace(/[\s|\n|\r\n|\r]/g, ' ') ?? ''),
 ])
+
+const $1 = '$1'
+const regContainerCls = /CONTAINER_CLASS_NAMES:\[(.*)\]/
+const regContentClas = /CONTENT_CLASS_NAMES:\[(.*)\]/
+const SignaledContainerClas = signals
+	?.find((s) => regContainerCls.test(s))
+	?.replace(regContainerCls, $1)
+const SignaledContentClas = signals
+	?.find((s) => regContentClas.test(s))
+	?.replace(regContentClas, $1)
 ---
 
 <html lang="en" hashi-theme="light">
@@ -82,31 +92,46 @@ const truncatedDescription = ((desc) =>
 		</style>
 	</head>
 
-	<body class="font-body">
-		<Header
-			connection={!notDisplayConnection}
-			navigationLinks={navigationLinks}
+	<body>
+		<div
+			class:list={[
+				{
+					[SignaledContainerClas ?? '']: Boolean(SignaledContainerClas),
+					'font-body': SignaledContainerClas === undefined,
+				},
+			]}
 		>
-			<slot name="clubs:connect-button" slot="clubs:connect-button" />
-		</Header>
+			<slot name="before:content" />
 
-		{
-			!page && (
-				<Hero
-					client:load
-					image={homeConfig?.hero?.image}
-					logo={globalConfig?.logo}
-					text={homeConfig?.hero?.text?.en}
-					gradientColor={homeConfig?.hero?.color}
-					copyright={globalConfig?.copyright}
-				/>
-			)
-		}
+			<div class:list={[SignaledContentClas]}>
+				<Header
+					connection={!notDisplayConnection}
+					navigationLinks={navigationLinks}
+				>
+					<slot name="clubs:connect-button" slot="clubs:connect-button" />
+				</Header>
 
-		<main class="container mx-auto px-2 py-3 md:p-5">
-			<slot />
-		</main>
+				{
+					!page && (
+						<Hero
+							client:load
+							image={homeConfig?.hero?.image}
+							logo={globalConfig?.logo}
+							text={homeConfig?.hero?.text?.en}
+							gradientColor={homeConfig?.hero?.color}
+							copyright={globalConfig?.copyright}
+						/>
+					)
+				}
 
-		<footer class="p-14"></footer>
+				<main class="container mx-auto px-2 py-3 md:p-5">
+					<slot />
+				</main>
+
+				<footer class="p-14"></footer>
+			</div>
+
+			<slot name="after:content" />
+		</div>
 	</body>
 </html>
