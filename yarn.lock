@@ -594,13 +594,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@devprotocol/clubs-core@npm:3.26.2":
-  version: 3.26.2
-  resolution: "@devprotocol/clubs-core@npm:3.26.2"
+"@devprotocol/clubs-core@npm:3.26.3":
+  version: 3.26.3
+  resolution: "@devprotocol/clubs-core@npm:3.26.3"
   dependencies:
     "@devprotocol/dev-kit": "npm:8.7.0"
     "@devprotocol/elements": "npm:1.6.0"
-    "@devprotocol/hashi": "npm:2.4.0-beta.2"
+    "@devprotocol/hashi": "npm:2.4.0-beta.3"
     "@devprotocol/util-ts": "npm:4.0.0"
     "@ethersproject/abstract-provider": "npm:^5.7.0"
     "@metamask/detect-provider": "npm:^2.0.0"
@@ -645,7 +645,7 @@ __metadata:
       optional: true
     vue:
       optional: true
-  checksum: 10c0/6ab772626a9a3f5811b69dd19f6883f9484cfac0a952e03d80633440a677a8237432e06a7db468c5d64eb28b72f2136d433d7b709591deefbc7a7b192621fdc0
+  checksum: 10c0/3508ef00c0898b3962757539f405ed9bd122d0268e0cf8ccde42c4cdfc89e1fb27c872eb8b370d97ed3a56138aac6b6c4923d02eb808f9b4d523f9ff99602eec
   languageName: node
   linkType: hard
 
@@ -656,7 +656,7 @@ __metadata:
     "@astrojs/check": "npm:^0.9.0"
     "@astrojs/svelte": "npm:^7.0.0"
     "@astrojs/vue": "npm:^5.0.0"
-    "@devprotocol/clubs-core": "npm:3.26.2"
+    "@devprotocol/clubs-core": "npm:3.26.3"
     "@devprotocol/clubs-plugin-passports": "npm:0.4.1"
     "@devprotocol/clubs-plugin-payments": "npm:^0.4.0"
     "@devprotocol/dev-kit": "npm:8.7.0"
@@ -776,12 +776,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@devprotocol/hashi@npm:2.4.0-beta.2":
-  version: 2.4.0-beta.2
-  resolution: "@devprotocol/hashi@npm:2.4.0-beta.2"
+"@devprotocol/hashi@npm:2.4.0-beta.3":
+  version: 2.4.0-beta.3
+  resolution: "@devprotocol/hashi@npm:2.4.0-beta.3"
   dependencies:
     "@matteusan/sentro": "npm:0.1.25"
-  checksum: 10c0/12583915837ef8195f2779f64eb4064b64425de0d655671de4dbdb9f5e821fd14cc40f24bee28597fec6d948ff6de11e2082d9c7c3b6510b9b58a18ada4c9b34
+  checksum: 10c0/9705f274847c64e78b4edbf17978998194184bb2cd14ad198b6a29df3b1445de0659ddbf25d537d3ab7484089a61a4d27e8a28ebcbd18d93d99d40a856475a5a
   languageName: node
   linkType: hard
 
