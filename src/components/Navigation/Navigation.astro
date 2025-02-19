@@ -31,7 +31,7 @@ const { links, type = 'large-buttons' } = Astro.props as {
 							<a
 								href={link.path}
 								class:list={[
-									'hs-button whitespace-nowrap break-keep rounded-full font-bold transition hover:bg-white/80',
+									'hs-button rounded-full font-bold break-keep whitespace-nowrap transition hover:bg-white/80',
 									{
 										'is-outlined border-[var(--bodyColor)] px-5 py-2 text-xl text-[var(--bodyColor)] hover:text-[var(--backgroundColor)]':
 											type === 'tab',
