@@ -33,7 +33,7 @@ html:has(dialog[open]) {
 <template>
 	<Teleport to="body">
 		<dialog
-			class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto backdrop:bg-black/60"
+			class="fixed inset-0 z-50 m-auto flex items-center justify-center overflow-y-auto backdrop:bg-black/60"
 			v-if="isVisible"
 			:open="isVisible"
 			@click.stop="$emit('closeEvent')"
