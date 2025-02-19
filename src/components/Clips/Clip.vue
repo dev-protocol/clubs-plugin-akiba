@@ -198,7 +198,12 @@ async function updateImageIfNeeded() {
 		:data-payload="payload"
 		@click.stop="modalOpen"
 	>
-		<div class="relative overflow-hidden rounded" oncontextmenu="return false">
+		<div
+			class="relative overflow-hidden rounded select-none"
+			oncontextmenu="return false"
+			onselectstart="return false"
+			onmousedown="return false"
+		>
 			<img
 				ref="imageRef"
 				v-if="MEDIATYPE_IMAGE.includes(tag)"
