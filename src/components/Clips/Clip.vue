@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-	defineProps,
-	onMounted,
-	ref,
-	useTemplateRef,
-	computed,
-	watch,
-} from 'vue'
+import { defineProps, onMounted, ref, computed } from 'vue'
 import { FastAverageColor, FastAverageColorResult } from 'fast-average-color'
 import type { ComposedCheckoutOptions } from '@devprotocol/clubs-plugin-passports'
 import { bytes32Hex, i18nFactory } from '@devprotocol/clubs-core'
@@ -14,7 +7,7 @@ import { bytes32Hex, i18nFactory } from '@devprotocol/clubs-core'
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
 
-import { VideoFetch } from '@devprotocol/clubs-core/ui/vue'
+import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 
 import {
 	BGM,
@@ -25,7 +18,6 @@ import {
 	VIDEO,
 	getTagName,
 	MEDIATYPE_IMAGE,
-	MEDIATYPE_VIDEO,
 } from '../../utils/filtering-clips.ts'
 import { Strings } from '../../i18n/index.ts'
 
@@ -37,7 +29,6 @@ type Props = {
 const { composedItem, class: className } = defineProps<Props>()
 
 const isDiscountActive = ref(false)
-const imageRef = useTemplateRef(`imageRef`)
 const mounted = ref<boolean>()
 const i18nBase = i18nFactory(
 	composedItem.props.offering.i18n ?? { name: {}, description: {} },
@@ -66,22 +57,8 @@ const tag = computed(() => {
 	return composedItem.props.passportItem.itemAssetType
 })
 
-const video = computed(() => {
-	return MEDIATYPE_VIDEO.includes(composedItem.props.passportItem.itemAssetType)
-		? composedItem.props.passportItem.itemAssetValue
-		: undefined
-})
-
 const title = computed(() => {
 	return i18n.value('name') ?? composedItem.props.itemName
-})
-
-const description = computed(() => {
-	return i18n.value('description') ?? composedItem.props.description
-})
-
-const propertyAddress = computed(() => {
-	return composedItem.props.propertyAddress
 })
 
 const price = computed(() => {
@@ -98,14 +75,6 @@ const discountCurrency = computed(() => {
 
 const discountPrice = computed(() => {
 	return composedItem.props.discount?.price?.yen
-})
-
-const chainId = computed(() => {
-	return composedItem.props.chainId
-})
-
-const rpcUrl = computed(() => {
-	return composedItem.props.rpcUrl
 })
 
 const payload = computed(() => {
@@ -144,27 +113,7 @@ onMounted(async () => {
 			return undefined
 		})
 	}
-	await updateImageIfNeeded()
 })
-watch(image, async (newVal, oldVal) => {
-	if (newVal !== oldVal) {
-		await updateImageIfNeeded()
-	}
-})
-async function updateImageIfNeeded() {
-	if (image.value) {
-		try {
-			const response = await fetch(image.value)
-			const blob = await response.blob()
-			const blobDataUrl = URL.createObjectURL(blob)
-			if (imageRef.value) {
-				imageRef.value.src = blobDataUrl
-			}
-		} catch (error) {
-			console.error('Error loading video:', error)
-		}
-	}
-}
 </script>
 
 <style scoped>
@@ -198,30 +147,11 @@ async function updateImageIfNeeded() {
 		:data-payload="payload"
 		@click.stop="modalOpen"
 	>
-		<div
-			class="relative overflow-hidden rounded select-none"
-			oncontextmenu="return false"
-			onselectstart="return false"
-			onmousedown="return false"
-		>
-			<img
-				ref="imageRef"
-				v-if="MEDIATYPE_IMAGE.includes(tag)"
-				class="w-full object-cover [&:not([src])]:aspect-square"
-				alt="Clip"
-			/>
-			<VideoFetch
-				v-if="MEDIATYPE_VIDEO.includes(tag) && video"
+		<div class="relative overflow-hidden rounded">
+			<Media
+				:key="composedItem.props.passportItem.itemAssetValue"
+				:item="composedItem.props.passportItem"
 				:videoClass="`rounded-md w-full max-w-full object-cover aspect-square pointer-events-none`"
-				:url="video"
-				alt="Clip"
-				:poster-url="composedItem.props.itemImageSrc"
-				:is-controlled="
-					composedItem.props.passportItem.itemAssetType ===
-						'short-video-controlled' ||
-					composedItem.props.passportItem.itemAssetType ===
-						'short-video-controlled-link'
-				"
 			/>
 			<div
 				v-if="SKIN.includes(tag)"
