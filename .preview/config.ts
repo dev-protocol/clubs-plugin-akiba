@@ -389,7 +389,7 @@ export default () =>
 					},
 					description: {
 						en: "Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttp://www.bigbuckbunny.org",
-						ja: "ビッグバックバニーは、自身よりも大きな心を持つ巨大なウサギの物語です。ある晴れた日に、三匹のげんこつ小動物に無礼にいじめられ、何かが弾け…そしてウサギはもはやウサギではありません！典型的なカートゥーンの伝統に則り、彼は厄介なげんこつ小動物たちに滑稽な復讐を仕掛けます。\n\nクリエイティブ・コモンズ・表示ライセンスの下でライセンスされています\nhttp://www.bigbuckbunny.org",
+						ja: 'ビッグバックバニーは、自身よりも大きな心を持つ巨大なウサギの物語です。ある晴れた日に、三匹のげんこつ小動物に無礼にいじめられ、何かが弾け…そしてウサギはもはやウサギではありません！典型的なカートゥーンの伝統に則り、彼は厄介なげんこつ小動物たちに滑稽な復讐を仕掛けます。\n\nクリエイティブ・コモンズ・表示ライセンスの下でライセンスされています\nhttp://www.bigbuckbunny.org',
 					},
 				},
 				imageSrc:
@@ -539,5 +539,5 @@ export default () =>
 					},
 				},
 			},
-		],		
+		],
 	})
