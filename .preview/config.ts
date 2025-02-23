@@ -338,6 +338,16 @@ export default () =>
 				},
 				description: 'A jumping cat passport offering',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				i18n: {
+					name: {
+						en: 'Cat (Jumping)',
+						ja: 'ジャンプする猫',
+					},
+					description: {
+						en: 'A jumping cat passport offering',
+						ja: 'ジャンプする猫のパスポートオファリング',
+					},
+				},
 			},
 			{
 				id: '0x8e58353ea9b3a9c7e05c36e1191a61baed4ef3e9f952951fc503b20f06ad0057',
@@ -355,6 +365,16 @@ export default () =>
 				},
 				description: 'A jumping teddy passport offering',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				i18n: {
+					name: {
+						en: 'Teddy (Jumping)',
+						ja: 'ジャンプするテディ',
+					},
+					description: {
+						en: 'A jumping teddy passport offering',
+						ja: 'ジャンプするテディのパスポートオファリング',
+					},
+				},
 			},
 			{
 				id: '0x1ef103c76e044d0fb8aea8395cb33a6f3ef9f7b61ae463800877638eb7ee0910',
@@ -362,6 +382,16 @@ export default () =>
 				price: 1.99,
 				currency: 'USDC',
 				name: 'Big Buck Bunny',
+				i18n: {
+					name: {
+						en: 'Big Buck Bunny',
+						ja: 'ビッグバックバニー',
+					},
+					description: {
+						en: "Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttp://www.bigbuckbunny.org",
+						ja: 'ビッグバックバニーは、自身よりも大きな心を持つ巨大なウサギの物語です。ある晴れた日に、三匹のげんこつ小動物に無礼にいじめられ、何かが弾け…そしてウサギはもはやウサギではありません！典型的なカートゥーンの伝統に則り、彼は厄介なげんこつ小動物たちに滑稽な復讐を仕掛けます。\n\nクリエイティブ・コモンズ・表示ライセンスの下でライセンスされています\nhttp://www.bigbuckbunny.org',
+					},
+				},
 				imageSrc:
 					'https://peach.blender.org/wp-content/uploads/poster_bunny_bunnysize.jpg',
 				previewImageSrc:
@@ -371,7 +401,7 @@ export default () =>
 					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
 				},
 				description:
-					"Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\\n\\nLicensed under the Creative Commons Attribution license\\nhttp://www.bigbuckbunny.org",
+					"Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttp://www.bigbuckbunny.org",
 				managedBy: 'devprotocol:clubs:plugin:passports',
 			},
 			{
@@ -390,6 +420,16 @@ export default () =>
 				},
 				description: 'The first Blender Open Movie from 2006',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				i18n: {
+					name: {
+						en: 'Elephant Dream',
+						ja: 'エレファントドリーム',
+					},
+					description: {
+						en: 'The first Blender Open Movie from 2006',
+						ja: '2006年に制作された初のBlenderオープンムービー',
+					},
+				},
 			},
 			{
 				id: '0xd9298e4a50776e857328cb8bb5ff5e6c06e465b043f9f8a5c770f2433a86a33a',
@@ -407,6 +447,16 @@ export default () =>
 				},
 				description: 'Lil puppy dog',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				i18n: {
+					name: {
+						en: 'Puppy dog',
+						ja: '子犬',
+					},
+					description: {
+						en: 'Lil puppy dog',
+						ja: 'かわいい子犬',
+					},
+				},
 			},
 			{
 				id: '0x5628455f0f44d5465c333f269146ecab9a65f1fc3daf065ddecad8dddd894fc8',
@@ -424,6 +474,16 @@ export default () =>
 				},
 				description: 'Lil baby panda',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				i18n: {
+					name: {
+						en: 'Baby panda',
+						ja: '赤ちゃんパンダ',
+					},
+					description: {
+						en: 'Lil baby panda',
+						ja: 'かわいい赤ちゃんパンダ',
+					},
+				},
 			},
 			{
 				id: '0xd551b5b707cc406613b6ae8d8aa5c7ef1e1e1d74ca6ff45f6a398fe022a8ddb2',
@@ -441,6 +501,16 @@ export default () =>
 				},
 				description: 'Skin styling offering',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				i18n: {
+					name: {
+						en: 'Passport skin A',
+						ja: 'パスポートスキンA',
+					},
+					description: {
+						en: 'Skin styling offering',
+						ja: 'スキンスタイリング提供',
+					},
+				},
 			},
 			{
 				id: '0xc1776ad5c27ad2912919345648682052039f1c384162fa4fa450f0c4c1dd8e32',
@@ -458,6 +528,16 @@ export default () =>
 				},
 				description: 'Passport skin offering',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				i18n: {
+					name: {
+						en: 'Passport Skin B',
+						ja: 'パスポートスキンB',
+					},
+					description: {
+						en: 'Passport skin offering',
+						ja: 'パスポートスキン提供',
+					},
+				},
 			},
 		],
 	})
