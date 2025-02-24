@@ -594,9 +594,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@devprotocol/clubs-core@npm:3.26.7-beta.0":
-  version: 3.26.7-beta.0
-  resolution: "@devprotocol/clubs-core@npm:3.26.7-beta.0"
+"@devprotocol/clubs-core@npm:3.26.7-beta.1":
+  version: 3.26.7-beta.1
+  resolution: "@devprotocol/clubs-core@npm:3.26.7-beta.1"
   dependencies:
     "@devprotocol/dev-kit": "npm:8.7.0"
     "@devprotocol/elements": "npm:1.6.0"
@@ -645,7 +645,7 @@ __metadata:
       optional: true
     vue:
       optional: true
-  checksum: 10c0/a795a8ff8bcc92f0d58d02eebf1009e4e1e074538f9a94ccb550f3f357d8a12756122b90a05eb88777e16089d2663c67dd123afb40f39f097e60c097268e78ad
+  checksum: 10c0/ab990db1a4b287503d8a20ba5b795494fa324db6e50b9fc30b213318fdc3235b1e0cb1aaaaeeca720590e0c8d0ee150ef892bcc917655dfff0979a241745ba81
   languageName: node
   linkType: hard
 
@@ -656,7 +656,7 @@ __metadata:
     "@astrojs/check": "npm:^0.9.0"
     "@astrojs/svelte": "npm:^7.0.0"
     "@astrojs/vue": "npm:^5.0.0"
-    "@devprotocol/clubs-core": "npm:3.26.7-beta.0"
+    "@devprotocol/clubs-core": "npm:3.26.7-beta.1"
     "@devprotocol/clubs-plugin-passports": "npm:0.5.2"
     "@devprotocol/clubs-plugin-payments": "npm:^0.4.0"
     "@devprotocol/dev-kit": "npm:8.7.0"
