@@ -73,7 +73,7 @@ export default () =>
 										ja: 'ただいまご予約受付中',
 										en: 'Now Accepting Reservations',
 									},
-									link: '',
+									link: 'https://example.com',
 								},
 								{
 									image: Gallery2.src,

@@ -22,8 +22,11 @@ onMounted(() => {
 </script>
 
 <template>
-	<div
-		class="relative flex aspect-[5/3] w-full overflow-hidden rounded-2xl md:aspect-[5/3] md:flex-row"
+	<a
+		class="relative block flex aspect-[5/3] w-full overflow-hidden rounded-2xl md:aspect-[5/3] md:flex-row"
+		:href="feature.link ? feature.link : undefined"
+		:role="feature.link ? 'link' : 'generic'"
+		:target="feature.link ? '_blank' : undefined"
 	>
 		<div
 			role="presentation"
@@ -43,7 +46,7 @@ onMounted(() => {
 				{{ i18n('description') }}
 			</p>
 		</div>
-	</div>
+	</a>
 </template>
 
 <style scoped></style>
