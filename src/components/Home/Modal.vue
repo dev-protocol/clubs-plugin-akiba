@@ -41,7 +41,7 @@ html:has(dialog[open]) {
 			<div class="fixed inset-0 bg-black/60"></div>
 			<Transition>
 				<div
-					class="pointer-events-none relative m-auto flex w-full justify-center py-4"
+					class="pointer-events-none relative m-auto flex w-full justify-center py-12 lg:py-4"
 					@click.stop
 				>
 					<div class="pointer-events-auto">
