@@ -10,7 +10,7 @@ const { composedItem } = defineProps<Props>()
 </script>
 
 <template>
-	<div class="rounded-xl bg-white p-4 text-black shadow">
+	<div class="my-12 rounded-xl bg-white p-4 text-black shadow">
 		<ComposedCheckout v-bind="composedItem.props" />
 	</div>
 </template>
