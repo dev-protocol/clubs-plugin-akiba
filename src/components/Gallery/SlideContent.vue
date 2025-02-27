@@ -15,16 +15,26 @@ const i18nBase = i18nFactory({
 	title: feature.title,
 	description: feature.description,
 })
+const i18nLinkBase = feature.link
+	? i18nFactory({
+			link:
+				typeof feature.link === 'string'
+					? { en: feature.link, ja: feature.link }
+					: feature.link,
+		})
+	: undefined
 const i18n = ref<ReturnType<typeof i18nBase>>(i18nBase(langs))
+const i18nLink = ref(i18nLinkBase?.(langs))
 onMounted(() => {
 	i18n.value = i18nBase(navigator.languages)
+	i18nLink.value = i18nLinkBase?.(navigator.languages)
 })
 </script>
 
 <template>
 	<a
 		class="relative block flex aspect-[5/3] w-full overflow-hidden rounded-2xl md:aspect-[5/3] md:flex-row"
-		:href="feature.link ? feature.link : undefined"
+		:href="i18nLink ? i18nLink('link') : undefined"
 		:role="feature.link ? 'link' : 'generic'"
 		:target="feature.link ? '_blank' : undefined"
 	>

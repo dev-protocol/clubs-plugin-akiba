@@ -60,7 +60,10 @@ export default () =>
 									color: '#FF66C4',
 									title: { ja: 'ニュースキンが可能', en: 'New skin available' },
 									description: { ja: 'ただいまご予約受付中', en: 'Get Now' },
-									link: '',
+									link: {
+										en: 'https://example.com/en',
+										ja: 'https://example.com/ja',
+									},
 								},
 								{
 									image: 'https://picsum.photos/512/308',

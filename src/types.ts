@@ -21,7 +21,12 @@ export type HomeConfig = {
 			ja: string
 			en: string
 		}
-		link: string
+		link?:
+			| string
+			| {
+					ja: string
+					en: string
+			  }
 	}[]
 	body: string
 	description: string
