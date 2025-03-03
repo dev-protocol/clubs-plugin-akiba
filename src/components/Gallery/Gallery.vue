@@ -42,7 +42,7 @@ const onClickSlideTo = (index: number) => {
 
 <style scoped>
 .swiper-slide {
-	width: calc((100% - 20px) / 2); /* ここで幅を指定 */
+	width: calc((100% - 20px) / 2);
 }
 </style>
 
