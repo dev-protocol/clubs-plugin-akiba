@@ -107,11 +107,11 @@ onMounted(() => {
 
 <template>
 	<div
-		class="relative flex grow flex-col items-start gap-4 md:flex-row md:justify-between md:gap-0"
+		class="relative flex grow flex-col items-start gap-4 md:flex-row md:justify-between"
 	>
 		<!-- filtering menu -->
 		<FilteringMenu
-			class="hidden md:flex"
+			class="hidden md:flex md:w-[172px] md:min-w-[172px]"
 			:items="passportOfferingsWithComposedData"
 			@selected-category="
 				(category) => {
@@ -122,7 +122,7 @@ onMounted(() => {
 
 		<!-- content -->
 		<div
-			class="flex w-full flex-col gap-9 md:w-[calc(100%_-_150px_-_4rem)] md:gap-16"
+			class="flex flex-col gap-9 grow w-full md:w-auto"
 		>
 			<Gallery :features="homeConfig.features" :langs="langs" />
 
