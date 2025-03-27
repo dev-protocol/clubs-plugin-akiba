@@ -62,7 +62,7 @@ const title = computed(() => {
 })
 
 const price = computed(() => {
-	return composedItem.props.fiat.price.yen
+	return composedItem.props.fiat?.price.yen
 })
 
 const currency = computed(() => {
