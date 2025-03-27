@@ -59,7 +59,11 @@ const onClickSlideTo = (index: number) => {
 				},
 			}"
 		>
-			<swiper-slide v-for="(feature, index) in features" :key="index" class="swiper-slide">
+			<swiper-slide
+				v-for="(feature, index) in features"
+				:key="index"
+				class="swiper-slide"
+			>
 				<SlideContent
 					:feature="feature"
 					:langs="langs"

@@ -121,9 +121,7 @@ onMounted(() => {
 		/>
 
 		<!-- content -->
-		<div
-			class="flex flex-col gap-9 grow w-full md:w-auto"
-		>
+		<div class="flex w-full grow flex-col gap-9 md:w-auto">
 			<Gallery :features="homeConfig.features" :langs="langs" />
 
 			<FilteringMenu
