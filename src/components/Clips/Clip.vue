@@ -134,7 +134,7 @@ onMounted(async () => {
 
 <template>
 	<div
-		class="flex flex-col gap-4 overflow-hidden rounded border border-gray-300 p-1 shadow md:p-2"
+		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 p-1 shadow md:gap-2 md:p-2"
 		:class="{
 			'bg-white':
 				DIGITAL_CARD.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
@@ -158,8 +158,10 @@ onMounted(async () => {
 				class="aspect-square w-full object-cover"
 				role="presentation"
 			/>
+		</div>
+		<div class="z-10 flex flex-col gap-1">
 			<div
-				class="absolute bottom-1 left-1 rounded px-1.5 py-1 text-xs"
+				class="w-fit rounded px-1.5 py-1 text-xs"
 				:class="{
 					'bg-[#00F329] text-black': DIGITAL_CARD.includes(tag),
 					'bg-[#DB00FF] text-white': SKIN.includes(tag),
@@ -171,8 +173,6 @@ onMounted(async () => {
 			>
 				{{ i18nAkiba(getTagName(tag)) }}
 			</div>
-		</div>
-		<div class="z-10 flex flex-col gap-1">
 			<h3
 				class="overflow-hidden font-bold text-nowrap text-ellipsis"
 				:class="{
