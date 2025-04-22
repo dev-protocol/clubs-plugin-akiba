@@ -42,7 +42,7 @@
 		"bignumber.js": "9.3.0",
 		"fast-average-color": "^9.4.0",
 		"ramda": "0.30.1",
-		"sass": "1.86.3",
+		"sass": "1.87.0",
 		"swiper": "^11.1.15"
 	},
 	"peerDependencies": {
