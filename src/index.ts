@@ -168,9 +168,9 @@ export const getPagePaths = (async (options, config, utils) => {
 						avatarImgSrc,
 						globalConfig,
 						passportOfferingsWithComposedData:
-						passportOfferingsWithComposedData,
-					}
-				}
+							passportOfferingsWithComposedData,
+					},
+				},
 			]
 		: []
 }) satisfies ClubsFunctionGetPagePaths

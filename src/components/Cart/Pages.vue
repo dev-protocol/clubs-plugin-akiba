@@ -13,22 +13,24 @@ type Props = {
 type OfferingItem = {
 	props: {
 		offering?: {
-			price: number;
-			id: string;
-			name: string;
-			imageSrc: string;
-		};
-		amount?: number;
-	};
-	quantity?: number;
-};
-
+			price: number
+			id: string
+			name: string
+			imageSrc: string
+		}
+		amount?: number
+	}
+	quantity?: number
+}
 
 const { langs, globalConfig, passportOfferingsWithComposedData } =
 	defineProps<Props>()
 
 const quantities = ref(
-  passportOfferingsWithComposedData.map(item => ({ id: item.props.offering.id, quantity: item.quantity || 1 }))
+	passportOfferingsWithComposedData.map((item) => ({
+		id: item.props.offering.id,
+		quantity: item.quantity || 1,
+	})),
 )
 
 const updateQuantity = (index: number, newQuantity: number) => {
@@ -41,7 +43,8 @@ const getPrice = (item: OfferingItem) => {
 
 const totalAmount = computed(() => {
 	return passportOfferingsWithComposedData.reduce(
-		(total, item, index) => total + getPrice(item as OfferingItem) * quantities.value[index].quantity,
+		(total, item, index) =>
+			total + getPrice(item as OfferingItem) * quantities.value[index].quantity,
 		0,
 	)
 })
@@ -53,14 +56,13 @@ const totalItems = computed(() => {
 
 <template>
 	<div class="cart-container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-		<div class="flex justify-between mb-2">
+		<div class="mb-2 flex justify-between">
 			<p class="text-2xl font-bold text-gray-900 sm:text-3xl">Cart</p>
 			<img :src="globalConfig.logo" alt="Logo" class="max-w-80" />
 		</div>
 
 		<div class="cart-content flex flex-col gap-6 lg:flex-row lg:gap-8">
 			<div class="cart-items min-w-0 flex-1">
-
 				<div class="cart-items-list space-y-3 sm:space-y-4">
 					<div
 						v-for="(item, index) in passportOfferingsWithComposedData"
@@ -75,12 +77,10 @@ const totalItems = computed(() => {
 							/>
 
 							<div class="min-w-0 flex-1">
-								<p
-									class="text-sm font-bold text-gray-900"
-								>
+								<p class="text-sm font-bold text-gray-900">
 									{{ item.props.offering.name }}
 								</p>
-								<p class="text-sm text-gray-900 text-opacity-60">
+								<p class="text-opacity-60 text-sm text-gray-900">
 									${{ item.props.offering.price }}
 								</p>
 							</div>
@@ -107,7 +107,7 @@ const totalItems = computed(() => {
 						</div>
 					</div>
 					<button
-						class="w-full py-2 rounded-full text-sm font-medium text-white bg-black transition-colors hover:bg-gray-800 sm:py-4 sm:text-base"
+						class="w-full rounded-full bg-black py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 sm:py-4 sm:text-base"
 					>
 						Buy {{ totalItems }} Items
 					</button>
