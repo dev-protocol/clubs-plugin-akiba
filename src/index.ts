@@ -10,6 +10,7 @@ import type {
 import { ClubsPluginCategory } from '@devprotocol/clubs-core'
 import { default as Layout } from './layouts/Default.astro'
 import { default as Index } from './pages/index.astro'
+import { default as Cart } from './pages/cart/index.astro'
 import type { GlobalConfig, HomeConfig } from './types'
 import PreviewImage from './assets/preview.jpg'
 import { default as Icon } from './assets/icon.svg'
@@ -152,6 +153,24 @@ export const getPagePaths = (async (options, config, utils) => {
 						},
 					},
 				},
+				{
+					paths: ['cart'],
+					component: Cart,
+					Layout: Layout,
+					props: {
+						name,
+						propertyAddress,
+						memberships,
+						rpcUrl,
+						chainId,
+						sidebarPrimaryLinks,
+						sidebarLinks,
+						avatarImgSrc,
+						globalConfig,
+						passportOfferingsWithComposedData:
+						passportOfferingsWithComposedData,
+					}
+				}
 			]
 		: []
 }) satisfies ClubsFunctionGetPagePaths
