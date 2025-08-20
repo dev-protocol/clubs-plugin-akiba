@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { GlobalConfig } from '../../types.ts'
 import QuantitySelector from './QuantitySelector.vue'
 import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-passports'
@@ -8,6 +8,7 @@ type Props = {
 	langs: string[]
 	globalConfig: GlobalConfig
 	passportOfferingsWithComposedData: CheckoutFromPassportOffering
+	base: string
 }
 
 type OfferingItem = {
@@ -23,8 +24,23 @@ type OfferingItem = {
 	quantity?: number
 }
 
-const { langs, globalConfig, passportOfferingsWithComposedData } =
+const { langs, globalConfig, passportOfferingsWithComposedData, base } =
 	defineProps<Props>()
+
+const message = 'message'
+const signature = ref<string | undefined>(undefined)
+
+onMounted(async () => {
+	try {
+		const { connection } = await import('@devprotocol/clubs-core/connection')
+		const signer = connection().signer.value
+		if (signer) {
+			signature.value = await signer.signMessage(message)
+		}
+	} catch (err) {
+		console.error('Failed to initialize signer or create signature:', err)
+	}
+})
 
 const quantities = ref(
 	passportOfferingsWithComposedData.map((item) => ({
@@ -52,6 +68,9 @@ const totalAmount = computed(() => {
 const totalItems = computed(() => {
 	return quantities.value.reduce((total, item) => total + item.quantity, 0)
 })
+
+const handleBuy = () => {
+}
 </script>
 
 <template>
@@ -108,6 +127,7 @@ const totalItems = computed(() => {
 					</div>
 					<button
 						class="w-full rounded-full bg-black py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 sm:py-4 sm:text-base"
+						@click="handleBuy"
 					>
 						Buy {{ totalItems }} Items
 					</button>

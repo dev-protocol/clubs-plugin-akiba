@@ -76,6 +76,8 @@ export type MembersCountVisibilityValue = 'hidden' | 'visible'
 export const getPagePaths = (async (options, config, utils) => {
 	const { name, propertyAddress, rpcUrl, chainId } = config
 
+	const base = config.url
+
 	const [membershipConfig] = utils.getPluginConfigById(
 		'devprotocol:clubs:simple-memberships',
 	)
@@ -158,6 +160,7 @@ export const getPagePaths = (async (options, config, utils) => {
 					component: Cart,
 					Layout: Layout,
 					props: {
+						base,
 						name,
 						propertyAddress,
 						memberships,

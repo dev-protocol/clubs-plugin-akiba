@@ -16,6 +16,7 @@ type Props = ClubsPropsPages & {
 	clubsPaymentsOverrides: ComposedItem[]
 	globalConfig: GlobalConfig
 	passportOfferingsWithComposedData: CheckoutFromPassportOffering
+	base: string
 }
 ---
 
@@ -25,4 +26,5 @@ type Props = ClubsPropsPages & {
 	globalConfig={Astro.props.globalConfig}
 	passportOfferingsWithComposedData={Astro.props
 		.passportOfferingsWithComposedData}
+	base
 />
