@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { GlobalConfig } from '../../types.ts'
 import QuantitySelector from './QuantitySelector.vue'
 import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-passports'
@@ -29,25 +29,69 @@ const { langs, globalConfig, passportOfferingsWithComposedData, base } =
 
 const message = 'message'
 const signature = ref<string | undefined>(undefined)
+const isLoading = ref<boolean>(true)
+
+const cartItems = ref(passportOfferingsWithComposedData as unknown as any[])
+
+const quantities = ref<{ id: string; quantity: number }[]>([])
+const resetQuantities = () => {
+	quantities.value = (cartItems.value || []).map((item: any) => ({
+		id: item?.props?.offering?.id,
+		quantity: item?.quantity || 1,
+	}))
+}
 
 onMounted(async () => {
-	try {
-		const { connection } = await import('@devprotocol/clubs-core/connection')
-		const signer = connection().signer.value
-		if (signer) {
-			signature.value = await signer.signMessage(message)
-		}
-	} catch (err) {
-		console.error('Failed to initialize signer or create signature:', err)
-	}
-})
+  try {
+    const { connection } = await import('@devprotocol/clubs-core/connection')
+    const conn = connection()
 
-const quantities = ref(
-	passportOfferingsWithComposedData.map((item) => ({
-		id: item.props.offering.id,
-		quantity: item.quantity || 1,
-	})),
-)
+    const fetchCartWithSigner = async (sgn: any) => {
+      try {
+        isLoading.value = true
+        signature.value = await sgn.signMessage(message)
+
+        const url = `${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/?message=${message}&signature=${signature.value}`
+        const res = await fetch(url, { headers: { accept: 'application/json' } })
+
+        if (!res.ok) throw new Error(`Failed to fetch cart: ${res.status} ${res.statusText}`)
+        const data = await res.json()
+        console.log('Fetched cart data:', data)
+
+        if (Array.isArray(data)) cartItems.value = data as any[]
+      } catch (err) {
+        console.error('Failed to fetch cart items with signer:', err)
+      } finally {
+        resetQuantities()
+        isLoading.value = false
+      }
+    }
+
+    const currentSigner = conn.signer.value
+
+    if (currentSigner) {
+      await fetchCartWithSigner(currentSigner)
+    } else {
+      const stop = watch(
+        () => conn.signer.value,
+        async (newSigner) => {
+          if (newSigner) {
+						console.log('Signer(watch):', newSigner)
+            await fetchCartWithSigner(newSigner)
+            stop()
+          }
+        },
+        { immediate: false },
+      )
+      resetQuantities()
+      isLoading.value = false
+    }
+  } catch (err) {
+    console.error('Failed to initialize connection or watch signer:', err)
+    resetQuantities()
+    isLoading.value = false
+  }
+})
 
 const updateQuantity = (index: number, newQuantity: number) => {
 	quantities.value[index].quantity = newQuantity
@@ -58,9 +102,9 @@ const getPrice = (item: OfferingItem) => {
 }
 
 const totalAmount = computed(() => {
-	return passportOfferingsWithComposedData.reduce(
+	return cartItems.value.reduce(
 		(total, item, index) =>
-			total + getPrice(item as OfferingItem) * quantities.value[index].quantity,
+			total + getPrice(item as OfferingItem) * (quantities.value[index]?.quantity ?? 1),
 		0,
 	)
 })
@@ -83,7 +127,7 @@ const handleBuy = () => {}
 			<div class="cart-items min-w-0 flex-1">
 				<div class="cart-items-list space-y-3 sm:space-y-4">
 					<div
-						v-for="(item, index) in passportOfferingsWithComposedData"
+						v-for="(item, index) in cartItems"
 						:key="item.props.offering.id"
 						class="cart-item bg-white p-3 sm:p-4"
 					>
@@ -104,7 +148,7 @@ const handleBuy = () => {}
 							</div>
 
 							<QuantitySelector
-								:initial-value="quantities[index].quantity"
+								:initial-value="quantities[index]?.quantity ?? 1"
 								@update:quantity="(value) => updateQuantity(index, value)"
 							/>
 						</div>
@@ -125,10 +169,36 @@ const handleBuy = () => {}
 						</div>
 					</div>
 					<button
-						class="w-full rounded-full bg-black py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 sm:py-4 sm:text-base"
+						class="w-full rounded-full bg-black py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed sm:py-4 sm:text-base"
+						:disabled="isLoading"
 						@click="handleBuy"
 					>
-						Buy {{ totalItems }} Items
+						<span v-if="isLoading" class="flex items-center justify-center gap-2">
+							<svg
+								class="h-4 w-4 animate-spin text-white"
+								xmlns="http://www.w3.org/2000/svg"
+								fill="none"
+								viewBox="0 0 24 24"
+							>
+								<circle
+									class="opacity-25"
+									cx="12"
+									cy="12"
+									r="10"
+									stroke="currentColor"
+									stroke-width="4"
+								/>
+								<path
+									class="opacity-75"
+									fill="currentColor"
+									d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+								/>
+							</svg>
+							Loading...
+						</span>
+						<span v-else>
+							Buy {{ totalItems }} Items
+						</span>
 					</button>
 				</div>
 			</div>
