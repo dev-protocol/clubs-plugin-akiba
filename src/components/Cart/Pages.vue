@@ -42,55 +42,60 @@ const resetQuantities = () => {
 }
 
 onMounted(async () => {
-  try {
-    const { connection } = await import('@devprotocol/clubs-core/connection')
-    const conn = connection()
+	try {
+		const { connection } = await import('@devprotocol/clubs-core/connection')
+		const conn = connection()
 
-    const fetchCartWithSigner = async (sgn: any) => {
-      try {
-        isLoading.value = true
-        signature.value = await sgn.signMessage(message)
+		const fetchCartWithSigner = async (sgn: any) => {
+			try {
+				isLoading.value = true
+				signature.value = await sgn.signMessage(message)
 
-        const url = `${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/?message=${message}&signature=${signature.value}`
-        const res = await fetch(url, { headers: { accept: 'application/json' } })
+				const url = `${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/?message=${message}&signature=${signature.value}`
+				const res = await fetch(url, {
+					headers: { accept: 'application/json' },
+				})
 
-        if (!res.ok) throw new Error(`Failed to fetch cart: ${res.status} ${res.statusText}`)
-        const data = await res.json()
-        console.log('Fetched cart data:', data)
+				if (!res.ok)
+					throw new Error(
+						`Failed to fetch cart: ${res.status} ${res.statusText}`,
+					)
+				const data = await res.json()
+				console.log('Fetched cart data:', data)
 
-        if (Array.isArray(data)) cartItems.value = data as any[]
-      } catch (err) {
-        console.error('Failed to fetch cart items with signer:', err)
-      } finally {
-        resetQuantities()
-        isLoading.value = false
-      }
-    }
+				if (Array.isArray(data)) cartItems.value = data as any[]
+			} catch (err) {
+				console.error('Failed to fetch cart items with signer:', err)
+			} finally {
+				resetQuantities()
+				isLoading.value = false
+			}
+		}
 
-    const currentSigner = conn.signer.value
+		const currentSigner = conn.signer.value
 
-    if (currentSigner) {
-      await fetchCartWithSigner(currentSigner)
-    } else {
-      const stop = watch(
-        () => conn.signer.value,
-        async (newSigner) => {
-          if (newSigner) {
+		if (currentSigner) {
+			await fetchCartWithSigner(currentSigner)
+		} else {
+			const stop = watch(
+				() => conn.signer.value,
+				async (newSigner) => {
+					if (newSigner) {
 						console.log('Signer(watch):', newSigner)
-            await fetchCartWithSigner(newSigner)
-            stop()
-          }
-        },
-        { immediate: false },
-      )
-      resetQuantities()
-      isLoading.value = false
-    }
-  } catch (err) {
-    console.error('Failed to initialize connection or watch signer:', err)
-    resetQuantities()
-    isLoading.value = false
-  }
+						await fetchCartWithSigner(newSigner)
+						stop()
+					}
+				},
+				{ immediate: false },
+			)
+			resetQuantities()
+			isLoading.value = false
+		}
+	} catch (err) {
+		console.error('Failed to initialize connection or watch signer:', err)
+		resetQuantities()
+		isLoading.value = false
+	}
 })
 
 const updateQuantity = (index: number, newQuantity: number) => {
@@ -104,7 +109,8 @@ const getPrice = (item: OfferingItem) => {
 const totalAmount = computed(() => {
 	return cartItems.value.reduce(
 		(total, item, index) =>
-			total + getPrice(item as OfferingItem) * (quantities.value[index]?.quantity ?? 1),
+			total +
+			getPrice(item as OfferingItem) * (quantities.value[index]?.quantity ?? 1),
 		0,
 	)
 })
@@ -169,11 +175,14 @@ const handleBuy = () => {}
 						</div>
 					</div>
 					<button
-						class="w-full rounded-full bg-black py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:opacity-60 disabled:cursor-not-allowed sm:py-4 sm:text-base"
+						class="w-full rounded-full bg-black py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 sm:py-4 sm:text-base"
 						:disabled="isLoading"
 						@click="handleBuy"
 					>
-						<span v-if="isLoading" class="flex items-center justify-center gap-2">
+						<span
+							v-if="isLoading"
+							class="flex items-center justify-center gap-2"
+						>
 							<svg
 								class="h-4 w-4 animate-spin text-white"
 								xmlns="http://www.w3.org/2000/svg"
@@ -196,9 +205,7 @@ const handleBuy = () => {}
 							</svg>
 							Loading...
 						</span>
-						<span v-else>
-							Buy {{ totalItems }} Items
-						</span>
+						<span v-else> Buy {{ totalItems }} Items </span>
 					</button>
 				</div>
 			</div>
