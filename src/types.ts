@@ -1,5 +1,8 @@
 import type { ClubsOffering, Membership } from '@devprotocol/clubs-core'
-import type { PassportItemDocument } from '@devprotocol/clubs-plugin-passports'
+import type {
+	CheckoutItemPassportOffering,
+	PassportItemDocument,
+} from '@devprotocol/clubs-plugin-passports'
 
 export type HomeConfig = {
 	hero: {
@@ -68,3 +71,5 @@ type Discount = {
 		}
 	}
 }
+
+export type Product = { id: string; product: CheckoutItemPassportOffering }

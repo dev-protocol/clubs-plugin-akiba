@@ -1,0 +1,29 @@
+---
+import Product_ from '../components/Products/Pages.vue'
+import type { ClubsPropsPages } from '@devprotocol/clubs-core'
+import type { GlobalConfig, Product } from '../types.ts'
+import type {
+	CheckoutFromPassportOffering,
+	CheckoutItemPassportOffering,
+} from '@devprotocol/clubs-plugin-passports'
+
+const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
+
+type Props = ClubsPropsPages & {
+	globalConfig: GlobalConfig
+	products: Product[]
+	product: CheckoutItemPassportOffering
+	bundledProducts: Product[]
+	base: string
+}
+---
+
+<Product_
+	client:load
+	langs={langs}
+	globalConfig={Astro.props.globalConfig}
+	product={Astro.props.product}
+	products={Astro.props.products}
+	bundledProducts={Astro.props.bundledProducts}
+	base={Astro.props.base}
+/>

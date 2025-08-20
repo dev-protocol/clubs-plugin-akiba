@@ -335,6 +335,10 @@ export default () =>
 					'https://cdn.pixabay.com/photo/2023/04/15/17/19/cat-7928232_1280.png',
 				previewImageSrc:
 					'https://cdn.pixabay.com/photo/2023/04/15/17/19/cat-7928232_1280.png',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
 				fee: {
 					percentage: 0.3,
 					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
@@ -362,6 +366,10 @@ export default () =>
 					'https://cdn.pixabay.com/photo/2013/07/12/17/57/teddy-bear-152700_1280.png',
 				previewImageSrc:
 					'https://cdn.pixabay.com/photo/2013/07/12/17/57/teddy-bear-152700_1280.png',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
 				fee: {
 					percentage: 0.2,
 					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
@@ -399,6 +407,14 @@ export default () =>
 					'https://peach.blender.org/wp-content/uploads/poster_bunny_bunnysize.jpg',
 				previewImageSrc:
 					'https://peach.blender.org/wp-content/uploads/poster_bunny_bunnysize.jpg',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
+				bundle: [
+					new Uint8Array([245, 85, 191, 2, 203, 245, 5, 164]),
+					new Uint8Array([214, 222, 39, 24, 25, 107, 190, 58]),
+				],
 				fee: {
 					percentage: 0.17,
 					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
@@ -417,6 +433,10 @@ export default () =>
 					'https://img.freepik.com/free-vector/sticker-template-elephant-cartoon-character_1308-72465.jpg',
 				previewImageSrc:
 					'https://img.freepik.com/free-vector/sticker-template-elephant-cartoon-character_1308-72465.jpg',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
 				fee: {
 					percentage: 0.67,
 					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
@@ -444,6 +464,10 @@ export default () =>
 					'https://png.pngtree.com/png-clipart/20230405/original/pngtree-cute-cartoon-puppy-dog-sticker-png-image_9029367.png',
 				previewImageSrc:
 					'https://png.pngtree.com/png-clipart/20230405/original/pngtree-cute-cartoon-puppy-dog-sticker-png-image_9029367.png',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
 				fee: {
 					percentage: 0,
 					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
@@ -471,6 +495,10 @@ export default () =>
 					'https://i.pinimg.com/736x/a8/d9/ff/a8d9ff1dfda3311eb048c501d9f37b87.jpg',
 				previewImageSrc:
 					'https://i.pinimg.com/736x/a8/d9/ff/a8d9ff1dfda3311eb048c501d9f37b87.jpg',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
 				fee: {
 					percentage: 0,
 					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
@@ -498,6 +526,10 @@ export default () =>
 					'https://cronuts.digital/wp-content/uploads/2020/04/Artboard-11-1024x724.png',
 				previewImageSrc:
 					'https://cronuts.digital/wp-content/uploads/2020/04/Artboard-11-1024x724.png',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
 				fee: {
 					percentage: 0.1,
 					beneficiary: '0x0000000000000000000000000000000000000000',
@@ -525,6 +557,10 @@ export default () =>
 					'https://opspl.com/wp-content/uploads/2023/10/logo-2582747_1280.png',
 				previewImageSrc:
 					'https://opspl.com/wp-content/uploads/2023/10/logo-2582747_1280.png',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
 				fee: {
 					percentage: 0,
 					beneficiary: '0x0000000000000000000000000000000000000000',
