@@ -69,8 +69,7 @@ const totalItems = computed(() => {
 	return quantities.value.reduce((total, item) => total + item.quantity, 0)
 })
 
-const handleBuy = () => {
-}
+const handleBuy = () => {}
 </script>
 
 <template>
