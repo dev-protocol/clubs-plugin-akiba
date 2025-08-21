@@ -1,4 +1,4 @@
-import type { UndefinedOr } from '@devprotocol/util-ts'
+import { whenDefined, type UndefinedOr } from '@devprotocol/util-ts'
 import type {
 	ClubsFunctionGetLayout,
 	ClubsFunctionGetPagePaths,
@@ -7,7 +7,7 @@ import type {
 	ClubsNavigationLink as NavLink,
 	Membership,
 } from '@devprotocol/clubs-core'
-import { ClubsPluginCategory } from '@devprotocol/clubs-core'
+import { bytes32Hex, ClubsPluginCategory } from '@devprotocol/clubs-core'
 import { default as Layout } from './layouts/Default.astro'
 import { default as Index } from './pages/index.astro'
 import type { GlobalConfig, HomeConfig } from './types'
@@ -20,9 +20,11 @@ import Preview3 from './assets/default-theme-3.jpg'
 import { composeItems } from '@devprotocol/clubs-plugin-payments/utils'
 import {
 	type CheckoutFromPassportOffering,
+	CheckoutItemPassportOffering,
 	checkoutPassportItems,
 	PLUGIN_ID as PASSPORT_PLUGIN_ID,
 } from '@devprotocol/clubs-plugin-passports'
+import Product from './pages/Product.astro'
 
 export const colorPresets = {
 	Purple: {
@@ -73,7 +75,7 @@ export type SectionOrderingValue = 'about-first' | 'memberships-first'
 export type MembersCountVisibilityValue = 'hidden' | 'visible'
 
 export const getPagePaths = (async (options, config, utils) => {
-	const { name, propertyAddress, rpcUrl, chainId } = config
+	const { name, propertyAddress, rpcUrl, chainId, url } = config
 
 	const [membershipConfig] = utils.getPluginConfigById(
 		'devprotocol:clubs:simple-memberships',
@@ -123,8 +125,31 @@ export const getPagePaths = (async (options, config, utils) => {
 	const globalConfig = options.find((opt) => opt.key === 'globalConfig')
 		?.value as UndefinedOr<GlobalConfig>
 
+	const products = passportOfferingsWithComposedData.map(
+		(product: CheckoutItemPassportOffering) => ({
+			id: product.payload.slice(product.payload.length - 8),
+			product,
+		}),
+	)
+
 	return homeConfig
 		? [
+				...products.map(({ id, product }) => ({
+					paths: ['products', id],
+					component: Product,
+					layout: Layout,
+					props: {
+						globalConfig,
+						products,
+						product,
+						bundledProducts: whenDefined(product.props.offering.bundle, (_) =>
+							_.map((payload) =>
+								products.find((p) => p.product.payload === bytes32Hex(payload)),
+							),
+						),
+						base: url,
+					},
+				})),
 				{
 					paths: [''],
 					component: Index,

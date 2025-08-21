@@ -1,4 +1,4 @@
-import type { ClubsI18nParts } from '@devprotocol/clubs-core'
+import { markdownToHtml, type ClubsI18nParts } from '@devprotocol/clubs-core'
 
 export const Strings = {
 	All: {
@@ -52,5 +52,29 @@ export const Strings = {
 	JPY: {
 		en: 'JPY',
 		ja: '円',
+	},
+	Description: {
+		en: `Description`,
+		ja: `説明`,
+	},
+	AddToCart: {
+		en: `Add to Cart`,
+		ja: `カートに追加`,
+	},
+	Copyrights: {
+		en: markdownToHtml(
+			`Images, text, audio, video, and other data sold on this site are protected by copyright law.<br/>Reproduction, reprinting, distribution, or similar acts are prohibited and may be punishable by law.`,
+		),
+		ja: markdownToHtml(
+			`当サイトで販売されている画像・テキスト・音声・動画などのデータは著作権法により保護されています。<br/>データの複製、転載、配布、それに準ずる行為は禁止されており、法律により罰せられる場合があります`,
+		),
+	},
+	BundledProducts: {
+		en: `This set includes`,
+		ja: `このセットに含まれるアイテム`,
+	},
+	SetsIncludingThis: {
+		en: `Check out the great sets that include this item`,
+		ja: `お得なセットもチェック`,
 	},
 } satisfies ClubsI18nParts

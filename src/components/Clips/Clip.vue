@@ -91,7 +91,8 @@ const modalVisible = ref(false)
 
 // open modal
 const modalOpen = () => {
-	modalVisible.value = true
+	// TODO: Remove this modal
+	// modalVisible.value = true
 }
 
 // close modal
@@ -133,7 +134,8 @@ onMounted(async () => {
 </style>
 
 <template>
-	<div
+	<a
+		:href="`/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`"
 		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 p-1 shadow md:gap-2 md:p-2"
 		:class="{
 			'bg-white':
@@ -241,5 +243,5 @@ onMounted(async () => {
 			}"
 			@close-event="modalClose"
 		/>
-	</div>
+	</a>
 </template>
