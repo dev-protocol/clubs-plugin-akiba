@@ -59,6 +59,12 @@ const setsIncludingThis = computed(() => {
 		),
 	)
 })
+const gridWidth = computed(() => {
+	return (product.props.passportItem.appearance?.grid?.w ?? 1) * 2
+})
+const gridHeight = computed(() => {
+	return (product.props.passportItem.appearance?.grid?.h ?? 1) * 2
+})
 
 onMounted(() => {
 	langs.value = [...navigator.languages]
@@ -74,11 +80,21 @@ onMounted(() => {
 		</div>
 
 		<div class="flex flex-col gap-3">
-			<Media
-				:item="product.props.passportItem"
-				video-class="w-full max-w-full object-cover aspect-square"
-				class="rounded"
-			/>
+			<div class="grid grid-cols-6 grid-rows-6 rounded">
+				<Media
+					:item="product.props.passportItem"
+					video-class="w-full max-w-full object-cover aspect-square"
+					class="rounded drop-shadow-sm"
+					:class="{
+						'col-span-2 col-start-3': gridWidth === 2,
+						'col-span-4 col-start-2': gridWidth === 4,
+						'col-span-6': gridWidth === 6,
+						'row-span-2 row-start-3': gridHeight === 2,
+						'row-span-4 row-start-2': gridHeight === 4,
+						'row-span-6': gridHeight === 6,
+					}"
+				/>
+			</div>
 			<div
 				v-if="
 					product.props.offering.previewImages &&
