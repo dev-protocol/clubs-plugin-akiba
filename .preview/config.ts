@@ -345,6 +345,7 @@ export default () =>
 				},
 				description: 'A jumping cat passport offering',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				groupOf: 'Cat (Jumping)',
 				i18n: {
 					name: {
 						en: 'Cat (Jumping)',
@@ -353,6 +354,84 @@ export default () =>
 					description: {
 						en: 'A jumping cat passport offering',
 						ja: 'ジャンプする猫のパスポートオファリング',
+					},
+					groupVar: {
+						en: 'S',
+						ja: 'S',
+					},
+				},
+			},
+			{
+				id: '0x85003abf15c67f93c827cf05bcb0ca3973b20a5c615af9af51d4565a899a40e2',
+				payload:
+					'0x85003abf15c67f93c827cf05bcb0ca3973b20a5c615af9af51d4565a899a40e2',
+				price: 1.99,
+				currency: 'USDC',
+				name: 'Cat (Jumping)',
+				imageSrc:
+					'https://cdn.pixabay.com/photo/2023/04/15/17/19/cat-7928232_1280.png',
+				previewImageSrc:
+					'https://cdn.pixabay.com/photo/2023/04/15/17/19/cat-7928232_1280.png',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
+				fee: {
+					percentage: 0.3,
+					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
+				},
+				description: 'A jumping cat passport offering',
+				managedBy: 'devprotocol:clubs:plugin:passports',
+				groupOf: 'Cat (Jumping)',
+				i18n: {
+					name: {
+						en: 'Cat (Jumping)',
+						ja: 'ジャンプする猫',
+					},
+					description: {
+						en: 'A jumping cat passport offering',
+						ja: 'ジャンプする猫のパスポートオファリング',
+					},
+					groupVar: {
+						en: 'M',
+						ja: 'M',
+					},
+				},
+			},
+			{
+				id: '0x95ad916bab0ecf48658ceff537b66e5391ac188d0625eceeefe8fb2e8b6edb24',
+				payload:
+					'0x95ad916bab0ecf48658ceff537b66e5391ac188d0625eceeefe8fb2e8b6edb24',
+				price: 1.99,
+				currency: 'USDC',
+				name: 'Cat (Jumping)',
+				imageSrc:
+					'https://cdn.pixabay.com/photo/2023/04/15/17/19/cat-7928232_1280.png',
+				previewImageSrc:
+					'https://cdn.pixabay.com/photo/2023/04/15/17/19/cat-7928232_1280.png',
+				previewImages: [
+					'https://picsum.photos/500',
+					'https://picsum.photos/500',
+				],
+				fee: {
+					percentage: 0.3,
+					beneficiary: '0xfc4a9e2B406C515415BBcF502A632aefB185A875',
+				},
+				description: 'A jumping cat passport offering',
+				managedBy: 'devprotocol:clubs:plugin:passports',
+				groupOf: 'Cat (Jumping)',
+				i18n: {
+					name: {
+						en: 'Cat (Jumping)',
+						ja: 'ジャンプする猫',
+					},
+					description: {
+						en: 'A jumping cat passport offering',
+						ja: 'ジャンプする猫のパスポートオファリング',
+					},
+					groupVar: {
+						en: 'L',
+						ja: 'L',
 					},
 				},
 			},

@@ -147,6 +147,11 @@ export const getPagePaths = (async (options, config, utils) => {
 								products.find((p) => p.product.payload === bytes32Hex(payload)),
 							),
 						),
+						group: whenDefined(product.props.offering.groupOf, (group) =>
+							products.filter(
+								(p) => p.product.props.offering.groupOf === group,
+							),
+						),
 						base: url,
 					},
 				})),

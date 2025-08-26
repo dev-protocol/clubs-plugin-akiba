@@ -34,7 +34,12 @@ const filteredItems = ref<CheckoutFromPassportOffering>([])
 const grid = useTemplateRef('grid')
 const cols = ref<2 | 3 | 4>(3)
 const colItems = computed(() => {
-	const items = filteredItems.value
+	const __ = new Set<string>()
+	const items = filteredItems.value.filter((item) => {
+		// Filter duplicates
+		const group = item.props.offering.groupOf
+		return group ? (__.has(group) ? false : __.add(group)) : true
+	})
 	const columns = cols.value
 
 	// 共通ロジックを抽出した関数
