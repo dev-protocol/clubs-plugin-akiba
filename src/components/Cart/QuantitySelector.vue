@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 
 const props = defineProps<{
 	initialValue?: number
 	min?: number
 	max?: number
+	disabled?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -12,6 +13,15 @@ const emit = defineEmits<{
 }>()
 
 const quantity = ref(props.initialValue ?? 1)
+
+watch(
+	() => props.initialValue,
+	(v) => {
+		if (typeof v !== 'undefined') {
+			quantity.value = v ?? 1
+		}
+	},
+)
 
 const decrement = () => {
 	if (quantity.value > (props.min ?? 1)) {
@@ -52,7 +62,8 @@ const isMinQuantity = computed(() => {
 	>
 		<button
 			type="button"
-			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none"
+			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			:disabled="disabled"
 			@click="decrement"
 		>
 			<template v-if="isMinQuantity">
@@ -97,15 +108,17 @@ const isMinQuantity = computed(() => {
 
 		<input
 			type="text"
-			class="h-full w-10 border-none bg-white text-center text-sm focus:ring-0 focus:outline-none"
+			class="h-full w-10 border-none bg-white text-center text-sm focus:ring-0 focus:outline-none disabled:bg-gray-100 disabled:text-gray-400"
 			:value="quantity"
+			:disabled="disabled"
 			@input="updateQuantity"
 			@blur="updateQuantity"
 		/>
 
 		<button
 			type="button"
-			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none"
+			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			:disabled="disabled"
 			@click="increment"
 		>
 			<svg

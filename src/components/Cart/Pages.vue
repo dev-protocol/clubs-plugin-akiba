@@ -58,6 +58,7 @@ const resetQuantities = () => {
 		quantity: item.quantity || 1,
 	}))
 }
+const isUpdating = ref<{ [payload: string]: boolean }>({})
 
 onMounted(async () => {
 	try {
@@ -124,8 +125,57 @@ onMounted(async () => {
 	}
 })
 
-const updateQuantity = (index: number, newQuantity: number) => {
+const updateQuantity = async (index: number, newQuantity: number) => {
+	// 楽観的にローカルを更新
 	quantities.value[index].quantity = newQuantity
+
+	const target = cartItems.value[index]
+	if (!target) return
+
+	const key = target.payload
+
+	// すでに更新中なら多重実行を防止
+	if (isUpdating.value[key]) return
+
+	// 署名が無い場合は API コールをスキップ
+	if (!signature.value) {
+		console.warn('No signature available. Skip API call for quantity update.')
+		return
+	}
+
+	try {
+		isUpdating.value[key] = true
+
+		// 数量更新(削除は quantity = 0)
+		const postRes = await fetch(`${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/`, {
+			method: 'POST',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({
+				message,
+				signature: signature.value,
+				payload: target.payload,
+				quantity: newQuantity,
+			}),
+		})
+
+		if (!postRes.ok) {
+			throw new Error(`Failed to update quantity: ${postRes.status} ${postRes.statusText}`)
+		}
+
+		// サーバーの最新状態を取得して同期
+		const url = `${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/?message=${message}&signature=${signature.value}`
+		const getRes = await fetch(url, { headers: { accept: 'application/json' } })
+		if (getRes.ok) {
+			const data = (await getRes.json()) as APICartResult
+			cartItems.value = data?.data ?? []
+			cartItemTotal.value = data?.total ?? 0
+			resetQuantities()
+		}
+	} catch (err) {
+		console.error('Failed to update cart quantity:', err)
+	} finally {
+		isUpdating.value[key] = false
+	}
 }
 
 const getUnitPrice = (item: APICartResult['data'][number]): number => {
@@ -203,6 +253,7 @@ const handleBuy = () => {}
 
 							<QuantitySelector
 								:initial-value="quantities[index]?.quantity ?? 1"
+								:disabled="isUpdating[item.payload] === true"
 								@update:quantity="(value) => updateQuantity(index, value)"
 							/>
 						</div>
