@@ -165,7 +165,7 @@ const handleBuy = () => {}
 						:key="'skeleton-' + n"
 						class="cart-item bg-white p-3 sm:p-4"
 					>
-						<div class="flex items-center gap-3 sm:gap-4 animate-pulse">
+						<div class="flex animate-pulse items-center gap-3 sm:gap-4">
 							<div
 								class="h-36 w-36 flex-shrink-0 rounded bg-gray-200 sm:h-40 sm:w-40"
 							></div>
@@ -236,14 +236,32 @@ const handleBuy = () => {}
 							v-if="isLoading"
 							class="flex items-center justify-center gap-2"
 						>
-							<svg class="h-4 w-4 text-white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<svg
+								class="h-4 w-4 text-white"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+							>
 								<defs>
 									<linearGradient id="RadialGradient8932">
-										<stop offset="0%" stop-color="currentColor" stop-opacity="1"/>
-										<stop offset="100%" stop-color="currentColor" stop-opacity="0.25"/>
+										<stop
+											offset="0%"
+											stop-color="currentColor"
+											stop-opacity="1"
+										/>
+										<stop
+											offset="100%"
+											stop-color="currentColor"
+											stop-opacity="0.25"
+										/>
 									</linearGradient>
 								</defs>
-								<circle cx="10" cy="10" r="8" id="circle8932" stroke-width="2"/>
+								<circle
+									cx="10"
+									cy="10"
+									r="8"
+									id="circle8932"
+									stroke-width="2"
+								/>
 							</svg>
 							Loading...
 						</span>
@@ -256,11 +274,15 @@ const handleBuy = () => {}
 </template>
 
 <style scoped>
-@keyframes spin8932 { to { transform: rotate(360deg); } }
+@keyframes spin8932 {
+	to {
+		transform: rotate(360deg);
+	}
+}
 #circle8932 {
 	transform-origin: 50% 50%;
 	stroke: url(#RadialGradient8932);
 	fill: none;
-	animation: spin8932 .5s infinite linear;
+	animation: spin8932 0.5s infinite linear;
 }
 </style>
