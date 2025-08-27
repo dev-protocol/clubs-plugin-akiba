@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { GlobalConfig } from '../../types.ts'
 import QuantitySelector from './QuantitySelector.vue'
 import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-passports'
@@ -48,6 +48,12 @@ onMounted(async () => {
 
 		const fetchCartWithSigner = async (sgn: any) => {
 			try {
+				if (!sgn) {
+					resetQuantities()
+					isLoading.value = false
+					return
+				}
+
 				isLoading.value = true
 				signature.value = await sgn.signMessage(message)
 
@@ -60,6 +66,7 @@ onMounted(async () => {
 					throw new Error(
 						`Failed to fetch cart: ${res.status} ${res.statusText}`,
 					)
+
 				const data = await res.json()
 				console.log('Fetched cart data:', data)
 
@@ -74,20 +81,15 @@ onMounted(async () => {
 
 		const currentSigner = conn.signer.value
 
+		conn.signer.subscribe(async (newSigner: any) => {
+			if (newSigner) {
+				await fetchCartWithSigner(newSigner)
+			}
+		})
+
 		if (currentSigner) {
 			await fetchCartWithSigner(currentSigner)
 		} else {
-			const stop = watch(
-				() => conn.signer.value,
-				async (newSigner) => {
-					if (newSigner) {
-						console.log('Signer(watch):', newSigner)
-						await fetchCartWithSigner(newSigner)
-						stop()
-					}
-				},
-				{ immediate: false },
-			)
 			resetQuantities()
 			isLoading.value = false
 		}
