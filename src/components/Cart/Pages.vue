@@ -147,19 +147,24 @@ const updateQuantity = async (index: number, newQuantity: number) => {
 		isUpdating.value[key] = true
 
 		// 数量更新(削除は quantity = 0)
-		const postRes = await fetch(`${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/`, {
-			method: 'POST',
-			headers: { 'content-type': 'application/json' },
-			body: JSON.stringify({
-				message,
-				signature: signature.value,
-				payload: target.payload,
-				quantity: newQuantity,
-			}),
-		})
+		const postRes = await fetch(
+			`${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/`,
+			{
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({
+					message,
+					signature: signature.value,
+					payload: target.payload,
+					quantity: newQuantity,
+				}),
+			},
+		)
 
 		if (!postRes.ok) {
-			throw new Error(`Failed to update quantity: ${postRes.status} ${postRes.statusText}`)
+			throw new Error(
+				`Failed to update quantity: ${postRes.status} ${postRes.statusText}`,
+			)
 		}
 
 		// サーバーの最新状態を取得して同期
