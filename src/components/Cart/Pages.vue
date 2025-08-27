@@ -14,19 +14,13 @@ type Props = {
 	base: string
 }
 
-enum CartItemStatus {
-	Completed = 'completed',
-}
-
 type CartItem = {
 	scope: string
 	eoa: string
 	payload: string
 	quantity: number
-	status?: CartItemStatus
 	session: string
 	order_id?: string
-	ordered_at?: number
 }
 
 type APICartResult = {
@@ -37,12 +31,7 @@ type APICartResult = {
 	})[]
 }
 
-const {
-	globalConfig,
-	base,
-	langs: _langs,
-	passportOfferingsWithComposedData: _passportOfferingsWithComposedData,
-} = defineProps<Props>()
+const { globalConfig, base } = defineProps<Props>()
 
 const message = 'message'
 const signature = ref<string | undefined>(undefined)
@@ -60,64 +49,64 @@ const resetQuantities = () => {
 }
 const isUpdating = ref<{ [payload: string]: boolean }>({})
 
+const fetchCart = async (options?: { showGlobalLoading?: boolean }) => {
+	const show = options?.showGlobalLoading ?? true
+
+	if (!signature.value) {
+		cartItems.value = []
+		resetQuantities()
+		if (show) isLoading.value = false
+		return
+	}
+
+	try {
+		if (show) isLoading.value = true
+
+		const url = `${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/?message=${message}&signature=${signature.value}`
+		const res = await fetch(url, { headers: { accept: 'application/json' } })
+
+		if (!res.ok) {
+			throw new Error(`Failed to fetch cart: ${res.status} ${res.statusText}`)
+		}
+
+		const data = (await res.json()) as APICartResult
+		cartItems.value = data?.data ?? []
+		cartItemTotal.value = data?.total ?? 0
+	} catch (err) {
+		console.error('Failed to fetch cart:', err)
+	} finally {
+		resetQuantities()
+		if (show) isLoading.value = false
+	}
+}
+
+const setSignatureAndFetch = async (
+	sgn: any,
+	options?: { showGlobalLoading?: boolean },
+) => {
+	if (!sgn) {
+		signature.value = undefined
+		cartItems.value = []
+		resetQuantities()
+		isLoading.value = false
+		return
+	}
+	signature.value = await sgn.signMessage(message)
+	await fetchCart(options)
+}
+
 onMounted(async () => {
 	try {
 		const { connection } = await import('@devprotocol/clubs-core/connection')
 		const conn = connection()
 
-		const fetchCartWithSigner = async (sgn: any) => {
-			try {
-				if (!sgn) {
-					resetQuantities()
-					isLoading.value = false
-					return
-				}
-
-				isLoading.value = true
-				signature.value = await sgn.signMessage(message)
-
-				const url = `${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/?message=${message}&signature=${signature.value}`
-				const res = await fetch(url, {
-					headers: { accept: 'application/json' },
-				})
-
-				if (!res.ok)
-					throw new Error(
-						`Failed to fetch cart: ${res.status} ${res.statusText}`,
-					)
-
-				// APICartResultとして受け取る
-				const data = (await res.json()) as APICartResult
-				console.log('Fetched cart data:', data)
-
-				cartItems.value = data?.data ?? []
-				cartItemTotal.value = data?.total ?? 0
-			} catch (err) {
-				console.error('Failed to fetch cart items with signer:', err)
-			} finally {
-				resetQuantities()
-				isLoading.value = false
-			}
-		}
-
 		const currentSigner = conn.signer.value
 
 		conn.signer.subscribe(async (newSigner: any) => {
-			if (newSigner) {
-				await fetchCartWithSigner(newSigner)
-			} else {
-				cartItems.value = []
-				resetQuantities()
-				isLoading.value = false
-			}
+			await setSignatureAndFetch(newSigner, { showGlobalLoading: true })
 		})
 
-		if (currentSigner) {
-			await fetchCartWithSigner(currentSigner)
-		} else {
-			resetQuantities()
-			isLoading.value = false
-		}
+		await setSignatureAndFetch(currentSigner, { showGlobalLoading: true })
 	} catch (err) {
 		console.error('Failed to initialize connection or watch signer:', err)
 		resetQuantities()
@@ -126,7 +115,6 @@ onMounted(async () => {
 })
 
 const updateQuantity = async (index: number, newQuantity: number) => {
-	// 楽観的にローカルを更新
 	quantities.value[index].quantity = newQuantity
 
 	const target = cartItems.value[index]
@@ -134,10 +122,8 @@ const updateQuantity = async (index: number, newQuantity: number) => {
 
 	const key = target.payload
 
-	// すでに更新中なら多重実行を防止
 	if (isUpdating.value[key]) return
 
-	// 署名が無い場合は API コールをスキップ
 	if (!signature.value) {
 		console.warn('No signature available. Skip API call for quantity update.')
 		return
@@ -146,7 +132,6 @@ const updateQuantity = async (index: number, newQuantity: number) => {
 	try {
 		isUpdating.value[key] = true
 
-		// 数量更新(削除は quantity = 0)
 		const postRes = await fetch(
 			`${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/`,
 			{
@@ -167,15 +152,7 @@ const updateQuantity = async (index: number, newQuantity: number) => {
 			)
 		}
 
-		// サーバーの最新状態を取得して同期
-		const url = `${base}/api/devprotocol:clubs:plugin:clubs-payments/cart/?message=${message}&signature=${signature.value}`
-		const getRes = await fetch(url, { headers: { accept: 'application/json' } })
-		if (getRes.ok) {
-			const data = (await getRes.json()) as APICartResult
-			cartItems.value = data?.data ?? []
-			cartItemTotal.value = data?.total ?? 0
-			resetQuantities()
-		}
+		await fetchCart({ showGlobalLoading: false })
 	} catch (err) {
 		console.error('Failed to update cart quantity:', err)
 	} finally {

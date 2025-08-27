@@ -37,13 +37,20 @@ const increment = () => {
 	}
 }
 
-const updateQuantity = (event: Event) => {
+const clamp = (value: number) =>
+	Math.max(props.min ?? 1, Math.min(props.max ?? Infinity, value))
+
+const onInput = (event: Event) => {
 	const value = parseInt((event.target as HTMLInputElement).value)
 	if (!isNaN(value)) {
-		const validValue = Math.max(
-			props.min ?? 1,
-			Math.min(props.max ?? Infinity, value),
-		)
+		quantity.value = clamp(value)
+	}
+}
+
+const commitFromEvent = (event: Event) => {
+	const value = parseInt((event.target as HTMLInputElement).value)
+	if (!isNaN(value)) {
+		const validValue = clamp(value)
 		quantity.value = validValue
 		emit('update:quantity', quantity.value)
 	} else {
@@ -111,8 +118,9 @@ const isMinQuantity = computed(() => {
 			class="h-full w-10 border-none bg-white text-center text-sm focus:ring-0 focus:outline-none disabled:bg-gray-100 disabled:text-gray-400"
 			:value="quantity"
 			:disabled="disabled"
-			@input="updateQuantity"
-			@blur="updateQuantity"
+			@input="onInput"
+			@blur="commitFromEvent"
+			@keydown.enter.prevent="commitFromEvent"
 		/>
 
 		<button
