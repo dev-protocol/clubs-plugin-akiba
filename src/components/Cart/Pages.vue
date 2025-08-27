@@ -159,7 +159,27 @@ const handleBuy = () => {}
 
 		<div class="cart-content flex flex-col gap-6 lg:flex-row lg:gap-8">
 			<div class="cart-items min-w-0 flex-1">
-				<div class="cart-items-list space-y-3 sm:space-y-4">
+				<div v-if="isLoading" class="cart-items-list space-y-3 sm:space-y-4">
+					<div
+						v-for="n in Math.max(cartItemTotal || 0, 1)"
+						:key="'skeleton-' + n"
+						class="cart-item bg-white p-3 sm:p-4"
+					>
+						<div class="flex items-center gap-3 sm:gap-4 animate-pulse">
+							<div
+								class="h-36 w-36 flex-shrink-0 rounded bg-gray-200 sm:h-40 sm:w-40"
+							></div>
+
+							<div class="min-w-0 flex-1 space-y-2">
+								<div class="h-4 w-1/2 rounded bg-gray-200"></div>
+								<div class="h-4 w-1/4 rounded bg-gray-200"></div>
+							</div>
+
+							<div class="h-10 w-28 rounded-full bg-gray-200"></div>
+						</div>
+					</div>
+				</div>
+				<div v-else class="cart-items-list space-y-3 sm:space-y-4">
 					<div
 						v-for="(item, index) in cartItems"
 						:key="item.order_id ?? item.payload"
@@ -195,7 +215,12 @@ const handleBuy = () => {}
 					class="sticky top-4 rounded-lg border border-gray-200 bg-gray-100 p-4 sm:p-6"
 				>
 					<div class="mb-4">
+						<div v-if="isLoading" class="space-y-2">
+							<div class="h-4 w-16 rounded bg-gray-200"></div>
+							<div class="h-6 w-28 rounded bg-gray-300"></div>
+						</div>
 						<div
+							v-else
 							class="flex flex-col items-start justify-between font-bold text-gray-900"
 						>
 							<span class="text-sm">Total</span>
@@ -211,25 +236,14 @@ const handleBuy = () => {}
 							v-if="isLoading"
 							class="flex items-center justify-center gap-2"
 						>
-							<svg
-								class="h-4 w-4 animate-spin text-white"
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-							>
-								<circle
-									class="opacity-25"
-									cx="12"
-									cy="12"
-									r="10"
-									stroke="currentColor"
-									stroke-width="4"
-								/>
-								<path
-									class="opacity-75"
-									fill="currentColor"
-									d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
-								/>
+							<svg class="h-4 w-4 text-white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+								<defs>
+									<linearGradient id="RadialGradient8932">
+										<stop offset="0%" stop-color="currentColor" stop-opacity="1"/>
+										<stop offset="100%" stop-color="currentColor" stop-opacity="0.25"/>
+									</linearGradient>
+								</defs>
+								<circle cx="10" cy="10" r="8" id="circle8932" stroke-width="2"/>
 							</svg>
 							Loading...
 						</span>
@@ -241,4 +255,12 @@ const handleBuy = () => {}
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+@keyframes spin8932 { to { transform: rotate(360deg); } }
+#circle8932 {
+	transform-origin: 50% 50%;
+	stroke: url(#RadialGradient8932);
+	fill: none;
+	animation: spin8932 .5s infinite linear;
+}
+</style>
