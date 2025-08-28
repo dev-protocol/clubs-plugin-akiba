@@ -69,7 +69,7 @@ const isMinQuantity = computed(() => {
 	>
 		<button
 			type="button"
-			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+			class="flex h-full w-10 cursor-pointer items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 			:disabled="disabled"
 			@click="decrement"
 		>
@@ -125,7 +125,7 @@ const isMinQuantity = computed(() => {
 
 		<button
 			type="button"
-			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+			class="flex h-full w-10 cursor-pointer items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 			:disabled="disabled"
 			@click="increment"
 		>
