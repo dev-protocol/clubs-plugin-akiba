@@ -6,6 +6,7 @@ import type {
 	CheckoutFromPassportOffering,
 	CheckoutItemPassportOffering,
 } from '@devprotocol/clubs-plugin-passports'
+import { Pay } from '@devprotocol/clubs-plugin-payments/components'
 
 type Props = {
 	langs: string[]
@@ -55,7 +56,7 @@ const fetchCart = async (options?: { showGlobalLoading?: boolean }) => {
 	if (!signature.value) {
 		cartItems.value = []
 		resetQuantities()
-		if (show) isLoading.value = false
+		// if (show) isLoading.value = false
 		return
 	}
 
@@ -88,7 +89,7 @@ const setSignatureAndFetch = async (
 		signature.value = undefined
 		cartItems.value = []
 		resetQuantities()
-		isLoading.value = false
+		// isLoading.value = false
 		return
 	}
 	signature.value = await sgn.signMessage(message)
@@ -250,7 +251,7 @@ const handleBuy = () => {}
 					<div class="mb-4">
 						<div v-if="isLoading" class="space-y-2">
 							<div class="h-4 w-16 rounded bg-gray-200"></div>
-							<div class="h-6 w-28 rounded bg-gray-300"></div>
+							<div class="h-6 w-28 rounded bg-gray-200"></div>
 						</div>
 						<div
 							v-else
@@ -260,46 +261,8 @@ const handleBuy = () => {}
 							<span class="text-xl">${{ totalAmount.toFixed(2) }}</span>
 						</div>
 					</div>
-					<button
-						class="w-full rounded-full bg-black py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 sm:py-4 sm:text-base"
-						:disabled="isLoading"
-						@click="handleBuy"
-					>
-						<span
-							v-if="isLoading"
-							class="flex items-center justify-center gap-2"
-						>
-							<svg
-								class="h-4 w-4 text-white"
-								viewBox="0 0 20 20"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<defs>
-									<linearGradient id="RadialGradient8932">
-										<stop
-											offset="0%"
-											stop-color="currentColor"
-											stop-opacity="1"
-										/>
-										<stop
-											offset="100%"
-											stop-color="currentColor"
-											stop-opacity="0.25"
-										/>
-									</linearGradient>
-								</defs>
-								<circle
-									cx="10"
-									cy="10"
-									r="8"
-									id="circle8932"
-									stroke-width="2"
-								/>
-							</svg>
-							Loading...
-						</span>
-						<span v-else> Buy {{ totalItems }} Items </span>
-					</button>
+					<div v-if="isLoading" class="h-16 w-full rounded bg-gray-300"></div>
+					<Pay v-else :cart="true" :base="base" :debugMode="true" />
 				</div>
 			</div>
 		</div>
