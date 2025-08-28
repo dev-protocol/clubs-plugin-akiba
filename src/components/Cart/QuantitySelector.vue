@@ -24,7 +24,7 @@ watch(
 )
 
 const decrement = () => {
-	if (quantity.value > (props.min ?? 1)) {
+	if (quantity.value > (props.min ?? 0)) {
 		quantity.value--
 		emit('update:quantity', quantity.value)
 	}
@@ -69,7 +69,7 @@ const isMinQuantity = computed(() => {
 	>
 		<button
 			type="button"
-			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
 			:disabled="disabled"
 			@click="decrement"
 		>
@@ -125,7 +125,7 @@ const isMinQuantity = computed(() => {
 
 		<button
 			type="button"
-			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex h-full w-10 items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
 			:disabled="disabled"
 			@click="increment"
 		>
