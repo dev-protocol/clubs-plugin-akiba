@@ -18,7 +18,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="rounded-xl bg-white p-6 text-black shadow max-w-md">
+	<div class="max-w-md rounded-xl bg-white p-6 text-black shadow">
 		<div class="mb-3 flex items-center gap-3">
 			<svg
 				class="h-6 w-6 text-green-600"
