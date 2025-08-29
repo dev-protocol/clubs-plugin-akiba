@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { GlobalConfig } from '../../types.ts'
 import QuantitySelector from './QuantitySelector.vue'
+import Modal from '../Home/Modal.vue'
+import CheckoutCompletedModalContent from './CheckoutCompletedModalContent.vue'
 import type {
 	CheckoutFromPassportOffering,
 	CheckoutItemPassportOffering,
@@ -96,7 +98,11 @@ const setSignatureAndFetch = async (
 	await fetchCart(options)
 }
 
+const isClient = ref(false)
+
 onMounted(async () => {
+	isClient.value = true
+
 	try {
 		const { connection } = await import('@devprotocol/clubs-core/connection')
 		const conn = connection()
@@ -176,8 +182,31 @@ const totalAmount = computed(() => {
 	}, 0)
 })
 
-const totalItems = computed(() => {
-	return quantities.value.reduce((total, item) => total + item.quantity, 0)
+const isCheckoutCompletedVisible = ref(false)
+const completedDetail = ref<any | null>(null)
+
+const closeCompletedModal = () => {
+	isCheckoutCompletedVisible.value = false
+}
+
+const onCheckoutCompleted = (ev: Event) => {
+	completedDetail.value = (ev as CustomEvent).detail
+	isCheckoutCompletedVisible.value = true
+	fetchCart({ showGlobalLoading: true })
+}
+
+onMounted(() => {
+	window.addEventListener(
+		'checkout:completed',
+		onCheckoutCompleted as EventListener,
+	)
+})
+
+onBeforeUnmount(() => {
+	window.removeEventListener(
+		'checkout:completed',
+		onCheckoutCompleted as EventListener,
+	)
 })
 
 const handleBuy = () => {}
@@ -267,6 +296,14 @@ const handleBuy = () => {}
 			</div>
 		</div>
 	</div>
+
+	<Modal
+		v-if="isClient && isCheckoutCompletedVisible"
+		:is-visible="isCheckoutCompletedVisible"
+		:modal-content="CheckoutCompletedModalContent"
+		:attrs="{ detail: completedDetail, onClose: closeCompletedModal }"
+		@closeEvent="closeCompletedModal"
+	/>
 </template>
 
 <style scoped>
