@@ -25,7 +25,7 @@ const onClick = async () => {
 		const eth = (window as any).ethereum
 		await eth.send('eth_requestAccounts')
 		connection().setEip1193Provider(eth, BrowserProvider)
-		connection().identifiers.next({email:'saruyama.monki@gmail.com'})
+		connection().identifiers.next({ email: 'saruyama.monki@gmail.com' })
 	} catch (error) {
 		console.error(error)
 	}
