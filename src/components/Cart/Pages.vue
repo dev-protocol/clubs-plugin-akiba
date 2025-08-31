@@ -190,7 +190,12 @@ const closeCompletedModal = () => {
 }
 
 const onCheckoutCompleted = (ev: Event) => {
-	completedDetail.value = (ev as CustomEvent).detail
+	const detail = (ev as CustomEvent).detail
+	const images = (cartItems.value || [])
+		.map((i) => i?.passportItem?.props?.itemImageSrc)
+		.filter((v): v is string => typeof v === 'string' && v.length > 0)
+
+	completedDetail.value = { ...detail, images }
 	isCheckoutCompletedVisible.value = true
 	fetchCart({ showGlobalLoading: true })
 }
