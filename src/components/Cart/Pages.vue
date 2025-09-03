@@ -224,11 +224,7 @@ const handleBuy = () => {}
 
 		<div class="mb-4 flex flex-col items-center gap-4">
 			<p class="text-2xl text-gray-900">Thank you for your purchase</p>
-			<button
-				class="w-auto rounded-full bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
-			>
-				Edit my Passport
-			</button>
+			<slot name="akiba:checkout:result:after-heading" />
 		</div>
 
 		<div class="cart-content flex flex-col gap-6 lg:flex-row lg:gap-8">
