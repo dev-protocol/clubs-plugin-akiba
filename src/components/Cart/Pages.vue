@@ -2,8 +2,6 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { GlobalConfig } from '../../types.ts'
 import QuantitySelector from './QuantitySelector.vue'
-import Modal from '../Home/Modal.vue'
-import CheckoutCompletedModalContent from './CheckoutCompletedModalContent.vue'
 import type {
 	CheckoutFromPassportOffering,
 	CheckoutItemPassportOffering,
@@ -218,10 +216,19 @@ const handleBuy = () => {}
 </script>
 
 <template>
-	<div class="cart-container mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+	<div class="cart-container mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
 		<div class="mb-2 flex justify-between">
 			<p class="text-2xl font-bold text-gray-900 sm:text-3xl">Cart</p>
 			<img :src="globalConfig.logo" alt="Logo" class="max-w-80" />
+		</div>
+
+		<div class="flex flex-col items-center gap-4 mb-4">
+			<p class="text-2xl text-gray-900">Thank you for your purchase</p>
+			<button
+				class="w-auto rounded-full bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+			>
+				Edit my Passport
+			</button>
 		</div>
 
 		<div class="cart-content flex flex-col gap-6 lg:flex-row lg:gap-8">
@@ -269,16 +276,23 @@ const handleBuy = () => {}
 							</div>
 
 							<QuantitySelector
+								v-if="!isCheckoutCompletedVisible"
 								:initial-value="quantities[index]?.quantity ?? 1"
 								:disabled="isUpdating[item.payload] === true"
 								@update:quantity="(value) => updateQuantity(index, value)"
 							/>
+							<div
+								v-else
+								class="flex px-5 h-10 text-gray-900 items-center overflow-hidden rounded-full border border-gray-200 bg-white"
+							>
+								{{ quantities[index]?.quantity }}
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="cart-summary w-full flex-shrink-0 lg:w-80 xl:w-96">
+			<div v-if="!isCheckoutCompletedVisible" class="cart-summary w-full flex-shrink-0 lg:w-80 xl:w-96">
 				<div
 					class="sticky top-4 rounded-lg border border-gray-200 bg-gray-100 p-4 sm:p-6"
 				>
@@ -301,14 +315,6 @@ const handleBuy = () => {}
 			</div>
 		</div>
 	</div>
-
-	<Modal
-		v-if="isClient && isCheckoutCompletedVisible"
-		:is-visible="isCheckoutCompletedVisible"
-		:modal-content="CheckoutCompletedModalContent"
-		:attrs="{ detail: completedDetail, onClose: closeCompletedModal }"
-		@closeEvent="closeCompletedModal"
-	/>
 </template>
 
 <style scoped>
