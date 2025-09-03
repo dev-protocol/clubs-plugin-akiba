@@ -222,7 +222,7 @@ const handleBuy = () => {}
 			<img :src="globalConfig.logo" alt="Logo" class="max-w-80" />
 		</div>
 
-		<div class="flex flex-col items-center gap-4 mb-4">
+		<div class="mb-4 flex flex-col items-center gap-4">
 			<p class="text-2xl text-gray-900">Thank you for your purchase</p>
 			<button
 				class="w-auto rounded-full bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
@@ -283,7 +283,7 @@ const handleBuy = () => {}
 							/>
 							<div
 								v-else
-								class="flex px-5 h-10 text-gray-900 items-center overflow-hidden rounded-full border border-gray-200 bg-white"
+								class="flex h-10 items-center overflow-hidden rounded-full border border-gray-200 bg-white px-5 text-gray-900"
 							>
 								{{ quantities[index]?.quantity }}
 							</div>
@@ -292,7 +292,10 @@ const handleBuy = () => {}
 				</div>
 			</div>
 
-			<div v-if="!isCheckoutCompletedVisible" class="cart-summary w-full flex-shrink-0 lg:w-80 xl:w-96">
+			<div
+				v-if="!isCheckoutCompletedVisible"
+				class="cart-summary w-full flex-shrink-0 lg:w-80 xl:w-96"
+			>
 				<div
 					class="sticky top-4 rounded-lg border border-gray-200 bg-gray-100 p-4 sm:p-6"
 				>
