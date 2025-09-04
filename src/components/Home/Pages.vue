@@ -18,18 +18,25 @@ import {
 	SKIN,
 	VIDEO,
 } from '../../utils/filtering-clips.ts'
-import type { ClipCategory, HomeConfig, PassportItemData } from '../../types.ts'
+import type {
+	CategoriesConfig,
+	ClipCategory,
+	HomeConfig,
+	PassportItemData,
+} from '../../types.ts'
+import { bytes32Hex } from '@devprotocol/clubs-core'
 
 type Props = {
 	homeConfig: HomeConfig
 	langs: string[]
 	passportOfferingsWithComposedData: CheckoutFromPassportOffering
+	categories: CategoriesConfig
 }
 
-const { homeConfig, langs, passportOfferingsWithComposedData } =
+const { homeConfig, langs, passportOfferingsWithComposedData, categories } =
 	defineProps<Props>()
 
-const selectedCategory = ref<ClipCategory>('All')
+const selectedCategory = ref<ClipCategory | number>('All')
 const filteredItems = ref<CheckoutFromPassportOffering>([])
 const grid = useTemplateRef('grid')
 const cols = ref<2 | 3 | 4>(3)
@@ -86,11 +93,19 @@ const colsUpdated = ref(false)
 watch(
 	selectedCategory,
 	(category) => {
-		filteredItems.value = passportOfferingsWithComposedData.filter((item) => {
-			const itemAssetType = item.props.passportItem.itemAssetType
-			const key = getTagName(itemAssetType)
-			return category === 'All' || key === category
-		})
+		const customCat =
+			typeof category === 'number' ? categories[category] : undefined
+		filteredItems.value = customCat
+			? passportOfferingsWithComposedData.filter((item) => {
+					return customCat.payloads.some(
+						(payload) => bytes32Hex(payload) === bytes32Hex(item.payload),
+					)
+				})
+			: passportOfferingsWithComposedData.filter((item) => {
+					const itemAssetType = item.props.passportItem.itemAssetType
+					const key = getTagName(itemAssetType)
+					return category === 'All' || key === category
+				})
 	},
 	{ immediate: true },
 )
@@ -118,8 +133,10 @@ onMounted(() => {
 		<FilteringMenu
 			class="hidden md:flex md:w-[172px] md:min-w-[172px]"
 			:items="passportOfferingsWithComposedData"
+			:langs="langs"
+			:categories="categories"
 			@selected-category="
-				(category) => {
+				(category: ClipCategory | number) => {
 					selectedCategory = category
 				}
 			"
@@ -132,8 +149,10 @@ onMounted(() => {
 			<FilteringMenu
 				class="-mx-2 flex whitespace-nowrap md:hidden"
 				:items="passportOfferingsWithComposedData"
+				:langs="langs"
+				:categories="categories"
 				@selected-category="
-					(category) => {
+					(category: ClipCategory | number) => {
 						selectedCategory = category
 					}
 				"

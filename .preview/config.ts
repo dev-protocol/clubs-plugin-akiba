@@ -122,6 +122,32 @@ export default () =>
 							copyright: '🄫CLUBS - FRAME00 Example',
 						} satisfies GlobalConfig,
 					},
+					{
+						key: 'categories',
+						value: [
+							{
+								label: {
+									en: 'Animals',
+									ja: '動物',
+								},
+								payloads: [
+									new Uint8Array([245, 85, 191, 2, 203, 245, 5, 164]),
+									new Uint8Array([214, 222, 39, 24, 25, 107, 190, 58]),
+									new Uint8Array([145, 241, 149, 8, 238, 140, 176, 57]),
+								],
+							},
+							{
+								label: {
+									en: 'Kawaii',
+									ja: 'かわいい',
+								},
+								payloads: [
+									new Uint8Array([6, 245, 225, 148, 239, 10, 61, 216]),
+									new Uint8Array([128, 109, 149, 55, 45, 195, 31, 238]),
+								],
+							},
+						],
+					},
 				],
 			},
 			{

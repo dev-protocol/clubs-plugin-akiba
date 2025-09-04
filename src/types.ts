@@ -1,4 +1,8 @@
-import type { ClubsOffering, Membership } from '@devprotocol/clubs-core'
+import type {
+	ClubsI18nLocale,
+	ClubsOffering,
+	Membership,
+} from '@devprotocol/clubs-core'
 import type {
 	CheckoutItemPassportOffering,
 	PassportItemDocument,
@@ -42,6 +46,11 @@ export type GlobalConfig = {
 	logo: string
 	copyright?: string
 }
+
+export type CategoriesConfig = ReadonlyArray<{
+	readonly label: ClubsI18nLocale
+	readonly payloads: ReadonlyArray<ClubsOffering['payload']>
+}>
 
 export type Override = Readonly<{
 	id: string
