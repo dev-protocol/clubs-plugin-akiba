@@ -5,19 +5,21 @@ import type {
 	ComposedCheckoutOptions,
 } from '@devprotocol/clubs-plugin-passports'
 
-import { ClipCategory } from '../../types.ts'
+import { CategoriesConfig, ClipCategory } from '../../types.ts'
 import {
 	getTagName,
 	PassportItemAssetCategory,
 } from '../../utils/filtering-clips.ts'
-import { i18nFactory } from '@devprotocol/clubs-core'
+import { ClubsI18nLocale, i18nFactory } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
 
 type Props = {
 	items: CheckoutFromPassportOffering
+	langs: string[]
+	categories: CategoriesConfig
 }
 
-const { items } = defineProps<Props>()
+const { items, langs, categories } = defineProps<Props>()
 
 const groupedItems = items.reduce(
 	(acc, item) => {
@@ -35,12 +37,20 @@ const groupedItems = items.reduce(
 	},
 )
 
-const selectedCategory = ref<ClipCategory>('All')
+const selectedCategory = ref<ClipCategory | number>('All')
 
 const i18nBase = i18nFactory(Strings)
-const i18n = ref<ReturnType<typeof i18nBase>>(i18nBase(['en']))
+const i18nCatBase = i18nFactory(
+	categories.reduce(
+		(acc, cat, i) => ({ ...acc, [`${i}`]: cat.label }),
+		{} as Record<string, ClubsI18nLocale>,
+	),
+)
+const i18n = ref<ReturnType<typeof i18nBase>>(i18nBase(langs))
+const i18nCat = ref<ReturnType<typeof i18nCatBase>>(i18nCatBase(langs))
 onMounted(() => {
 	i18n.value = i18nBase(navigator.languages)
+	i18nCat.value = i18nCatBase(navigator.languages)
 })
 </script>
 
@@ -64,6 +74,31 @@ onMounted(() => {
 				"
 			>
 				{{ i18n('All') }}
+			</button>
+		</li>
+		<li
+			v-if="categories && categories.length > 0"
+			v-for="(category, i) in categories"
+		>
+			<button
+				type="button"
+				class="flex w-full items-center justify-between gap-1 rounded-lg bg-gray-800 px-4 py-2 text-sm font-bold text-white hover:bg-gray-900 md:p-4"
+				:class="{
+					'border-gray-800 ring-2 ring-gray-800 ring-offset-2 ring-offset-white':
+						selectedCategory === i,
+				}"
+				@click="
+					() => {
+						selectedCategory = i
+						$emit('selectedCategory', i)
+					}
+				"
+			>
+				{{ i18nCat(`${i}`) }}
+				<span
+					class="rounded-2xl bg-blue-100 px-2 py-1 text-xs font-bold text-cyan-800"
+					>{{ category.payloads.length }}</span
+				>
 			</button>
 		</li>
 		<li v-for="[category, _] of Object.entries(groupedItems)">
