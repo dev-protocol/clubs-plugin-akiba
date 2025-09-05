@@ -217,20 +217,22 @@ const handleBuy = () => {}
 
 <template>
 	<div class="cart-container mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-		<div class="mb-8 sm:mb-4 flex justify-between">
+		<div class="mb-8 flex justify-between sm:mb-4">
 			<p class="text-2xl font-bold text-gray-900 sm:text-3xl">Cart</p>
 			<img :src="globalConfig.logo" alt="Logo" class="max-w-52 sm:max-w-80" />
 		</div>
 
 		<div
 			v-if="isCheckoutCompletedVisible"
-			class="mb-8 sm:mb-4 flex flex-col items-center gap-4"
+			class="mb-8 flex flex-col items-center gap-4 sm:mb-4"
 		>
 			<p class="text-2xl text-gray-900">Thank you for your purchase</p>
 			<slot name="akiba:checkout:result:after-heading" />
 		</div>
 
-		<div class="cart-content flex flex-col-reverse sm:flex-col gap-6 lg:flex-row lg:gap-8">
+		<div
+			class="cart-content flex flex-col-reverse gap-6 sm:flex-col lg:flex-row lg:gap-8"
+		>
 			<div class="cart-items min-w-0 flex-1">
 				<div v-if="isLoading" class="cart-items-list space-y-3 sm:space-y-4">
 					<div
@@ -266,10 +268,10 @@ const handleBuy = () => {}
 							/>
 
 							<div class="min-w-0 flex-1">
-								<p class="text-xs sm:text-sm font-bold text-gray-900">
+								<p class="text-xs font-bold text-gray-900 sm:text-sm">
 									{{ item.passportItem?.props.itemName }}
 								</p>
-								<p class="text-opacity-60 text-xs sm:text-sm text-gray-900">
+								<p class="text-opacity-60 text-xs text-gray-900 sm:text-sm">
 									${{ item.passportItem?.props.amount }}
 								</p>
 							</div>

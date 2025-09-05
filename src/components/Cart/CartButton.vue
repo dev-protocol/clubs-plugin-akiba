@@ -9,7 +9,7 @@ const onClick = async () => {
 <template>
 	<span>
 		<button
-			class="flex w-full items-center justify-center gap-2 rounded-3xl border border-transparent bg-black px-4 sm:px-8 py-2 text-xs sm:text-base text-white shadow-sm focus:outline-none"
+			class="flex w-full items-center justify-center gap-2 rounded-3xl border border-transparent bg-black px-4 py-2 text-xs text-white shadow-sm focus:outline-none sm:px-8 sm:text-base"
 			@click="onClick"
 		>
 			<svg
