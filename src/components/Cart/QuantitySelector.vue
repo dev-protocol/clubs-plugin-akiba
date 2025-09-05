@@ -65,11 +65,11 @@ const isMinQuantity = computed(() => {
 
 <template>
 	<div
-		class="flex h-10 items-center overflow-hidden rounded-full border border-gray-200 bg-white"
+		class="flex h-8 sm:h-10 items-center overflow-hidden rounded-full border border-gray-200 bg-white"
 	>
 		<button
 			type="button"
-			class="flex h-full w-10 cursor-pointer items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex h-full w-8 sm:w-10 cursor-pointer items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 			:disabled="disabled"
 			@click="decrement"
 		>
@@ -115,7 +115,7 @@ const isMinQuantity = computed(() => {
 
 		<input
 			type="text"
-			class="h-full w-10 border-none bg-white text-center text-sm focus:ring-0 focus:outline-none disabled:bg-gray-100 disabled:text-gray-400"
+			class="h-full w-8 sm:w-10 border-none bg-white text-center text-xs sm:text-sm focus:ring-0 focus:outline-none disabled:bg-gray-100 disabled:text-gray-400"
 			:value="quantity"
 			:disabled="disabled"
 			@input="onInput"
@@ -125,7 +125,7 @@ const isMinQuantity = computed(() => {
 
 		<button
 			type="button"
-			class="flex h-full w-10 cursor-pointer items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+			class="flex h-full w-8 sm:w-10 cursor-pointer items-center justify-center focus:ring-0 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 			:disabled="disabled"
 			@click="increment"
 		>

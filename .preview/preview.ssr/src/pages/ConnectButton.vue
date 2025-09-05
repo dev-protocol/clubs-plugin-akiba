@@ -36,7 +36,7 @@ const onClick = async () => {
 	<span>
 		<button
 			v-if="!walletAddress"
-			class="w-full rounded-3xl border border-transparent bg-blue-600 px-8 py-2 text-base text-white shadow-sm focus:outline-none"
+			class="w-full rounded-3xl border border-transparent bg-blue-600 px-4 sm:px-8 py-2 text-xs sm:text-base text-white shadow-sm focus:outline-none"
 			@click="onClick"
 		>
 			Wallet connect

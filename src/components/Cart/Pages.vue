@@ -217,20 +217,20 @@ const handleBuy = () => {}
 
 <template>
 	<div class="cart-container mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
-		<div class="mb-2 flex justify-between">
+		<div class="mb-8 sm:mb-4 flex justify-between">
 			<p class="text-2xl font-bold text-gray-900 sm:text-3xl">Cart</p>
-			<img :src="globalConfig.logo" alt="Logo" class="max-w-80" />
+			<img :src="globalConfig.logo" alt="Logo" class="max-w-52 sm:max-w-80" />
 		</div>
 
 		<div
 			v-if="isCheckoutCompletedVisible"
-			class="mb-4 flex flex-col items-center gap-4"
+			class="mb-8 sm:mb-4 flex flex-col items-center gap-4"
 		>
 			<p class="text-2xl text-gray-900">Thank you for your purchase</p>
 			<slot name="akiba:checkout:result:after-heading" />
 		</div>
 
-		<div class="cart-content flex flex-col gap-6 lg:flex-row lg:gap-8">
+		<div class="cart-content flex flex-col-reverse sm:flex-col gap-6 lg:flex-row lg:gap-8">
 			<div class="cart-items min-w-0 flex-1">
 				<div v-if="isLoading" class="cart-items-list space-y-3 sm:space-y-4">
 					<div
@@ -262,14 +262,14 @@ const handleBuy = () => {}
 							<img
 								:src="item.passportItem?.props.itemImageSrc"
 								:alt="item.passportItem?.props?.itemName"
-								class="h-36 w-36 flex-shrink-0 rounded object-contain sm:h-40 sm:w-40"
+								class="h-20 w-20 flex-shrink-0 rounded object-contain sm:h-40 sm:w-40"
 							/>
 
 							<div class="min-w-0 flex-1">
-								<p class="text-sm font-bold text-gray-900">
+								<p class="text-xs sm:text-sm font-bold text-gray-900">
 									{{ item.passportItem?.props.itemName }}
 								</p>
-								<p class="text-opacity-60 text-sm text-gray-900">
+								<p class="text-opacity-60 text-xs sm:text-sm text-gray-900">
 									${{ item.passportItem?.props.amount }}
 								</p>
 							</div>

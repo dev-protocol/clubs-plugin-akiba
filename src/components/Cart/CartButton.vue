@@ -9,12 +9,11 @@ const onClick = async () => {
 <template>
 	<span>
 		<button
-			class="flex w-full items-center justify-center gap-2 rounded-3xl border border-transparent bg-black px-8 py-2 text-base text-white shadow-sm focus:outline-none"
+			class="flex w-full items-center justify-center gap-2 rounded-3xl border border-transparent bg-black px-4 sm:px-8 py-2 text-xs sm:text-base text-white shadow-sm focus:outline-none"
 			@click="onClick"
 		>
 			<svg
-				width="24"
-				height="24"
+				class="h-[18px] w-[18px] sm:h-[24px] sm:w-[24px]"
 				viewBox="0 0 32 32"
 				fill="none"
 				xmlns="http://www.w3.org/2000/svg"
