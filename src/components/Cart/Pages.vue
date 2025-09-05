@@ -288,6 +288,13 @@ const handleBuy = () => {}
 							</div>
 						</div>
 					</div>
+
+					<div v-if="isCheckoutCompletedVisible" class="inline-block flex-none rounded-lg min-w-80 bg-gray-100 p-4 sm:p-6">
+						<div class="mb-4 text-sm text-gray-900">Total</div>
+						<div class="text-2xl text-gray-900">
+							${{ totalAmount.toFixed(2) }}
+						</div>
+					</div>
 				</div>
 			</div>
 
