@@ -176,8 +176,7 @@ export const getPagePaths = (async (options, config, utils) => {
 						sectionsOrderConfig,
 						clubsPaymentsOverrides,
 						signals: ['connection-button-hide'],
-						passportOfferingsWithComposedData:
-							passportOfferingsWithComposedData,
+						products,
 						categories: categoriesConfig,
 						theme2: {
 							config,

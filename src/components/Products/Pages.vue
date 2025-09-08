@@ -13,6 +13,7 @@ import {
 } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
 import Clip from '../Clips/Clip.vue'
+import List from './List.vue'
 
 type Props = {
 	langs: string[]
@@ -164,30 +165,32 @@ onMounted(() => {
 
 		<div
 			v-if="bundledProducts && bundledProducts.length > 0"
-			class="grid grid-cols-5 content-start gap-2.5 rounded-xl bg-teal-50 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
+			class="grid content-start gap-2.5 rounded-xl bg-teal-50 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
 		>
-			<span class="col-span-5 text-xl font-bold text-teal-500 lg:text-3xl"
+			<span class="text-xl font-bold text-teal-500 lg:text-3xl"
 				>{{ i18n('BundledProducts') }}:</span
 			>
-			<Clip
-				v-for="value in bundledProducts"
-				:composed-item="value.product"
-				class="bg-white"
-			/>
+			<List :products="bundledProducts" :langs="langs" />
 		</div>
 
 		<div
 			v-if="setsIncludingThis && setsIncludingThis.length > 0"
-			class="grid grid-cols-5 content-start gap-2.5 rounded-xl bg-neutral-100 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
+			class="grid content-start gap-2.5 rounded-xl bg-neutral-100 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
 		>
-			<span class="col-span-5 text-xl font-bold text-neutral-500 lg:text-3xl"
+			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
 				>{{ i18n('SetsIncludingThis') }}:</span
 			>
-			<Clip
-				v-for="value in setsIncludingThis"
-				:composed-item="value.product"
-				class="bg-white"
-			/>
+			<List :products="setsIncludingThis" :langs="langs" />
+		</div>
+
+		<div
+			v-if="products && products.length > 0"
+			class="grid gap-2.5 rounded-xl border border-neutral-300 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
+		>
+			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
+				>{{ i18n('AllProducts') }}:</span
+			>
+			<List :products="products" :langs="langs" />
 		</div>
 	</div>
 </template>

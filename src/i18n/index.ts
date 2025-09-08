@@ -77,4 +77,8 @@ export const Strings = {
 		en: `Check out the great sets that include this item`,
 		ja: `お得なセットもチェック`,
 	},
+	AllProducts: {
+		en: `All Products`,
+		ja: `すべてのアイテム`,
+	},
 } satisfies ClubsI18nParts

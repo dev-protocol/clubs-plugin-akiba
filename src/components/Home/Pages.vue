@@ -1,94 +1,30 @@
 <script setup lang="ts">
-import {
-	computed,
-	defineProps,
-	onMounted,
-	ref,
-	useTemplateRef,
-	watch,
-} from 'vue'
-import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-passports'
+import { computed, defineProps, ref, watch } from 'vue'
 
-import Clip from '../Clips/Clip.vue'
 import Gallery from '../Gallery/Gallery.vue'
 import FilteringMenu from '../Clips/FilteringMenu.vue'
-import {
-	DIGITAL_CARD,
-	getTagName,
-	SKIN,
-	VIDEO,
-} from '../../utils/filtering-clips.ts'
+import { getTagName } from '../../utils/filtering-clips.ts'
 import type {
 	CategoriesConfig,
 	ClipCategory,
 	HomeConfig,
-	PassportItemData,
+	Product,
 } from '../../types.ts'
 import { bytes32Hex } from '@devprotocol/clubs-core'
+import List from '../Products/List.vue'
 
 type Props = {
 	homeConfig: HomeConfig
 	langs: string[]
-	passportOfferingsWithComposedData: CheckoutFromPassportOffering
+	products: Product[]
 	categories: CategoriesConfig
 }
 
-const { homeConfig, langs, passportOfferingsWithComposedData, categories } =
-	defineProps<Props>()
+const { homeConfig, langs, products, categories } = defineProps<Props>()
 
 const selectedCategory = ref<ClipCategory | number>('All')
-const filteredItems = ref<CheckoutFromPassportOffering>([])
-const grid = useTemplateRef('grid')
-const cols = ref<2 | 3 | 4>(3)
-const colItems = computed(() => {
-	const __ = new Set<string>()
-	const items = filteredItems.value.filter((item) => {
-		// Filter duplicates
-		const group = item.props.offering.groupOf
-		return group ? (__.has(group) ? false : __.add(group)) : true
-	})
-	const columns = cols.value
-
-	// 共通ロジックを抽出した関数
-	const matchesColumnRule = (
-		itemIndex: number,
-		offset: number,
-		mod: number,
-	) => {
-		return itemIndex === offset || (itemIndex - offset) % mod === 0
-	}
-
-	return [
-		items.filter((_, index) => {
-			const itemIndex = index + 1
-			return columns === 2
-				? itemIndex % 2 !== 0
-				: matchesColumnRule(itemIndex, 1, columns === 3 ? 3 : 4)
-		}),
-		items.filter((_, index) => {
-			const itemIndex = index + 1
-			return columns === 2
-				? itemIndex % 2 === 0
-				: matchesColumnRule(itemIndex, 2, columns === 3 ? 3 : 4)
-		}),
-		columns >= 3
-			? items.filter((_, index) => {
-					const itemIndex = index + 1
-					return columns === 3
-						? itemIndex % 3 === 0
-						: matchesColumnRule(itemIndex, 3, 4)
-				})
-			: undefined,
-		columns === 4
-			? items.filter((_, index) => {
-					const itemIndex = index + 1
-					return matchesColumnRule(itemIndex, 4, 4)
-				})
-			: undefined,
-	]
-})
-
-const colsUpdated = ref(false)
+const filteredItems = ref<Product[]>([])
+const passportOfferings = computed(() => products.map((p) => p.product))
 
 watch(
 	selectedCategory,
@@ -96,33 +32,20 @@ watch(
 		const customCat =
 			typeof category === 'number' ? categories[category] : undefined
 		filteredItems.value = customCat
-			? passportOfferingsWithComposedData.filter((item) => {
+			? products.filter((item) => {
 					return customCat.payloads.some(
-						(payload) => bytes32Hex(payload) === bytes32Hex(item.payload),
+						(payload) =>
+							bytes32Hex(payload) === bytes32Hex(item.product.payload),
 					)
 				})
-			: passportOfferingsWithComposedData.filter((item) => {
-					const itemAssetType = item.props.passportItem.itemAssetType
+			: products.filter((item) => {
+					const itemAssetType = item.product.props.passportItem.itemAssetType
 					const key = getTagName(itemAssetType)
 					return category === 'All' || key === category
 				})
 	},
 	{ immediate: true },
 )
-
-onMounted(() => {
-	if (!grid.value) return
-	const observer = new ResizeObserver(([entry]) => {
-		const w = entry.contentRect.width
-		const r = w / 250
-		cols.value = r > 3 ? 4 : r > 2 ? 3 : 2
-		if (!colsUpdated.value) {
-			colsUpdated.value = true
-		}
-	})
-
-	observer.observe(grid.value)
-})
 </script>
 
 <template>
@@ -132,7 +55,7 @@ onMounted(() => {
 		<!-- filtering menu -->
 		<FilteringMenu
 			class="hidden md:flex md:w-[172px] md:min-w-[172px]"
-			:items="passportOfferingsWithComposedData"
+			:items="passportOfferings"
 			:langs="langs"
 			:categories="categories"
 			@selected-category="
@@ -148,7 +71,7 @@ onMounted(() => {
 
 			<FilteringMenu
 				class="-mx-2 flex whitespace-nowrap md:hidden"
-				:items="passportOfferingsWithComposedData"
+				:items="passportOfferings"
 				:langs="langs"
 				:categories="categories"
 				@selected-category="
@@ -158,27 +81,7 @@ onMounted(() => {
 				"
 			/>
 
-			<section
-				ref="grid"
-				class="grid justify-between gap-4"
-				:class="{
-					'grid-cols-4': cols === 4,
-					'grid-cols-3': cols === 3,
-					'grid-cols-2': cols === 2,
-				}"
-			>
-				<div
-					v-for="(items, i) in colItems"
-					:index="i"
-					class="flex flex-col gap-4"
-				>
-					<Clip
-						v-for="item in items"
-						:key="item.payload"
-						:composedItem="item"
-					/>
-				</div>
-			</section>
+			<List :products="filteredItems" :langs="langs" />
 		</div>
 	</div>
 </template>
