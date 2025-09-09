@@ -983,7 +983,7 @@ __metadata:
     "@astrojs/svelte": "npm:^7.0.0"
     "@astrojs/vue": "npm:^5.0.0"
     "@devprotocol/clubs-core": "npm:3.27.1"
-    "@devprotocol/clubs-plugin-passports": "npm:0.9.0-alpha.5"
+    "@devprotocol/clubs-plugin-passports": "npm:0.9.0-alpha.7"
     "@devprotocol/clubs-plugin-payments": "npm:0.5.0-alpha.10"
     "@devprotocol/dev-kit": "npm:8.7.0"
     "@devprotocol/util-ts": "npm:4.0.0"
@@ -1035,9 +1035,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@devprotocol/clubs-plugin-passports@npm:0.9.0-alpha.5":
-  version: 0.9.0-alpha.5
-  resolution: "@devprotocol/clubs-plugin-passports@npm:0.9.0-alpha.5"
+"@devprotocol/clubs-plugin-passports@npm:0.9.0-alpha.7":
+  version: 0.9.0-alpha.7
+  resolution: "@devprotocol/clubs-plugin-passports@npm:0.9.0-alpha.7"
   dependencies:
     "@devprotocol/dev-kit": "npm:8.7.0"
     "@devprotocol/util-ts": "npm:4.0.0"
@@ -1046,12 +1046,12 @@ __metadata:
     nanoid: "npm:^5.0.7"
     ramda: "npm:0.31.3"
     redis: "npm:^4.7.0"
-    sass: "npm:1.92.0"
+    sass: "npm:1.92.1"
   peerDependencies:
     "@devprotocol/clubs-core": ^3.18.0
     "@devprotocol/clubs-plugin-payments": ^0.2.3 || ^0.3.0 || ^0.4.0
     ethers: ^6.0.0
-  checksum: 10c0/0a9490c58eb10875bfb57d754e970d22cff035626a2dff25661a5d40f6983289261d4a846490fbbbc4fab9f3ea3af46fc33275d2c23082022d0e2616a057a6ab
+  checksum: 10c0/3685ac17c7d6a32154a90c9110b9a2d1749eb7fd97a129ce0c1cb80ce9fbfe971f60adf9dd3c3cd3af252dc19a52b38badd5adca0a39e7115b4b141a35746ccc
   languageName: node
   linkType: hard
 
@@ -9781,23 +9781,6 @@ __metadata:
   dependencies:
     suf-log: "npm:^2.5.3"
   checksum: 10c0/172eb326121ace1a48e689a1419efab2d780623631d106ac306ac2a055e96813bda36044f20bc4cc28d761427efc136a08d07153d1b8a8ccf0a032dca5fdce3c
-  languageName: node
-  linkType: hard
-
-"sass@npm:1.92.0":
-  version: 1.92.0
-  resolution: "sass@npm:1.92.0"
-  dependencies:
-    "@parcel/watcher": "npm:^2.4.1"
-    chokidar: "npm:^4.0.0"
-    immutable: "npm:^5.0.2"
-    source-map-js: "npm:>=0.6.2 <2.0.0"
-  dependenciesMeta:
-    "@parcel/watcher":
-      optional: true
-  bin:
-    sass: sass.js
-  checksum: 10c0/bdff9fa6988620e2a81962efdd016e3894d19934cfadc105cf41db767f59dd47afd8ff32840e612ef700cb67e19d9e83c108f1724eb8f0bef56c4877dbe6f14d
   languageName: node
   linkType: hard
 
