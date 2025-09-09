@@ -227,7 +227,7 @@ const handleBuy = () => {}
 			class="mb-8 flex flex-col items-center gap-4 sm:mb-4"
 		>
 			<p class="text-2xl text-gray-900">Thank you for your purchase</p>
-			<slot name="akiba:checkout:result:after-heading" />
+			<slot name="checkout:result:after-heading" />
 		</div>
 
 		<div

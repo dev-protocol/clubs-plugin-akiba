@@ -41,7 +41,14 @@ const Layout = path?.props.layout
 				label="SignIn"
 				slot="clubs:connect-button"
 			/>
-			<Content {...path.props} />
+			<Content {...path.props}>
+				<button
+					slot="akiba:checkout:result:after-heading"
+					class="w-auto rounded-full bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
+				>
+					Edit my Passport
+				</button>
+			</Content>
 		</Layout>
 	)
 }
