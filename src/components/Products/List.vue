@@ -8,6 +8,7 @@ type Props = {
 	langs: string[]
 	products: Product[]
 	excludeLinkWhenNotAvailable?: boolean
+	base: string
 }
 
 const { products, excludeLinkWhenNotAvailable } = defineProps<Props>()
@@ -95,6 +96,7 @@ onMounted(() => {
 				:key="item.id"
 				:composedItem="item.product"
 				:excludeLinkWhenNotAvailable="excludeLinkWhenNotAvailable"
+				:base="base"
 			/>
 		</div>
 	</section>

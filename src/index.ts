@@ -163,6 +163,7 @@ export const getPagePaths = (async (options, config, utils) => {
 					component: Index,
 					layout: Layout,
 					props: {
+						base,
 						name,
 						propertyAddress,
 						memberships,

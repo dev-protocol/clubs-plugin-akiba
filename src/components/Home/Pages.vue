@@ -18,6 +18,7 @@ type Props = {
 	langs: string[]
 	products: Product[]
 	categories: CategoriesConfig
+	base: string
 }
 
 const { homeConfig, langs, products, categories } = defineProps<Props>()
@@ -81,7 +82,7 @@ watch(
 				"
 			/>
 
-			<List :products="filteredItems" :langs="langs" />
+			<List :products="filteredItems" :langs="langs" :base="base" />
 		</div>
 	</div>
 </template>

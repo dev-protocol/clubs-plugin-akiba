@@ -25,12 +25,14 @@ type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
 	class?: string
 	excludeLinkWhenNotAvailable?: boolean
+	base: string
 }
 
 const {
 	composedItem,
 	class: className,
 	excludeLinkWhenNotAvailable,
+	base,
 } = defineProps<Props>()
 
 const isDiscountActive = ref(false)
@@ -143,7 +145,7 @@ onMounted(async () => {
 		:href="
 			composedItem.props.notForSale && excludeLinkWhenNotAvailable
 				? undefined
-				: `/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`
+				: `${base}/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`
 		"
 		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 p-1 shadow md:gap-2 md:p-2"
 		:class="{

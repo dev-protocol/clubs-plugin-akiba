@@ -11,7 +11,6 @@ import {
 	ProseTextInherit,
 } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
-import Clip from '../Clips/Clip.vue'
 import List from './List.vue'
 
 type Props = {
@@ -130,6 +129,7 @@ onMounted(() => {
 				:products="bundledProducts"
 				:langs="langs"
 				:exclude-link-when-not-available="true"
+				:base="base"
 			/>
 		</div>
 
@@ -140,7 +140,7 @@ onMounted(() => {
 			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
 				>{{ i18n('SetsIncludingThis') }}:</span
 			>
-			<List :products="setsIncludingThis" :langs="langs" />
+			<List :products="setsIncludingThis" :langs="langs" :base="base" />
 		</div>
 
 		<div
@@ -150,7 +150,7 @@ onMounted(() => {
 			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
 				>{{ i18n('AllProducts') }}:</span
 			>
-			<List :products="products" :langs="langs" />
+			<List :products="products" :langs="langs" :base="base" />
 		</div>
 	</div>
 </template>

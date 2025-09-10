@@ -20,15 +20,17 @@ type Props = ClubsPropsPages & {
 	clubsPaymentsOverrides: ComposedItem[]
 	products: Product[]
 	categories: CategoriesConfig
+	base: string
 }
 
-const { homeConfig, products, categories } = Astro.props
+const { base, homeConfig, products, categories } = Astro.props
 
 const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
 ---
 
 <Home
 	client:load
+	base={base}
 	homeConfig={homeConfig}
 	langs={langs}
 	products={products.filter(

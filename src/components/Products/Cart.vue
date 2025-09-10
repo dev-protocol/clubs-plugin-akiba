@@ -18,6 +18,7 @@ type Props = {
 	product: CheckoutItemPassportOffering
 	products: Product[]
 	bundledProducts: Product[]
+	base: string
 }
 
 const {
@@ -126,6 +127,7 @@ onMounted(() => {
 				v-for="value in bundledProducts"
 				:composed-item="value.product"
 				class="bg-white"
+				:base="base"
 			/>
 		</div>
 
@@ -140,6 +142,7 @@ onMounted(() => {
 				v-for="value in setsIncludingThis"
 				:composed-item="value.product"
 				class="bg-white"
+				:base="base"
 			/>
 		</div>
 	</div>
