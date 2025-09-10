@@ -101,4 +101,8 @@ export const Strings = {
 		en: 'Not for Sale',
 		ja: '非売品',
 	},
+	ProceedToCheckout: {
+		en: 'Proceed to checkout',
+		ja: 'カートを見る',
+	},
 } satisfies ClubsI18nParts

@@ -43,6 +43,7 @@ const i18n = computed(() =>
 const i18nInstant = (locale: ClubsI18nLocale) =>
 	i18nFactory({ i: locale })(langs.value)('i')
 const bgImage = ref(`url(${Bg.src})`)
+const completed = ref(false)
 const isNotForSale = computed(() => product.props.notForSale)
 const descriptionHtml = computed(() => {
 	return markdownToHtml(i18n.value('description'))
@@ -68,6 +69,10 @@ const gridWidth = computed(() => {
 const gridHeight = computed(() => {
 	return (product.props.passportItem.appearance?.grid?.h ?? 1) * 2
 })
+
+const onCartButtonComplete = () => {
+	completed.value = true
+}
 
 onMounted(() => {
 	langs.value = [...navigator.languages]
@@ -150,18 +155,26 @@ onMounted(() => {
 				class="[&_button]:rounded-full! [&_button]:text-xl! lg:[&_button]:text-3xl!"
 			>
 				<CartButton
-					v-if="!isNotForSale"
+					v-if="!isNotForSale && !completed"
 					:base="base"
 					:payload="product.payload"
 					:quantity="1"
+					:on-complete="onCartButtonComplete"
 				/>
 				<button
-					v-else
+					v-if="isNotForSale"
 					class="hs-button is-large is-fullwidth is-filled"
 					disabled
 				>
 					{{ i18n('NotForSale') }}
 				</button>
+				<a
+					v-if="completed"
+					class="block rounded-full bg-green-500 px-6 py-3 text-center text-xl font-bold text-white lg:text-3xl"
+					:href="`${base}/cart`"
+				>
+					{{ i18n('ProceedToCheckout') }}
+				</a>
 			</span>
 			<h2 class="-mb-3">
 				<span class="text-sm font-bold text-gray-500">{{
