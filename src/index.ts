@@ -11,7 +11,7 @@ import { bytes32Hex, ClubsPluginCategory } from '@devprotocol/clubs-core'
 import { default as Layout } from './layouts/Default.astro'
 import { default as Index } from './pages/index.astro'
 import { default as Cart } from './pages/cart/index.astro'
-import type { GlobalConfig, HomeConfig } from './types'
+import type { CategoriesConfig, GlobalConfig, HomeConfig } from './types'
 import PreviewImage from './assets/preview.jpg'
 import { default as Icon } from './assets/icon.svg'
 import { Content as Readme } from './README.md'
@@ -95,6 +95,10 @@ export const getPagePaths = (async (options, config, utils) => {
 	const homeConfig = options.find((opt) => opt.key === 'homeConfig')
 		?.value as UndefinedOr<HomeConfig>
 
+	const categoriesConfig =
+		(options.find((opt) => opt.key === 'categories')
+			?.value as UndefinedOr<CategoriesConfig>) ?? []
+
 	const sectionsOrderConfig =
 		(
 			options.find((opt) => opt.key === 'sectionsOrder') as UndefinedOr<{
@@ -122,8 +126,9 @@ export const getPagePaths = (async (options, config, utils) => {
 		config.offerings || [],
 	)
 
-	const passportOfferingsWithComposedData: CheckoutFromPassportOffering =
+	const passportOfferingsWithComposedData: CheckoutFromPassportOffering = (
 		await checkoutPassportItems(config)
+	).filter((x) => x.props.offering.deprecated !== true)
 
 	const globalConfig = options.find((opt) => opt.key === 'globalConfig')
 		?.value as UndefinedOr<GlobalConfig>
@@ -170,8 +175,8 @@ export const getPagePaths = (async (options, config, utils) => {
 						sectionsOrderConfig,
 						clubsPaymentsOverrides,
 						signals: ['connection-button-hide'],
-						passportOfferingsWithComposedData:
-							passportOfferingsWithComposedData,
+						products,
+						categories: categoriesConfig,
 						theme2: {
 							config,
 							homeConfig,

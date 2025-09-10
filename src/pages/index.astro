@@ -5,7 +5,12 @@ import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-pas
 
 import type { SectionOrderingValue } from '..'
 import Home from '../components/Home/Pages.vue'
-import type { ComposedItem, HomeConfig } from '../types'
+import type {
+	CategoriesConfig,
+	ComposedItem,
+	HomeConfig,
+	Product,
+} from '../types'
 
 type Props = ClubsPropsPages & {
 	memberships?: Membership[]
@@ -13,11 +18,11 @@ type Props = ClubsPropsPages & {
 	name: string
 	sectionsOrderConfig: SectionOrderingValue
 	clubsPaymentsOverrides: ComposedItem[]
-	passportOfferingsWithComposedData: CheckoutFromPassportOffering
+	products: Product[]
+	categories: CategoriesConfig
 }
 
-const { homeConfig, passportOfferings, passportOfferingsWithComposedData } =
-	Astro.props
+const { homeConfig, products, categories } = Astro.props
 
 const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
 ---
@@ -26,5 +31,8 @@ const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
 	client:load
 	homeConfig={homeConfig}
 	langs={langs}
-	passportOfferingsWithComposedData={passportOfferingsWithComposedData}
+	products={products.filter(
+		({ product }) => product.props.offering.hidden !== true,
+	)}
+	categories={categories}
 />

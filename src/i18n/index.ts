@@ -77,8 +77,6 @@ export const Strings = {
 		en: `Check out the great sets that include this item`,
 		ja: `お得なセットもチェック`,
 	},
-
-	// Checkout completed modal
 	CheckoutCompletedTitle: {
 		en: 'Purchase completed',
 		ja: '購入が完了しました',
@@ -94,5 +92,9 @@ export const Strings = {
 	Close: {
 		en: 'Close',
 		ja: '閉じる',
+	},
+	AllProducts: {
+		en: `All Products`,
+		ja: `すべてのアイテム`,
 	},
 } satisfies ClubsI18nParts
