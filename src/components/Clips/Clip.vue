@@ -24,9 +24,14 @@ import { Strings } from '../../i18n/index.ts'
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
 	class?: string
+	excludeLinkWhenNotAvailable?: boolean
 }
 
-const { composedItem, class: className } = defineProps<Props>()
+const {
+	composedItem,
+	class: className,
+	excludeLinkWhenNotAvailable,
+} = defineProps<Props>()
 
 const isDiscountActive = ref(false)
 const mounted = ref<boolean>()
@@ -135,7 +140,11 @@ onMounted(async () => {
 
 <template>
 	<a
-		:href="`/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`"
+		:href="
+			composedItem.props.notForSale && excludeLinkWhenNotAvailable
+				? undefined
+				: `/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`
+		"
 		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 p-1 shadow md:gap-2 md:p-2"
 		:class="{
 			'bg-white':

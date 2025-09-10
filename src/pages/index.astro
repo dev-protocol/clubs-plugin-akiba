@@ -31,6 +31,8 @@ const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
 	client:load
 	homeConfig={homeConfig}
 	langs={langs}
-	products={products}
+	products={products.filter(
+		({ product }) => product.props.offering.hidden !== true,
+	)}
 	categories={categories}
 />

@@ -7,9 +7,10 @@ import type { Product } from '../../types.ts'
 type Props = {
 	langs: string[]
 	products: Product[]
+	excludeLinkWhenNotAvailable?: boolean
 }
 
-const { products } = defineProps<Props>()
+const { products, excludeLinkWhenNotAvailable } = defineProps<Props>()
 
 const grid = useTemplateRef('grid')
 const cols = ref<2 | 3 | 4>(3)
@@ -89,7 +90,12 @@ onMounted(() => {
 		}"
 	>
 		<div v-for="(items, i) in colItems" :index="i" class="flex flex-col gap-4">
-			<Clip v-for="item in items" :key="item.id" :composedItem="item.product" />
+			<Clip
+				v-for="item in items"
+				:key="item.id"
+				:composedItem="item.product"
+				:excludeLinkWhenNotAvailable="excludeLinkWhenNotAvailable"
+			/>
 		</div>
 	</section>
 </template>

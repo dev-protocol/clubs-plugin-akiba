@@ -170,7 +170,11 @@ onMounted(() => {
 			<span class="text-xl font-bold text-teal-500 lg:text-3xl"
 				>{{ i18n('BundledProducts') }}:</span
 			>
-			<List :products="bundledProducts" :langs="langs" />
+			<List
+				:products="bundledProducts"
+				:langs="langs"
+				:exclude-link-when-not-available="true"
+			/>
 		</div>
 
 		<div
