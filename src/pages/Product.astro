@@ -14,6 +14,7 @@ type Props = ClubsPropsPages & {
 	products: Product[]
 	product: CheckoutItemPassportOffering
 	bundledProducts: Product[]
+	group: Product[]
 	base: string
 }
 ---
@@ -25,5 +26,6 @@ type Props = ClubsPropsPages & {
 	product={Astro.props.product}
 	products={Astro.props.products}
 	bundledProducts={Astro.props.bundledProducts}
+	group={Astro.props.group}
 	base={Astro.props.base}
 />

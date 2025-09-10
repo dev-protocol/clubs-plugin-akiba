@@ -97,4 +97,8 @@ export const Strings = {
 		en: `All Products`,
 		ja: `すべてのアイテム`,
 	},
+	NotForSale: {
+		en: 'Not for Sale',
+		ja: '非売品',
+	},
 } satisfies ClubsI18nParts
