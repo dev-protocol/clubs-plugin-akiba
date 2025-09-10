@@ -12,7 +12,7 @@ export default () =>
 		name: 'passport-akiba-staging',
 		twitterHandle: '',
 		description: '',
-		url: 'https://passport-akiba-staging.clubs.place',
+		url: 'http://localhost:4321',
 		propertyAddress: '0x18748FCfA818Ca035bB6eC68C5C58eBE0Db1E32a',
 		adminRolePoints: 50,
 		chainId: 137,
@@ -253,7 +253,7 @@ export default () =>
 						],
 					},
 					{
-						key: 'override',
+						key: 'overrides',
 						value: [
 							{
 								id: '0xc1776ad5c27ad2912919345648682052039f1c384162fa4fa450f0c4c1dd8e32',
@@ -275,9 +275,7 @@ export default () =>
 								id: '0x5628455f0f44d5465c333f269146ecab9a65f1fc3daf065ddecad8dddd894fc8',
 								payload:
 									'0xf1fd783e7519b7162e67944dfcbe44661718bbcd79f2cd941f8e2701f9893b3d',
-								price: {
-									yen: 36,
-								},
+								price: 'not-for-sale',
 							},
 							{
 								id: '0xd9298e4a50776e857328cb8bb5ff5e6c06e465b043f9f8a5c770f2433a86a33a',

@@ -6,12 +6,14 @@ import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 import { CartButton } from '@devprotocol/clubs-plugin-payments/components'
 import {
 	bytes32Hex,
+	ClubsI18nLocale,
 	i18nFactory,
 	markdownToHtml,
 	ProseTextInherit,
 } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
 import List from './List.vue'
+import Bg from '../../assets/bg_sticker.png'
 
 type Props = {
 	langs: string[]
@@ -19,6 +21,7 @@ type Props = {
 	product: CheckoutItemPassportOffering
 	products: Product[]
 	bundledProducts: Product[]
+	group: Product[]
 	base: string
 }
 
@@ -28,6 +31,7 @@ const {
 	product,
 	products,
 	bundledProducts,
+	group,
 	base,
 } = defineProps<Props>()
 
@@ -36,6 +40,10 @@ const langs = ref(_langs)
 const i18n = computed(() =>
 	i18nFactory({ ...product.props.offering.i18n, ...Strings })(langs.value),
 )
+const i18nInstant = (locale: ClubsI18nLocale) =>
+	i18nFactory({ i: locale })(langs.value)('i')
+const bgImage = ref(`url(${Bg.src})`)
+const isNotForSale = computed(() => product.props.notForSale)
 const descriptionHtml = computed(() => {
 	return markdownToHtml(i18n.value('description'))
 })
@@ -54,6 +62,12 @@ const setsIncludingThis = computed(() => {
 		),
 	)
 })
+const gridWidth = computed(() => {
+	return (product.props.passportItem.appearance?.grid?.w ?? 1) * 2
+})
+const gridHeight = computed(() => {
+	return (product.props.passportItem.appearance?.grid?.h ?? 1) * 2
+})
 
 onMounted(() => {
 	langs.value = [...navigator.languages]
@@ -69,11 +83,24 @@ onMounted(() => {
 		</div>
 
 		<div class="flex flex-col gap-3">
-			<Media
-				:item="product.props.passportItem"
-				video-class="w-full max-w-full object-cover aspect-square"
-				class="rounded"
-			/>
+			<div
+				class="grid grid-cols-6 grid-rows-6 rounded"
+				:style="{ '--image': bgImage, backgroundImage: 'var(--image)' }"
+			>
+				<Media
+					:item="product.props.passportItem"
+					video-class="w-full max-w-full object-cover aspect-square"
+					class="rounded drop-shadow-sm"
+					:class="{
+						'col-span-2 col-start-3': gridWidth === 2,
+						'col-span-4 col-start-2': gridWidth === 4,
+						'col-span-6': gridWidth === 6,
+						'row-span-2 row-start-3': gridHeight === 2,
+						'row-span-4 row-start-2': gridHeight === 4,
+						'row-span-6': gridHeight === 6,
+					}"
+				/>
+			</div>
 			<div
 				v-if="
 					product.props.offering.previewImages &&
@@ -96,10 +123,45 @@ onMounted(() => {
 				<span>{{ price.currency }}</span
 				><span class="text-2xl font-bold">{{ price.price }}</span>
 			</div>
+			<div v-if="group && group.length > 0">
+				<ul class="flex gap-2">
+					<li v-for="(item, i) in group" :key="i" class="flex-grow">
+						<a
+							:href="`/products/${item.id}`"
+							class="block h-full w-full rounded-xl border py-2 text-center ring-4 transition-shadow"
+							:class="{
+								'border-sky-600 ring-sky-600/70 hover:ring-sky-800/70':
+									product.payload === item.product.payload,
+								'border-gray-300 ring-transparent hover:ring-sky-600/30':
+									product.payload !== item.product.payload,
+							}"
+						>
+							{{
+								i18nInstant(
+									item.product.props.offering.i18n.groupVar ??
+										item.product.props.offering.i18n.name,
+								)
+							}}
+						</a>
+					</li>
+				</ul>
+			</div>
 			<span
 				class="[&_button]:rounded-full! [&_button]:text-xl! lg:[&_button]:text-3xl!"
 			>
-				<CartButton :base="base" :payload="product.payload" :quantity="1" />
+				<CartButton
+					v-if="!isNotForSale"
+					:base="base"
+					:payload="product.payload"
+					:quantity="1"
+				/>
+				<button
+					v-else
+					class="hs-button is-large is-fullwidth is-filled"
+					disabled
+				>
+					{{ i18n('NotForSale') }}
+				</button>
 			</span>
 			<h2 class="-mb-3">
 				<span class="text-sm font-bold text-gray-500">{{
@@ -154,5 +216,3 @@ onMounted(() => {
 		</div>
 	</div>
 </template>
-
-<style scoped></style>
