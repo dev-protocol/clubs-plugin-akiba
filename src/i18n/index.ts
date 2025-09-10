@@ -77,6 +77,22 @@ export const Strings = {
 		en: `Check out the great sets that include this item`,
 		ja: `お得なセットもチェック`,
 	},
+	CheckoutCompletedTitle: {
+		en: 'Purchase completed',
+		ja: '購入が完了しました',
+	},
+	CheckoutCompletedMessage: {
+		en: 'Thank you for your purchase. The process has been completed.',
+		ja: 'ご購入ありがとうございます。処理が完了しました。',
+	},
+	OrderID: {
+		en: 'Order ID',
+		ja: '注文ID',
+	},
+	Close: {
+		en: 'Close',
+		ja: '閉じる',
+	},
 	AllProducts: {
 		en: `All Products`,
 		ja: `すべてのアイテム`,

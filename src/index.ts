@@ -10,6 +10,7 @@ import type {
 import { bytes32Hex, ClubsPluginCategory } from '@devprotocol/clubs-core'
 import { default as Layout } from './layouts/Default.astro'
 import { default as Index } from './pages/index.astro'
+import { default as Cart } from './pages/cart/index.astro'
 import type { CategoriesConfig, GlobalConfig, HomeConfig } from './types'
 import PreviewImage from './assets/preview.jpg'
 import { default as Icon } from './assets/icon.svg'
@@ -76,6 +77,8 @@ export type MembersCountVisibilityValue = 'hidden' | 'visible'
 
 export const getPagePaths = (async (options, config, utils) => {
 	const { name, propertyAddress, rpcUrl, chainId, url } = config
+
+	const base = config.url
 
 	const [membershipConfig] = utils.getPluginConfigById(
 		'devprotocol:clubs:simple-memberships',
@@ -152,11 +155,6 @@ export const getPagePaths = (async (options, config, utils) => {
 								products.find((p) => p.product.payload === bytes32Hex(payload)),
 							),
 						),
-						group: whenDefined(product.props.offering.groupOf, (group) =>
-							products.filter(
-								(p) => p.product.props.offering.groupOf === group,
-							),
-						),
 						base: url,
 					},
 				})),
@@ -185,6 +183,25 @@ export const getPagePaths = (async (options, config, utils) => {
 							globalConfig,
 							description: homeConfig?.description,
 						},
+					},
+				},
+				{
+					paths: ['cart'],
+					component: Cart,
+					Layout: Layout,
+					props: {
+						base,
+						name,
+						propertyAddress,
+						memberships,
+						rpcUrl,
+						chainId,
+						sidebarPrimaryLinks,
+						sidebarLinks,
+						avatarImgSrc,
+						globalConfig,
+						passportOfferingsWithComposedData:
+							passportOfferingsWithComposedData,
 					},
 				},
 			]

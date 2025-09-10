@@ -59,7 +59,7 @@ watch(
 			:langs="langs"
 			:categories="categories"
 			@selected-category="
-				(category: ClipCategory | number) => {
+				(category) => {
 					selectedCategory = category
 				}
 			"
@@ -75,7 +75,7 @@ watch(
 				:langs="langs"
 				:categories="categories"
 				@selected-category="
-					(category: ClipCategory | number) => {
+					(category) => {
 						selectedCategory = category
 					}
 				"

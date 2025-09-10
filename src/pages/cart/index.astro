@@ -1,0 +1,36 @@
+---
+import EmptyLayout from '../../layouts/EmptyLayout.astro'
+import Cart from '../../components/Cart/Pages.vue'
+import type { ClubsPropsPages, Membership } from '@devprotocol/clubs-core'
+import type { ComposedItem, GlobalConfig, HomeConfig } from '../../types.ts'
+import type { SectionOrderingValue } from '../../index.ts'
+import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-passports'
+import { LoadLibrary } from '@devprotocol/clubs-plugin-payments/components'
+
+const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
+
+type Props = ClubsPropsPages & {
+	memberships?: Membership[]
+	homeConfig: HomeConfig
+	name: string
+	sectionsOrderConfig: SectionOrderingValue
+	clubsPaymentsOverrides: ComposedItem[]
+	globalConfig: GlobalConfig
+	passportOfferingsWithComposedData: CheckoutFromPassportOffering
+	base: string
+}
+---
+
+<Cart
+	client:load
+	langs={langs}
+	globalConfig={Astro.props.globalConfig}
+	passportOfferingsWithComposedData={Astro.props
+		.passportOfferingsWithComposedData}
+	base={Astro.props.base}
+>
+	<slot
+		name="akiba:checkout:result:after-heading"
+		slot="checkout:result:after-heading"
+	/>
+</Cart>
