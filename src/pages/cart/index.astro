@@ -29,13 +29,8 @@ type Props = ClubsPropsPages & {
 		.passportOfferingsWithComposedData}
 	base={Astro.props.base}
 >
-	<div slot="akiba:checkout:result:after-heading">
-		<slot name="akiba:checkout:result:after-heading">
-			<button
-				class="w-auto rounded-full bg-black px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-60 sm:text-base"
-			>
-				Edit my Passport
-			</button>
-		</slot>
-	</div>
+	<slot
+		name="akiba:checkout:result:after-heading"
+		slot="checkout:result:after-heading"
+	/>
 </Cart>
