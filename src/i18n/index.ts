@@ -6,20 +6,20 @@ export const Strings = {
 		ja: 'すべてのアイテム',
 	},
 	'Digital Card': {
-		en: 'Digital Card',
-		ja: 'デジタルカード',
+		en: 'Sticker',
+		ja: 'ステッカー',
 	},
 	'Short Clip': {
-		en: 'Short Clip',
-		ja: 'ショートクリップ',
+		en: 'Animated Sticker',
+		ja: '動くステッカー',
 	},
 	'Short Voice': {
-		en: 'Short Voice',
-		ja: 'ショートボイス',
+		en: 'Sound Sticker',
+		ja: 'しゃべるステッカー',
 	},
 	Video: {
 		en: 'Video',
-		ja: 'GIF・動画',
+		ja: '動画',
 	},
 	Skin: {
 		en: 'Skin',
