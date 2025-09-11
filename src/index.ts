@@ -234,6 +234,7 @@ export const getLayout = (async (options, config, { getPluginConfigById }) => {
 			}>
 		)?.value ?? 'visible'
 	const description = homeConfig?.description
+	const base = config.url
 
 	return {
 		layout: Layout,
@@ -245,6 +246,7 @@ export const getLayout = (async (options, config, { getPluginConfigById }) => {
 				membersCountConfig,
 				memberships,
 				description,
+				base,
 			},
 		},
 	}

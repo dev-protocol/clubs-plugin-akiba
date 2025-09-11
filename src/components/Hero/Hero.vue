@@ -13,7 +13,10 @@ const { image, logo, text } = defineProps<Props>()
 </script>
 
 <template>
-	<section class="md:mb-2 md:p-2" oncontextmenu="return false">
+	<section
+		class="container mx-auto md:mb-2 md:p-2"
+		oncontextmenu="return false"
+	>
 		<div
 			class="relative flex overflow-hidden rounded-b-xl md:aspect-[2/1] md:justify-end md:rounded-2xl"
 			:style="`background-color: ${gradientColor};`"

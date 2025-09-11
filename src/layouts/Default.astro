@@ -12,7 +12,7 @@ import type { GlobalConfig, HomeConfig } from '../types'
 
 const { page } = Astro.params
 const {
-	theme2: { metaTitle, config, homeConfig, globalConfig, description },
+	theme2: { metaTitle, config, homeConfig, globalConfig, description, base },
 	signals,
 } = Astro.props as {
 	theme2: {
@@ -23,6 +23,7 @@ const {
 		homeConfig?: HomeConfig
 		membersCountConfig?: MembersCountVisibilityValue
 		description?: string
+		base: string
 	}
 	signals?: string[]
 }
@@ -41,7 +42,11 @@ const avatarImgSrc: UndefinedOr<string> = config.options?.find(
 const navigationLinks: NavLink[] = [
 	...((config.options?.find((option) => option.key === 'navigationLinks')
 		?.value as NavLink[]) ?? []),
-]
+].map((link) =>
+	link.path.startsWith('http')
+		? link
+		: { ...link, path: `${base}${link.path}` },
+)
 
 const url = Astro.url.origin
 
