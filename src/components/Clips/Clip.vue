@@ -23,6 +23,8 @@ import { Strings } from '../../i18n/index.ts'
 
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
+	displayShortDescription?: boolean
+	imageBackground?: string
 	class?: string
 	excludeLinkWhenNotAvailable?: boolean
 	base: string
@@ -30,8 +32,10 @@ type Props = {
 
 const {
 	composedItem,
+	displayShortDescription = false,
 	class: className,
 	excludeLinkWhenNotAvailable,
+	imageBackground,
 	base,
 } = defineProps<Props>()
 
@@ -44,12 +48,20 @@ const i18nBaseAkiba = i18nFactory(Strings)
 const i18n = ref(i18nBase(['en']))
 const i18nAkiba = ref<ReturnType<typeof i18nBaseAkiba>>(i18nBaseAkiba(['en']))
 
+const bgImage = ref(imageBackground ? `url(${imageBackground})` : undefined)
+
 const discountStart = computed(() => {
 	return composedItem.props.discount?.start_utc
 })
 
 const discountEnd = computed(() => {
 	return composedItem.props.discount?.end_utc
+})
+
+const shortDescription = computed(() => {
+	return displayShortDescription
+		? i18n.value('description').slice(0, 120)
+		: undefined
 })
 
 const image = computed(() => {
@@ -147,7 +159,7 @@ onMounted(async () => {
 				? undefined
 				: `${base}/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`
 		"
-		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 p-1 shadow md:gap-2 md:p-2"
+		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 p-1 md:gap-2 md:p-2"
 		:class="{
 			'bg-white':
 				DIGITAL_CARD.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
@@ -160,7 +172,14 @@ onMounted(async () => {
 		:data-payload="payload"
 		@click.stop="modalOpen"
 	>
-		<div class="relative overflow-hidden rounded">
+		<div
+			class="relative overflow-hidden rounded"
+			:style="
+				bgImage
+					? { '--image': bgImage, backgroundImage: 'var(--image)' }
+					: undefined
+			"
+		>
 			<Media
 				:key="composedItem.props.passportItem.itemAssetValue"
 				:item="composedItem.props.passportItem"
@@ -244,6 +263,12 @@ onMounted(async () => {
 					</span>
 				</p>
 			</div>
+			<p
+				v-if="shortDescription"
+				class="line-clamp-2 overflow-hidden text-sm text-ellipsis text-gray-500"
+			>
+				{{ shortDescription }}
+			</p>
 		</div>
 		<Modal
 			v-if="mounted"

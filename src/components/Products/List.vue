@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, defineProps, onMounted, ref, useTemplateRef } from 'vue'
+import Bg from '../../assets/bg_sticker.png'
 
 import Clip from '../Clips/Clip.vue'
 import type { Product } from '../../types.ts'
@@ -95,6 +96,8 @@ onMounted(() => {
 				v-for="item in items"
 				:key="item.id"
 				:composedItem="item.product"
+				:displayShortDescription="true"
+				:imageBackground="Bg.src"
 				:excludeLinkWhenNotAvailable="excludeLinkWhenNotAvailable"
 				:base="base"
 			/>
