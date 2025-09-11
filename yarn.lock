@@ -983,8 +983,8 @@ __metadata:
     "@astrojs/svelte": "npm:^7.0.0"
     "@astrojs/vue": "npm:^5.0.0"
     "@devprotocol/clubs-core": "npm:3.28.0"
-    "@devprotocol/clubs-plugin-passports": "npm:0.9.0-alpha.7"
-    "@devprotocol/clubs-plugin-payments": "npm:0.5.1"
+    "@devprotocol/clubs-plugin-passports": "npm:0.11.5"
+    "@devprotocol/clubs-plugin-payments": "npm:0.5.2"
     "@devprotocol/dev-kit": "npm:8.7.0"
     "@devprotocol/util-ts": "npm:4.0.0"
     "@eslint/js": "npm:^9.17.0"
@@ -996,7 +996,7 @@ __metadata:
     "@types/eslint-config-prettier": "npm:^6.11.3"
     "@types/eslint__js": "npm:^9.0.0"
     "@types/node": "npm:22.17.2"
-    "@types/ramda": "npm:0.31.0"
+    "@types/ramda": "npm:0.31.1"
     "@types/swiper": "npm:^6.0.0"
     astro: "npm:^5.0.0"
     bignumber.js: "npm:9.3.1"
@@ -1029,15 +1029,15 @@ __metadata:
     vue-tsc: "npm:^2.0.0"
   peerDependencies:
     "@devprotocol/clubs-core": ^2.1.1 || ^3.0.0
-    "@devprotocol/clubs-plugin-passports": ^0.1.0-beta.43 || ^0.2.0 || ^0.3.0 || ^0.4.0 || ^0.5.0 || ^0.6.0 || ^0.7.0 || ^0.8.0 || ^0.9.0
-    "@devprotocol/clubs-plugin-payments": ^0.3.0 || ^0.4.0
+    "@devprotocol/clubs-plugin-passports": ^0.1.0-beta.43 || ^0.2.0 || ^0.3.0 || ^0.4.0 || ^0.5.0 || ^0.6.0 || ^0.7.0 || ^0.8.0 || ^0.9.0 || ^0.11.0
+    "@devprotocol/clubs-plugin-payments": ^0.3.0 || ^0.4.0 || ^0.5.0
     ethers: ^6.0.0
   languageName: unknown
   linkType: soft
 
-"@devprotocol/clubs-plugin-passports@npm:0.9.0-alpha.7":
-  version: 0.9.0-alpha.7
-  resolution: "@devprotocol/clubs-plugin-passports@npm:0.9.0-alpha.7"
+"@devprotocol/clubs-plugin-passports@npm:0.11.5":
+  version: 0.11.5
+  resolution: "@devprotocol/clubs-plugin-passports@npm:0.11.5"
   dependencies:
     "@devprotocol/dev-kit": "npm:8.7.0"
     "@devprotocol/util-ts": "npm:4.0.0"
@@ -1049,15 +1049,15 @@ __metadata:
     sass: "npm:1.92.1"
   peerDependencies:
     "@devprotocol/clubs-core": ^3.18.0
-    "@devprotocol/clubs-plugin-payments": ^0.2.3 || ^0.3.0 || ^0.4.0
+    "@devprotocol/clubs-plugin-payments": ^0.2.3 || ^0.3.0 || ^0.4.0 || ^0.5.0
     ethers: ^6.0.0
-  checksum: 10c0/3685ac17c7d6a32154a90c9110b9a2d1749eb7fd97a129ce0c1cb80ce9fbfe971f60adf9dd3c3cd3af252dc19a52b38badd5adca0a39e7115b4b141a35746ccc
+  checksum: 10c0/50d5d4f105d895c51a1abae718a7a261fb53eff9d7ceb70f55813413a6d54e49fc099ba342474fa6a3176f8f6145198f8ce54f29478c869889c5d0440ca3a1b9
   languageName: node
   linkType: hard
 
-"@devprotocol/clubs-plugin-payments@npm:0.5.1":
-  version: 0.5.1
-  resolution: "@devprotocol/clubs-plugin-payments@npm:0.5.1"
+"@devprotocol/clubs-plugin-payments@npm:0.5.2":
+  version: 0.5.2
+  resolution: "@devprotocol/clubs-plugin-payments@npm:0.5.2"
   dependencies:
     "@devprotocol/dev-kit": "npm:8.7.0"
     "@devprotocol/util-ts": "npm:4.0.0"
@@ -1074,7 +1074,7 @@ __metadata:
     "@devprotocol/clubs-core": ^3.27.0
     "@devprotocol/clubs-plugin-passports": ^0.1.0-beta.36 || ^0.2.0 || ^0.3.0 || ^0.4.0 || ^0.5.0 || ^0.6.0 || ^0.7.0 || ^0.8.0 || ^0.9.0
     ethers: ^6.0.0
-  checksum: 10c0/7f521bba09e01bd91c3f8bec4623717d71ba33f67100495daeeb2fe2461a700c1996c5f9d5936b5c0532227ff1d5f9868e11811bf93616482e4bcb54e0eee0b4
+  checksum: 10c0/9c6024ff02d988bb713a2152776c45545c69b277c67f90547a8c88312043d5293aff953776f3ee6fe3413ffd4b503af41c4e84d6ed17069cb9377ce364244dcb
   languageName: node
   linkType: hard
 
@@ -3417,7 +3417,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ramda@npm:0.31.0, @types/ramda@npm:^0.31.0":
+"@types/ramda@npm:0.31.1":
+  version: 0.31.1
+  resolution: "@types/ramda@npm:0.31.1"
+  dependencies:
+    types-ramda: "npm:^0.31.0"
+  checksum: 10c0/60c11e66730e2d1c96d480a9e4474be0ae82a84700a34937032c1e46147b8625e1a977361c37ca65e8b29d4368dc942354c7942aebda91b0fd416beac87646d6
+  languageName: node
+  linkType: hard
+
+"@types/ramda@npm:^0.31.0":
   version: 0.31.0
   resolution: "@types/ramda@npm:0.31.0"
   dependencies:
@@ -6412,9 +6421,9 @@ __metadata:
   linkType: hard
 
 "globals@npm:^16.0.0":
-  version: 16.3.0
-  resolution: "globals@npm:16.3.0"
-  checksum: 10c0/c62dc20357d1c0bf2be4545d6c4141265d1a229bf1c3294955efb5b5ef611145391895e3f2729f8603809e81b30b516c33e6c2597573844449978606aad6eb38
+  version: 16.4.0
+  resolution: "globals@npm:16.4.0"
+  checksum: 10c0/a14b447a78b664b42f6d324e8675fcae6fe5e57924fecc1f6328dce08af9b2ca3a3138501e1b1f244a49814a732dc60cfc1aa24e714e0b64ac8bd18910bfac90
   languageName: node
   linkType: hard
 
@@ -10338,8 +10347,8 @@ __metadata:
   linkType: hard
 
 "svelte@npm:^5.0.0":
-  version: 5.38.2
-  resolution: "svelte@npm:5.38.2"
+  version: 5.38.10
+  resolution: "svelte@npm:5.38.10"
   dependencies:
     "@jridgewell/remapping": "npm:^2.3.4"
     "@jridgewell/sourcemap-codec": "npm:^1.5.0"
@@ -10355,7 +10364,7 @@ __metadata:
     locate-character: "npm:^3.0.0"
     magic-string: "npm:^0.30.11"
     zimmerframe: "npm:^1.1.2"
-  checksum: 10c0/be7d245d99f00294984a99d2c75eb4f2badaf06235b53b335b15a544aadd6fa304177c0e216754305abd737127473068fae5398cc0c5bac3974aa3a82610075c
+  checksum: 10c0/817a2f2c56ed78312f6bd747eec3e63f7895988fb3a27f6ed5dc4342e095e64ed6339b30fda81e27ada918fcb7afd2106803a0587663d6194c8e43679c692543
   languageName: node
   linkType: hard
 
