@@ -43,6 +43,7 @@ const isLoading = ref<boolean>(true)
 const customerEmail = ref<string | undefined>(undefined)
 
 const cartItems = ref<APICartResult['data']>([])
+const purchasedItems = ref<APICartResult['data']>([])
 const cartItemTotal = ref<number>(1)
 
 const quantities = ref<{ id: string; quantity: number }[]>([])
@@ -197,8 +198,11 @@ const getUnitPrice = (item: APICartResult['data'][number]): number => {
 }
 
 const totalAmount = computed(() => {
-	return cartItems.value.reduce((total, item, index) => {
-		const qty = quantities.value[index]?.quantity ?? item.quantity ?? 1
+	const source = isCheckoutCompletedVisible.value ? purchasedItems.value : cartItems.value
+	return source.reduce((total, item, index) => {
+		const qty = isCheckoutCompletedVisible.value
+			? (item.quantity ?? 1)
+			: (quantities.value[index]?.quantity ?? item.quantity ?? 1)
 		return total + getUnitPrice(item) * qty
 	}, 0)
 })
@@ -208,16 +212,25 @@ const completedDetail = ref<any | null>(null)
 
 const closeCompletedModal = () => {
 	isCheckoutCompletedVisible.value = false
+	purchasedItems.value = []
+	completedDetail.value = null
 }
 
 const onCheckoutCompleted = (ev: Event) => {
 	const detail = (ev as CustomEvent).detail
+
+	purchasedItems.value = (cartItems.value || []).map((item, idx) => ({
+		...item,
+		quantity: quantities.value[idx]?.quantity ?? item.quantity ?? 1,
+	}))
+
 	const images = (cartItems.value || [])
 		.map((i) => i?.passportItem?.props?.itemImageSrc)
 		.filter((v): v is string => typeof v === 'string' && v.length > 0)
 
 	completedDetail.value = { ...detail, images }
 	isCheckoutCompletedVisible.value = true
+
 	fetchCart({ showGlobalLoading: true })
 }
 
@@ -279,7 +292,7 @@ const handleBuy = () => {}
 				</div>
 				<div v-else class="cart-items-list space-y-3 sm:space-y-4">
 					<div
-						v-for="(item, index) in cartItems"
+						v-for="(item, index) in (isCheckoutCompletedVisible ? purchasedItems : cartItems)"
 						:key="item.order_id ?? item.payload"
 						class="cart-item bg-white p-3 sm:p-4"
 					>
@@ -316,7 +329,7 @@ const handleBuy = () => {}
 								v-else
 								class="flex h-10 items-center overflow-hidden rounded-full border border-gray-200 bg-white px-5 text-gray-900"
 							>
-								{{ quantities[index]?.quantity }}
+								{{ item.quantity ?? 1 }}
 							</div>
 						</div>
 					</div>
