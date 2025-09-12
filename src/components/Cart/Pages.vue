@@ -9,6 +9,7 @@ import type {
 import { Pay } from '@devprotocol/clubs-plugin-payments/components'
 import { i18nFactory } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
+import { whenDefined } from '@devprotocol/util-ts'
 
 type Props = {
 	langs: string[]
@@ -39,6 +40,7 @@ const { globalConfig, base, langs } = defineProps<Props>()
 const message = 'message'
 const signature = ref<string | undefined>(undefined)
 const isLoading = ref<boolean>(true)
+const customerEmail = ref<string | undefined>(undefined)
 
 const cartItems = ref<APICartResult['data']>([])
 const cartItemTotal = ref<number>(1)
@@ -131,6 +133,9 @@ onMounted(async () => {
 
 		conn.signer.subscribe(async (newSigner: any) => {
 			await setSignatureAndFetch(newSigner, { showGlobalLoading: true })
+		})
+		conn.account.subscribe((acc) => {
+			customerEmail.value = whenDefined(acc, (a) => `support+${a}@frame00.com`)
 		})
 
 		await setSignatureAndFetch(currentSigner, { showGlobalLoading: true })
@@ -349,7 +354,12 @@ const handleBuy = () => {}
 						</div>
 					</div>
 					<div v-if="isLoading" class="h-16 w-full rounded bg-gray-300"></div>
-					<Pay v-else :cart="true" :base="base" :debugMode="true" />
+					<Pay
+						v-else
+						:cart="true"
+						:base="base"
+						:customer="{ email: customerEmail }"
+					/>
 				</div>
 			</div>
 		</div>
