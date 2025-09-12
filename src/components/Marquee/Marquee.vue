@@ -29,8 +29,17 @@ const contents = computed(() => {
 	return [...tmp, ...tmp, ...tmp]
 })
 
+const marquee = useTemplateRef('marquee')
+
+const marqueeWidth = ref(0)
+
+const anim = computed(() => {
+	return `-${marqueeWidth.value}px`
+})
+
 onMounted(() => {
 	lang.value = getLang([...navigator.languages])
+	marqueeWidth.value = marquee.value?.offsetWidth ?? 0
 })
 </script>
 
@@ -44,12 +53,12 @@ onMounted(() => {
 		}"
 		:style="props.color ? `--marqueeColor: ${props.color}` : undefined"
 	>
-		<div class="marquee flex w-fit gap-12">
+		<div ref="marquee" class="marquee flex w-fit gap-12">
 			<div
 				v-for="(value, i) in contents"
 				:key="i"
 				v-html="value"
-				class="whitespace-nowrap [&_img]:max-h-[3vh] [&>p]:flex [&>p]:items-center [&>p]:gap-1"
+				class="whitespace-nowrap [&_img]:max-h-[3vh] [&>p]:flex [&>p]:w-max [&>p]:items-center [&>p]:gap-1"
 			/>
 		</div>
 	</div>
@@ -62,11 +71,11 @@ onMounted(() => {
 
 @keyframes marquee {
 	0% {
-		transform: translateX(40%);
+		margin-left: 100%;
 	}
 
 	100% {
-		transform: translateX(-100%);
+		margin-left: v-bind(anim);
 	}
 }
 </style>
