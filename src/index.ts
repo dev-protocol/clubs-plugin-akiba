@@ -11,7 +11,12 @@ import { bytes32Hex, ClubsPluginCategory } from '@devprotocol/clubs-core'
 import { default as Layout } from './layouts/Default.astro'
 import { default as Index } from './pages/index.astro'
 import { default as Cart } from './pages/cart/index.astro'
-import type { CategoriesConfig, GlobalConfig, HomeConfig } from './types'
+import type {
+	CategoriesConfig,
+	GlobalConfig,
+	HomeConfig,
+	ProductsConfig,
+} from './types'
 import PreviewImage from './assets/preview.jpg'
 import { default as Icon } from './assets/icon.svg'
 import { Content as Readme } from './README.md'
@@ -133,6 +138,9 @@ export const getPagePaths = (async (options, config, utils) => {
 	const globalConfig = options.find((opt) => opt.key === 'globalConfig')
 		?.value as UndefinedOr<GlobalConfig>
 
+	const productsConfig = options.find((opt) => opt.key === 'productsConfig')
+		?.value as UndefinedOr<ProductsConfig>
+
 	const products = passportOfferingsWithComposedData.map(
 		(product: CheckoutItemPassportOffering) => ({
 			id: product.payload.slice(product.payload.length - 8),
@@ -148,6 +156,7 @@ export const getPagePaths = (async (options, config, utils) => {
 					layout: Layout,
 					props: {
 						globalConfig,
+						productsConfig,
 						products,
 						product,
 						bundledProducts: whenDefined(product.props.offering.bundle, (_) =>

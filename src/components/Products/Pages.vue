@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { GlobalConfig, Product } from '../../types.ts'
+import { GlobalConfig, Product, ProductsConfig } from '../../types.ts'
 import type { CheckoutItemPassportOffering } from '@devprotocol/clubs-plugin-passports'
 import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 import { CartButton } from '@devprotocol/clubs-plugin-payments/components'
@@ -18,6 +18,7 @@ import Bg from '../../assets/bg_sticker.png'
 type Props = {
 	langs: string[]
 	globalConfig: GlobalConfig
+	productsConfig?: ProductsConfig
 	product: CheckoutItemPassportOffering
 	products: Product[]
 	bundledProducts: Product[]
@@ -28,6 +29,7 @@ type Props = {
 const {
 	langs: _langs,
 	globalConfig,
+	productsConfig,
 	product,
 	products,
 	bundledProducts,
@@ -42,7 +44,7 @@ const i18n = computed(() =>
 )
 const i18nInstant = (locale: ClubsI18nLocale) =>
 	i18nFactory({ i: locale })(langs.value)('i')
-const bgImage = ref(`url(${Bg.src})`)
+const bgImage = ref(`url(${productsConfig?.productBg ?? Bg.src})`)
 const completed = ref(false)
 const isNotForSale = computed(() => product.props.notForSale)
 const descriptionHtml = computed(() => {

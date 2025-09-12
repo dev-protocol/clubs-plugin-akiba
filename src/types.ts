@@ -47,6 +47,10 @@ export type GlobalConfig = {
 	copyright?: string
 }
 
+export type ProductsConfig = {
+	productBg?: string
+}
+
 export type CategoriesConfig = ReadonlyArray<{
 	readonly label: ClubsI18nLocale
 	readonly payloads: ReadonlyArray<ClubsOffering['payload']>
