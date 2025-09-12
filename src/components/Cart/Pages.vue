@@ -198,7 +198,9 @@ const getUnitPrice = (item: APICartResult['data'][number]): number => {
 }
 
 const totalAmount = computed(() => {
-	const source = isCheckoutCompletedVisible.value ? purchasedItems.value : cartItems.value
+	const source = isCheckoutCompletedVisible.value
+		? purchasedItems.value
+		: cartItems.value
 	return source.reduce((total, item, index) => {
 		const qty = isCheckoutCompletedVisible.value
 			? (item.quantity ?? 1)
@@ -292,7 +294,9 @@ const handleBuy = () => {}
 				</div>
 				<div v-else class="cart-items-list space-y-3 sm:space-y-4">
 					<div
-						v-for="(item, index) in (isCheckoutCompletedVisible ? purchasedItems : cartItems)"
+						v-for="(item, index) in isCheckoutCompletedVisible
+							? purchasedItems
+							: cartItems"
 						:key="item.order_id ?? item.payload"
 						class="cart-item bg-white p-3 sm:p-4"
 					>
