@@ -48,7 +48,12 @@ const i18nBaseAkiba = i18nFactory(Strings)
 const i18n = ref(i18nBase(['en']))
 const i18nAkiba = ref<ReturnType<typeof i18nBaseAkiba>>(i18nBaseAkiba(['en']))
 
-const bgImage = ref(imageBackground ? `url(${imageBackground})` : undefined)
+const bgImage = ref(
+	imageBackground &&
+		!SKIN.includes(composedItem.props.passportItem.itemAssetType)
+		? `url(${imageBackground})`
+		: undefined,
+)
 
 const discountStart = computed(() => {
 	return composedItem.props.discount?.start_utc
