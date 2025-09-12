@@ -92,6 +92,11 @@ onMounted(() => {
 		<div class="flex flex-col gap-3">
 			<div
 				class="grid grid-cols-6 grid-rows-6 rounded"
+				:class="{
+					'bg-center bg-repeat':
+						(productsConfig?.productBgType ?? 'tile') === 'tile',
+					'bg-cover bg-center': productsConfig?.productBgType === 'fill',
+				}"
 				:style="{ '--image': bgImage, backgroundImage: 'var(--image)' }"
 			>
 				<Media

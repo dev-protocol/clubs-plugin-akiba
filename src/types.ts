@@ -49,6 +49,7 @@ export type GlobalConfig = {
 
 export type ProductsConfig = {
 	productBg?: string
+	productBgType?: 'tile' | 'fill'
 }
 
 export type CategoriesConfig = ReadonlyArray<{
