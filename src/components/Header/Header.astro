@@ -9,9 +9,10 @@ import menuIcon from '../../assets/menu.svg'
 import closeIcon from '../../assets/close.svg'
 import CartButton from '../Cart/CartButton.vue'
 
-const { navigationLinks } = Astro.props as ClubsPropsPages & {
+const { navigationLinks, base } = Astro.props as ClubsPropsPages & {
 	connection?: boolean
 	navigationLinks: ClubsNavigationLink[]
+	base: string
 }
 ---
 
@@ -117,7 +118,7 @@ const { navigationLinks } = Astro.props as ClubsPropsPages & {
 
 	<div class="flex gap-4">
 		<!-- cart button -->
-		<CartButton client:load />
+		<CartButton client:load base={base} />
 
 		<!-- signin button -->
 		<slot name="clubs:connect-button" />

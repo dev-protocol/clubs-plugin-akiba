@@ -7,6 +7,8 @@ import type {
 	CheckoutItemPassportOffering,
 } from '@devprotocol/clubs-plugin-passports'
 import { Pay } from '@devprotocol/clubs-plugin-payments/components'
+import { i18nFactory } from '@devprotocol/clubs-core'
+import { Strings } from '../../i18n/index.ts'
 
 type Props = {
 	langs: string[]
@@ -32,7 +34,7 @@ type APICartResult = {
 	})[]
 }
 
-const { globalConfig, base } = defineProps<Props>()
+const { globalConfig, base, langs } = defineProps<Props>()
 
 const message = 'message'
 const signature = ref<string | undefined>(undefined)
@@ -49,6 +51,25 @@ const resetQuantities = () => {
 	}))
 }
 const isUpdating = ref<{ [payload: string]: boolean }>({})
+const i18nBase = i18nFactory(Strings)
+const i18n = ref(i18nBase(langs))
+
+const formatAmountYen = (
+	data: APICartResult['data'],
+): APICartResult['data'] => {
+	return data.map((item) => ({
+		...item,
+		passportItem: item.passportItem
+			? {
+					...item.passportItem,
+					props: {
+						...item.passportItem.props,
+						amount: item.passportItem.props.fiat?.price.yen,
+					},
+				}
+			: undefined,
+	}))
+}
 
 const fetchCart = async (options?: { showGlobalLoading?: boolean }) => {
 	const show = options?.showGlobalLoading ?? true
@@ -71,7 +92,7 @@ const fetchCart = async (options?: { showGlobalLoading?: boolean }) => {
 		}
 
 		const data = (await res.json()) as APICartResult
-		cartItems.value = data?.data ?? []
+		cartItems.value = formatAmountYen(data?.data ?? [])
 		cartItemTotal.value = data?.total ?? 0
 	} catch (err) {
 		console.error('Failed to fetch cart:', err)
@@ -100,6 +121,7 @@ const isClient = ref(false)
 
 onMounted(async () => {
 	isClient.value = true
+	i18n.value = i18nBase(navigator.languages)
 
 	try {
 		const { connection } = await import('@devprotocol/clubs-core/connection')
@@ -166,11 +188,7 @@ const updateQuantity = async (index: number, newQuantity: number) => {
 }
 
 const getUnitPrice = (item: APICartResult['data'][number]): number => {
-	const main = Number(item.passportItem?.props?.amount ?? 0)
-	const bundled = (item.bundledPassportItems ?? []).reduce((sum, b) => {
-		return sum + Number(b?.props?.amount ?? 0)
-	}, 0)
-	return main + bundled
+	return Number(item.passportItem?.props?.amount ?? 0)
 }
 
 const totalAmount = computed(() => {
@@ -272,7 +290,14 @@ const handleBuy = () => {}
 									{{ item.passportItem?.props.itemName }}
 								</p>
 								<p class="text-opacity-60 text-xs text-gray-900 sm:text-sm">
-									${{ item.passportItem?.props.amount }}
+									{{ item.passportItem?.props.amount }}
+									<template
+										v-if="
+											item.passportItem?.props.fiat?.price.yen !== undefined
+										"
+									>
+										{{ i18n('YEN') }}
+									</template>
 								</p>
 							</div>
 

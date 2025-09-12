@@ -105,4 +105,8 @@ export const Strings = {
 		en: 'Proceed to checkout',
 		ja: 'カートを見る',
 	},
+	YEN: {
+		en: 'YEN',
+		ja: '円',
+	},
 } satisfies ClubsI18nParts

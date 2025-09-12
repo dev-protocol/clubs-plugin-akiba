@@ -1,7 +1,11 @@
 <script lang="ts" setup>
+const props = defineProps<{
+	base: string
+}>()
+
 const onClick = async () => {
 	if (typeof window !== 'undefined' && window.location) {
-		window.location.href = '/cart'
+		window.location.href = props.base + '/cart'
 	}
 }
 </script>
