@@ -49,7 +49,7 @@ onMounted(() => {
 				v-for="(value, i) in contents"
 				:key="i"
 				v-html="value"
-				class="whitespace-nowrap"
+				class="whitespace-nowrap [&_img]:max-h-[3vh] [&>p]:flex [&>p]:items-center [&>p]:gap-1"
 			/>
 		</div>
 	</div>
@@ -57,12 +57,12 @@ onMounted(() => {
 
 <style scoped>
 .marquee {
-	animation: marquee 40s linear infinite;
+	animation: marquee 80s linear infinite;
 }
 
 @keyframes marquee {
 	0% {
-		transform: translateX(100%);
+		transform: translateX(40%);
 	}
 
 	100% {
