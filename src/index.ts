@@ -170,6 +170,7 @@ export const getPagePaths = (async (options, config, utils) => {
 							),
 						),
 						base: url,
+						signals: ['SHOW_MARQUEE'],
 					},
 				})),
 				{
@@ -189,7 +190,7 @@ export const getPagePaths = (async (options, config, utils) => {
 						avatarImgSrc,
 						sectionsOrderConfig,
 						clubsPaymentsOverrides,
-						signals: ['connection-button-hide'],
+						signals: ['connection-button-hide', 'SHOW_MARQUEE'],
 						products,
 						categories: categoriesConfig,
 						theme2: {

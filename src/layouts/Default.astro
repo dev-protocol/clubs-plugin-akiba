@@ -9,6 +9,7 @@ import type { ClubsNavigationLink as NavLink } from '@devprotocol/clubs-core'
 import type { Membership } from '@devprotocol/clubs-core'
 import type { MembersCountVisibilityValue } from '..'
 import type { GlobalConfig, HomeConfig } from '../types'
+import Marquee from '../components/Marquee/Marquee.vue'
 
 const { page } = Astro.params
 const {
@@ -67,6 +68,8 @@ const SignaledContainerClas = signals
 const SignaledContentClas = signals
 	?.find((s) => regContentClas.test(s))
 	?.replace(regContentClas, $1)
+
+const signalMarquee = signals?.find((s) => s === 'SHOW_MARQUEE') ? true : false
 ---
 
 <html lang="en" hashi-theme="light">
@@ -116,6 +119,23 @@ const SignaledContentClas = signals
 				>
 					<slot name="clubs:connect-button" slot="clubs:connect-button" />
 				</Header>
+
+				{
+					signalMarquee && (
+						<div class="container mx-auto mb-2 px-2 md:mb-0">
+							<Marquee
+								client:load
+								messages={globalConfig?.marquee}
+								color={homeConfig?.hero?.color}
+								langs={
+									Astro.request.headers.get('accept-language')?.split(',') ?? [
+										'en',
+									]
+								}
+							/>
+						</div>
+					)
+				}
 
 				{
 					!page && (

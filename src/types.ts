@@ -45,6 +45,10 @@ export type GlobalConfig = {
 	ink?: string
 	logo: string
 	copyright?: string
+	marquee?: {
+		en: string[]
+		ja: string[]
+	}
 }
 
 export type ProductsConfig = {

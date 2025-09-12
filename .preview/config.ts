@@ -120,6 +120,13 @@ export default () =>
 							ink: '#000',
 							logo: Logo.src,
 							copyright: '🄫CLUBS - FRAME00 Example',
+							marquee: {
+								en: ['Welcome to our club!', 'Enjoy your stay!'],
+								ja: [
+									'私たちのクラブへようこそ！',
+									'ごゆっくりお楽しみください！',
+								],
+							},
 						} satisfies GlobalConfig,
 					},
 				],
