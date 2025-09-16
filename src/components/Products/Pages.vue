@@ -100,6 +100,7 @@ onMounted(() => {
 				:style="{ '--image': bgImage, backgroundImage: 'var(--image)' }"
 			>
 				<Media
+					v-if="(product.props.offering.bundle ?? []).length === 0"
 					:item="product.props.passportItem"
 					video-class="w-full max-w-full object-cover aspect-square"
 					class="rounded drop-shadow-sm"
@@ -111,6 +112,12 @@ onMounted(() => {
 						'row-span-4 row-start-2': gridHeight === 4,
 						'row-span-6': gridHeight === 6,
 					}"
+				/>
+				<Media
+					v-else
+					:item="product.props.passportItem"
+					video-class="w-full max-w-full object-cover aspect-square"
+					class="col-span-6 row-span-6 rounded"
 				/>
 			</div>
 			<div
