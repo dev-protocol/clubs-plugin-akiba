@@ -5,15 +5,15 @@ export const Strings = {
 		en: 'All',
 		ja: 'すべてのアイテム',
 	},
-	'Digital Card': {
+	Sticker: {
 		en: 'Sticker',
 		ja: 'ステッカー',
 	},
-	'Short Clip': {
+	'Animated Sticker': {
 		en: 'Animated Sticker',
 		ja: '動くステッカー',
 	},
-	'Short Voice': {
+	'Sound Sticker': {
 		en: 'Sound Sticker',
 		ja: 'しゃべるステッカー',
 	},

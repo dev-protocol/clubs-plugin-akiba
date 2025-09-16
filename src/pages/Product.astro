@@ -1,7 +1,12 @@
 ---
 import Product_ from '../components/Products/Pages.vue'
 import type { ClubsPropsPages } from '@devprotocol/clubs-core'
-import type { GlobalConfig, Product, ProductsConfig } from '../types.ts'
+import type {
+	CategoriesConfig,
+	GlobalConfig,
+	Product,
+	ProductsConfig,
+} from '../types.ts'
 import type { CheckoutItemPassportOffering } from '@devprotocol/clubs-plugin-passports'
 
 const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
@@ -13,6 +18,7 @@ type Props = ClubsPropsPages & {
 	product: CheckoutItemPassportOffering
 	bundledProducts: Product[]
 	group: Product[]
+	categories?: CategoriesConfig
 	base: string
 }
 ---
@@ -26,5 +32,6 @@ type Props = ClubsPropsPages & {
 	products={Astro.props.products}
 	bundledProducts={Astro.props.bundledProducts}
 	group={Astro.props.group}
+	categories={Astro.props.categories}
 	base={Astro.props.base}
 />

@@ -1,45 +1,35 @@
 <script setup lang="ts">
 import { defineProps, onMounted, ref } from 'vue'
-import type {
-	CheckoutFromPassportOffering,
-	ComposedCheckoutOptions,
-} from '@devprotocol/clubs-plugin-passports'
 
-import { ClipCategory } from '../../types.ts'
 import {
-	getTagName,
+	CategoriesConfig,
+	ClipCategory,
 	PassportItemAssetCategory,
-} from '../../utils/filtering-clips.ts'
+	Product,
+} from '../../types.ts'
 import { i18nFactory } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
+import { whenDefined } from '@devprotocol/util-ts'
+import { toProductsMap } from '../../utils/products.ts'
 
 type Props = {
-	items: CheckoutFromPassportOffering
+	items: Product[]
+	categories?: CategoriesConfig
+	langs?: string[]
 }
 
-const { items } = defineProps<Props>()
+const { items, categories, langs: _langs } = defineProps<Props>()
 
-const groupedItems = items.reduce(
-	(acc, item) => {
-		const key = getTagName(item.props)
+const langs = ref(_langs || ['en'])
+const groupedItems = toProductsMap(items)
 
-		if (!acc[key]) {
-			acc[key] = []
-		}
-		acc[key].push(item)
-		return acc
-	},
-	{} as {
-		[key: string]: { payload: string; props: ComposedCheckoutOptions }[]
-	},
-)
-
-const selectedCategory = ref<ClipCategory>('All')
+const selectedCategory = ref<ClipCategory | number>('All')
 
 const i18nBase = i18nFactory(Strings)
 const i18n = ref<ReturnType<typeof i18nBase>>(i18nBase(['en']))
 onMounted(() => {
 	i18n.value = i18nBase(navigator.languages)
+	langs.value = [...navigator.languages]
 })
 </script>
 
@@ -65,6 +55,37 @@ onMounted(() => {
 				{{ i18n('All') }}
 			</button>
 		</li>
+		<li
+			v-for="(category, i) in categories"
+			:key="i"
+			v-if="categories"
+			class="empty:hidden"
+		>
+			<template v-if="category.label">
+				<button
+					type="button"
+					class="flex w-full items-center justify-between gap-1 rounded-lg bg-gray-800 px-4 py-2 text-sm font-bold text-white hover:bg-gray-900 md:p-4"
+					:class="{
+						'border-gray-800 ring-2 ring-gray-800 ring-offset-2 ring-offset-white':
+							selectedCategory === i,
+					}"
+					@click="
+						() => {
+							selectedCategory = i
+							$emit('selectedCategory', i)
+						}
+					"
+				>
+					{{
+						whenDefined(category.label, (l) => i18nFactory({ l })(langs)('l'))
+					}}
+					<span
+						class="rounded-2xl bg-blue-100 px-2 py-1 text-xs font-bold text-cyan-800"
+						>{{ category.payloads?.length ?? 0 }}</span
+					>
+				</button>
+			</template>
+		</li>
 		<li v-for="[category, _] of Object.entries(groupedItems)">
 			<button
 				type="button"
@@ -80,7 +101,13 @@ onMounted(() => {
 					}
 				"
 			>
-				{{ i18n(category as PassportItemAssetCategory) }}
+				{{
+					whenDefined(
+						categories?.find(({ as }) => as === category),
+						({ label }) =>
+							whenDefined(label, (l) => i18nFactory({ l })(langs)('l')),
+					) ?? i18n(category as PassportItemAssetCategory)
+				}}
 				<span
 					class="rounded-2xl bg-blue-100 px-2 py-1 text-xs font-bold text-cyan-800"
 					>{{ groupedItems[category].length }}</span

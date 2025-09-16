@@ -25,7 +25,6 @@ const { homeConfig, langs, products, categories } = defineProps<Props>()
 
 const selectedCategory = ref<ClipCategory | number>('All')
 const filteredItems = ref<Product[]>([])
-const passportOfferings = computed(() => products.map((p) => p.product))
 
 watch(
 	selectedCategory,
@@ -34,7 +33,7 @@ watch(
 			typeof category === 'number' ? categories[category] : undefined
 		filteredItems.value = customCat
 			? products.filter((item) => {
-					return customCat.payloads.some(
+					return customCat.payloads?.some(
 						(payload) =>
 							bytes32Hex(payload) === bytes32Hex(item.product.payload),
 					)
@@ -55,7 +54,7 @@ watch(
 		<!-- filtering menu -->
 		<FilteringMenu
 			class="hidden md:flex md:w-[172px] md:min-w-[172px]"
-			:items="passportOfferings"
+			:items="products"
 			:langs="langs"
 			:categories="categories"
 			@selected-category="
@@ -71,7 +70,7 @@ watch(
 
 			<FilteringMenu
 				class="-mx-2 flex whitespace-nowrap md:hidden"
-				:items="passportOfferings"
+				:items="products"
 				:langs="langs"
 				:categories="categories"
 				@selected-category="
@@ -81,7 +80,12 @@ watch(
 				"
 			/>
 
-			<List :products="filteredItems" :langs="langs" :base="base" />
+			<List
+				:products="filteredItems"
+				:langs="langs"
+				:categories="categories"
+				:base="base"
+			/>
 		</div>
 	</div>
 </template>

@@ -57,8 +57,10 @@ export type ProductsConfig = {
 }
 
 export type CategoriesConfig = ReadonlyArray<{
-	readonly label: ClubsI18nLocale
-	readonly payloads: ReadonlyArray<ClubsOffering['payload']>
+	readonly as: PassportItemAssetCategory | string
+	readonly label?: ClubsI18nLocale
+	readonly payloads?: ReadonlyArray<ClubsOffering['payload']>
+	readonly banner?: string | ClubsI18nLocale
 }>
 
 export type Override = Readonly<{
@@ -77,8 +79,6 @@ export type PassportItemData = ClubsOffering<Membership> & {
 	passportItem: PassportItemDocument
 } & Discount
 
-export type ClipCategory = 'All' | 'Skin' | 'Clip' | 'BGM' | 'Video' | 'Unknown'
-
 type Discount = {
 	discount?: {
 		start: number
@@ -91,3 +91,15 @@ type Discount = {
 }
 
 export type Product = { id: string; product: CheckoutItemPassportOffering }
+
+export type PassportItemAssetCategory =
+	| 'Skin'
+	| 'Sticker'
+	| 'Animated Sticker'
+	| 'Sound Sticker'
+	| 'BGM'
+	| 'Video'
+	| 'Set'
+	| 'Unknown'
+
+export type ClipCategory = 'All' | PassportItemAssetCategory

@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-import { GlobalConfig, Product, ProductsConfig } from '../../types.ts'
+import {
+	CategoriesConfig,
+	GlobalConfig,
+	Product,
+	ProductsConfig,
+} from '../../types.ts'
 import type { CheckoutItemPassportOffering } from '@devprotocol/clubs-plugin-passports'
 import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 import { CartButton } from '@devprotocol/clubs-plugin-payments/components'
@@ -23,6 +28,7 @@ type Props = {
 	products: Product[]
 	bundledProducts: Product[]
 	group: Product[]
+	categories?: CategoriesConfig
 	base: string
 }
 
@@ -218,6 +224,7 @@ onMounted(() => {
 				:products="bundledProducts"
 				:langs="langs"
 				:exclude-link-when-not-available="true"
+				:categories="categories"
 				:base="base"
 			/>
 		</div>
@@ -229,7 +236,12 @@ onMounted(() => {
 			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
 				>{{ i18n('SetsIncludingThis') }}:</span
 			>
-			<List :products="setsIncludingThis" :langs="langs" :base="base" />
+			<List
+				:products="setsIncludingThis"
+				:langs="langs"
+				:categories="categories"
+				:base="base"
+			/>
 		</div>
 
 		<div
@@ -239,7 +251,12 @@ onMounted(() => {
 			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
 				>{{ i18n('AllProducts') }}:</span
 			>
-			<List :products="products" :langs="langs" :base="base" />
+			<List
+				:products="products"
+				:langs="langs"
+				:categories="categories"
+				:base="base"
+			/>
 		</div>
 	</div>
 </template>

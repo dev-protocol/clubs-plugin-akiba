@@ -2,6 +2,7 @@ import type {
 	ComposedCheckoutOptions,
 	PassportItemAssetType,
 } from '@devprotocol/clubs-plugin-passports'
+import { PassportItemAssetCategory } from '../types'
 
 const SKIN: PassportItemAssetType[] = ['css', 'stylesheet-link']
 const DIGITAL_CARD: PassportItemAssetType[] = ['image', 'image-link']
@@ -29,16 +30,6 @@ const MEDIATYPE_VIDEO: PassportItemAssetType[] = [
 	'short-video-link',
 ]
 
-export type PassportItemAssetCategory =
-	| 'Skin'
-	| 'Digital Card'
-	| 'Short Clip'
-	| 'Short Voice'
-	| 'BGM'
-	| 'Video'
-	| 'Set'
-	| 'Unknown'
-
 export const getTagName = (
 	item: ComposedCheckoutOptions,
 ): PassportItemAssetCategory => {
@@ -48,11 +39,11 @@ export const getTagName = (
 		: SKIN.includes(type)
 			? ('Skin' as PassportItemAssetCategory)
 			: DIGITAL_CARD.includes(type)
-				? ('Digital Card' as PassportItemAssetCategory)
+				? ('Sticker' as PassportItemAssetCategory)
 				: SHORT_CLIP.includes(type)
-					? ('Short Clip' as PassportItemAssetCategory)
+					? ('Animated Sticker' as PassportItemAssetCategory)
 					: SHORT_VOICE.includes(type)
-						? ('Short Voice' as PassportItemAssetCategory)
+						? ('Sound Sticker' as PassportItemAssetCategory)
 						: BGM.includes(type)
 							? ('BGM' as PassportItemAssetCategory)
 							: VIDEO.includes(type)

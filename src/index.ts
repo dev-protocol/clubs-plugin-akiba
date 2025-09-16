@@ -100,7 +100,7 @@ export const getPagePaths = (async (options, config, utils) => {
 	const homeConfig = options.find((opt) => opt.key === 'homeConfig')
 		?.value as UndefinedOr<HomeConfig>
 
-	const categoriesConfig =
+	const categories =
 		(options.find((opt) => opt.key === 'categories')
 			?.value as UndefinedOr<CategoriesConfig>) ?? []
 
@@ -169,6 +169,7 @@ export const getPagePaths = (async (options, config, utils) => {
 								(p) => p.product.props.offering.groupOf === group,
 							),
 						),
+						categories,
 						base: url,
 						signals: ['SHOW_MARQUEE'],
 					},
@@ -192,7 +193,7 @@ export const getPagePaths = (async (options, config, utils) => {
 						clubsPaymentsOverrides,
 						signals: ['connection-button-hide', 'SHOW_MARQUEE'],
 						products,
-						categories: categoriesConfig,
+						categories,
 						theme2: {
 							config,
 							homeConfig,

@@ -129,6 +129,34 @@ export default () =>
 							},
 						} satisfies GlobalConfig,
 					},
+					{
+						key: 'categories',
+						value: [
+							{
+								as: 'Kawaii',
+								label: { en: 'Kawaii', ja: 'かわいい' },
+								payloads: [
+									'0x36a27bd40a9e230d1cbc19143dcde98a898d04a33559a4d2681fb04c739652bd',
+									'0xf1fd783e7519b7162e67944dfcbe44661718bbcd79f2cd941f8e2701f9893b3d',
+								],
+							},
+							{
+								as: 'Animals',
+								label: { en: 'Animals', ja: '動物' },
+								payloads: [
+									'0x527e51670240bffb207f7efb52e53c588efadc82db05eda58680e42f82f81c3f',
+									'0xef1907ffea2cf408f2d1c5ec95289402d03859158b2661ad7a2a3bd06dff1f9c',
+								],
+							},
+							{
+								as: 'Animated Sticker',
+								banner: {
+									en: 'https://i.imgur.com/ldH4ZIo.jpg',
+									ja: 'https://i.imgur.com/ldH4ZIo.jpg',
+								},
+							},
+						],
+					},
 				],
 			},
 			{
