@@ -1,4 +1,7 @@
-import type { PassportItemAssetType } from '@devprotocol/clubs-plugin-passports'
+import type {
+	ComposedCheckoutOptions,
+	PassportItemAssetType,
+} from '@devprotocol/clubs-plugin-passports'
 
 const SKIN: PassportItemAssetType[] = ['css', 'stylesheet-link']
 const DIGITAL_CARD: PassportItemAssetType[] = ['image', 'image-link']
@@ -33,24 +36,28 @@ export type PassportItemAssetCategory =
 	| 'Short Voice'
 	| 'BGM'
 	| 'Video'
+	| 'Set'
 	| 'Unknown'
 
 export const getTagName = (
-	tag: PassportItemAssetType,
+	item: ComposedCheckoutOptions,
 ): PassportItemAssetCategory => {
-	return SKIN.includes(tag)
-		? ('Skin' as PassportItemAssetCategory)
-		: DIGITAL_CARD.includes(tag)
-			? ('Digital Card' as PassportItemAssetCategory)
-			: SHORT_CLIP.includes(tag)
-				? ('Short Clip' as PassportItemAssetCategory)
-				: SHORT_VOICE.includes(tag)
-					? ('Short Voice' as PassportItemAssetCategory)
-					: BGM.includes(tag)
-						? ('BGM' as PassportItemAssetCategory)
-						: VIDEO.includes(tag)
-							? ('Video' as PassportItemAssetCategory)
-							: ('Unknown' as PassportItemAssetCategory)
+	const type = item.passportItem.itemAssetType
+	return Array.isArray(item.offering.bundle) && item.offering.bundle.length > 0
+		? 'Set'
+		: SKIN.includes(type)
+			? ('Skin' as PassportItemAssetCategory)
+			: DIGITAL_CARD.includes(type)
+				? ('Digital Card' as PassportItemAssetCategory)
+				: SHORT_CLIP.includes(type)
+					? ('Short Clip' as PassportItemAssetCategory)
+					: SHORT_VOICE.includes(type)
+						? ('Short Voice' as PassportItemAssetCategory)
+						: BGM.includes(type)
+							? ('BGM' as PassportItemAssetCategory)
+							: VIDEO.includes(type)
+								? ('Video' as PassportItemAssetCategory)
+								: ('Unknown' as PassportItemAssetCategory)
 }
 
 export {

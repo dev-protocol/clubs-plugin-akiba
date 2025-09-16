@@ -21,8 +21,7 @@ const { items } = defineProps<Props>()
 
 const groupedItems = items.reduce(
 	(acc, item) => {
-		const itemAssetType = item.props.passportItem.itemAssetType
-		const key = getTagName(itemAssetType)
+		const key = getTagName(item.props)
 
 		if (!acc[key]) {
 			acc[key] = []

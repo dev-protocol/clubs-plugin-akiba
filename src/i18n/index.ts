@@ -29,6 +29,10 @@ export const Strings = {
 		en: 'BGM',
 		ja: 'BGM',
 	},
+	Set: {
+		en: 'Set',
+		ja: 'セット',
+	},
 	Unknown: {
 		en: 'Uknown',
 		ja: 'その他',

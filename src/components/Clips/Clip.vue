@@ -81,6 +81,10 @@ const tag = computed(() => {
 	return composedItem.props.passportItem.itemAssetType
 })
 
+const cat = computed(() => {
+	return getTagName(composedItem.props)
+})
+
 const title = computed(() => {
 	return i18n.value('name') ?? composedItem.props.itemName
 })
@@ -206,9 +210,10 @@ onMounted(async () => {
 					'bg-[#FF003C] text-white': VIDEO.includes(tag),
 					'bg-[#4200FF] text-white': SHORT_CLIP.includes(tag),
 					'bg-[#00D4FF] text-black': SHORT_VOICE.includes(tag),
+					'bg-[#964910] text-black': cat === 'Set',
 				}"
 			>
-				{{ i18nAkiba(getTagName(tag)) }}
+				{{ i18nAkiba(getTagName(composedItem.props)) }}
 			</div>
 			<h3
 				class="overflow-hidden font-bold text-nowrap text-ellipsis"

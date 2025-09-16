@@ -40,8 +40,7 @@ watch(
 					)
 				})
 			: products.filter((item) => {
-					const itemAssetType = item.product.props.passportItem.itemAssetType
-					const key = getTagName(itemAssetType)
+					const key = getTagName(item.product.props)
 					return category === 'All' || key === category
 				})
 	},
