@@ -438,8 +438,12 @@ export default () =>
 				},
 				imageSrc:
 					'https://peach.blender.org/wp-content/uploads/poster_bunny_bunnysize.jpg',
-				previewImageSrc:
-					'https://peach.blender.org/wp-content/uploads/poster_bunny_bunnysize.jpg',
+				previewImageSrc: [
+					{
+						en: 'https://peach.blender.org/wp-content/uploads/poster_bunny_bunnysize.jpg',
+						ja: 'https://peach.blender.org/wp-content/uploads/poster_bunny_bunnysize.jpg',
+					},
+				],
 				previewImages: [
 					'https://picsum.photos/500',
 					'https://picsum.photos/500',

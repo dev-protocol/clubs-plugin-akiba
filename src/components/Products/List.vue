@@ -85,6 +85,7 @@ onMounted(() => {
 						:displayShortDescription="true"
 						:imageBackground="Bg.src"
 						:excludeLinkWhenNotAvailable="excludeLinkWhenNotAvailable"
+						:langs="langs"
 						:base="base"
 					/>
 				</div>

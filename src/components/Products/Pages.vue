@@ -135,7 +135,11 @@ onMounted(() => {
 			>
 				<Media
 					v-for="value in product.props.offering.previewImages"
-					:item="{ itemAssetType: 'image-link', itemAssetValue: value }"
+					:item="{
+						itemAssetType: 'image-link',
+						itemAssetValue:
+							typeof value === 'string' ? value : i18nInstant(value),
+					}"
 				/>
 			</div>
 		</div>

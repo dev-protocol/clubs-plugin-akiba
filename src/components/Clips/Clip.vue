@@ -6,7 +6,7 @@ import { bytes32Hex, i18nFactory } from '@devprotocol/clubs-core'
 
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
-
+import { toI18NDict } from '@devprotocol/clubs-plugin-passports/libs'
 import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 
 import {
@@ -27,6 +27,7 @@ type Props = {
 	imageBackground?: string
 	class?: string
 	excludeLinkWhenNotAvailable?: boolean
+	langs?: string[]
 	base: string
 }
 
@@ -36,11 +37,13 @@ const {
 	class: className,
 	excludeLinkWhenNotAvailable,
 	imageBackground,
+	langs: _langs = ['en'],
 	base,
 } = defineProps<Props>()
 
 const isDiscountActive = ref(false)
 const mounted = ref<boolean>()
+const langs = ref(_langs)
 const i18nBase = i18nFactory(
 	composedItem.props.offering.i18n ?? { name: {}, description: {} },
 )
@@ -105,6 +108,14 @@ const discountPrice = computed(() => {
 	return composedItem.props.discount?.price?.yen
 })
 
+const assetI18N = computed(() => {
+	return Array.isArray(composedItem.props.passportItem['itemAssetValue:i18n'])
+		? i18nFactory({
+				i: toI18NDict(composedItem.props.passportItem['itemAssetValue:i18n']),
+			})(langs.value)('i')
+		: undefined
+})
+
 const payload = computed(() => {
 	return bytes32Hex(composedItem.payload)
 })
@@ -132,8 +143,9 @@ const color = ref<FastAverageColorResult>()
 
 onMounted(async () => {
 	mounted.value = true
-	i18n.value = i18nBase(navigator.languages)
-	i18nAkiba.value = i18nBaseAkiba(navigator.languages)
+	langs.value = [...navigator.languages]
+	i18n.value = i18nBase(langs.value)
+	i18nAkiba.value = i18nBaseAkiba(langs.value)
 
 	if (SKIN.includes(tag.value)) {
 		const fac = new FastAverageColor()
@@ -191,7 +203,14 @@ onMounted(async () => {
 		>
 			<Media
 				:key="composedItem.props.passportItem.itemAssetValue"
-				:item="composedItem.props.passportItem"
+				:item="
+					assetI18N
+						? {
+								itemAssetType: composedItem.props.passportItem.itemAssetType,
+								itemAssetValue: assetI18N,
+							}
+						: composedItem.props.passportItem
+				"
 				:videoClass="`rounded-md w-full max-w-full object-cover aspect-square pointer-events-none`"
 			/>
 			<div
