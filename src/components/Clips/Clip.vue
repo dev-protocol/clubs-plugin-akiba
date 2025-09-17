@@ -108,14 +108,6 @@ const discountPrice = computed(() => {
 	return composedItem.props.discount?.price?.yen
 })
 
-const assetI18N = computed(() => {
-	return Array.isArray(composedItem.props.passportItem['itemAssetValue:i18n'])
-		? i18nFactory({
-				i: toI18NDict(composedItem.props.passportItem['itemAssetValue:i18n']),
-			})(langs.value)('i')
-		: undefined
-})
-
 const payload = computed(() => {
 	return bytes32Hex(composedItem.payload)
 })
@@ -203,14 +195,8 @@ onMounted(async () => {
 		>
 			<Media
 				:key="composedItem.props.passportItem.itemAssetValue"
-				:item="
-					assetI18N
-						? {
-								itemAssetType: composedItem.props.passportItem.itemAssetType,
-								itemAssetValue: assetI18N,
-							}
-						: composedItem.props.passportItem
-				"
+				:item="composedItem.props.passportItem"
+				:langs="langs"
 				:videoClass="`rounded-md w-full max-w-full object-cover aspect-square pointer-events-none`"
 			/>
 			<div

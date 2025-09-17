@@ -69,6 +69,7 @@ onMounted(() => {
 		<div class="flex flex-col gap-3">
 			<Media
 				:item="product.props.passportItem"
+				:langs="langs"
 				video-class="w-full max-w-full object-cover aspect-square"
 				class="rounded"
 			/>

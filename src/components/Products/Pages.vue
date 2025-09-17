@@ -108,6 +108,7 @@ onMounted(() => {
 				<Media
 					v-if="(product.props.offering.bundle ?? []).length === 0"
 					:item="product.props.passportItem"
+					:langs="langs"
 					video-class="w-full max-w-full object-cover aspect-square"
 					class="rounded drop-shadow-sm"
 					:class="{
@@ -122,6 +123,7 @@ onMounted(() => {
 				<Media
 					v-else
 					:item="product.props.passportItem"
+					:langs="langs"
 					video-class="w-full max-w-full object-cover aspect-square"
 					class="col-span-6 row-span-6 rounded"
 				/>
