@@ -48,28 +48,21 @@ watch(
 </script>
 
 <template>
+	<!-- content -->
 	<div
-		class="relative flex grow flex-col items-start gap-4 md:flex-row md:justify-between"
+		class="relative grid grid-cols-1 gap-4 md:grid-cols-[172px_1fr] md:gap-9"
 	>
-		<!-- filtering menu -->
-		<FilteringMenu
-			class="hidden md:flex md:w-[172px] md:min-w-[172px]"
-			:items="products"
+		<Gallery
+			:features="homeConfig.features"
 			:langs="langs"
-			:categories="categories"
-			@selected-category="
-				(category) => {
-					selectedCategory = category
-				}
-			"
+			class="md:col-start-2"
 		/>
 
-		<!-- content -->
-		<div class="flex w-full grow flex-col gap-9 md:w-auto">
-			<Gallery :features="homeConfig.features" :langs="langs" />
-
+		<span
+			class="sticky top-0 z-20 md:top-2 md:col-start-1 md:row-span-2 md:row-start-1 md:self-start"
+		>
 			<FilteringMenu
-				class="-mx-2 flex whitespace-nowrap md:hidden"
+				class="-mx-2 flex whitespace-nowrap"
 				:items="products"
 				:langs="langs"
 				:categories="categories"
@@ -79,13 +72,13 @@ watch(
 					}
 				"
 			/>
+		</span>
 
-			<List
-				:products="filteredItems"
-				:langs="langs"
-				:categories="categories"
-				:base="base"
-			/>
-		</div>
+		<List
+			:products="filteredItems"
+			:langs="langs"
+			:categories="categories"
+			:base="base"
+		/>
 	</div>
 </template>

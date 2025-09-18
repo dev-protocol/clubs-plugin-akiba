@@ -40,29 +40,19 @@ const onClickSlideTo = (index: number) => {
 }
 </script>
 
-<style scoped>
-.swiper-slide {
-	width: calc((100% - 20px) / 2);
-}
-</style>
-
 <template>
 	<div>
 		<swiper-container
 			ref="swiperEl"
-			:slides-per-view="1"
+			slides-per-view="auto"
 			:space-between="20"
 			:navigation="false"
-			:breakpoints="{
-				768: {
-					slidesPerView: 'auto',
-				},
-			}"
+			class="overflow-hidden"
 		>
 			<swiper-slide
 				v-for="(feature, index) in features"
 				:key="index"
-				class="swiper-slide"
+				class="max-w-sm"
 			>
 				<SlideContent
 					:feature="feature"
@@ -80,7 +70,7 @@ const onClickSlideTo = (index: number) => {
 				:feature="feature"
 				:as-placeholder="true"
 				:langs="langs"
-				:class="[{ 'hidden md:flex': index > 0 }]"
+				:class="['max-w-sm', { 'hidden md:flex': index > 0 }]"
 			/>
 		</div>
 

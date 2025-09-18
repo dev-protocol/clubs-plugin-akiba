@@ -35,7 +35,7 @@ onMounted(() => {
 
 <template>
 	<ul
-		class="sticky top-0 z-20 flex flex-row gap-4 overflow-x-auto bg-white p-2 md:top-2 md:flex-col md:overflow-visible md:p-0"
+		class="flex flex-row gap-4 overflow-x-auto bg-white p-2 md:flex-col md:overflow-visible md:p-0"
 	>
 		<li>
 			<button

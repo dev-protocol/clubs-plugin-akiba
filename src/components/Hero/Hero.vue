@@ -14,11 +14,12 @@ const { image, logo, text } = defineProps<Props>()
 
 <template>
 	<section
-		class="container mx-auto md:mb-2 md:p-2"
+		class="container mx-auto rounded-2xl bg-[var(--gradientColor)] p-2 md:mb-2"
+		:style="{ '--gradientColor': gradientColor ?? '#000000' }"
 		oncontextmenu="return false"
 	>
 		<div
-			class="relative flex overflow-hidden rounded-b-xl md:aspect-[2/1] md:justify-end md:rounded-2xl"
+			class="relative mx-auto flex max-w-xs overflow-hidden rounded-2xl md:aspect-[2/1] md:max-h-120 md:max-w-none md:justify-end"
 			:style="`background-color: ${gradientColor};`"
 		>
 			<img

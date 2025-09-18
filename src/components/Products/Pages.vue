@@ -10,14 +10,12 @@ import type { CheckoutItemPassportOffering } from '@devprotocol/clubs-plugin-pas
 import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 import { CartButton } from '@devprotocol/clubs-plugin-payments/components'
 import {
-	bytes32Hex,
 	ClubsI18nLocale,
 	i18nFactory,
 	markdownToHtml,
 	ProseTextInherit,
 } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
-import List from './List.vue'
 import Bg from '../../assets/bg_sticker.png'
 
 type Props = {
@@ -25,8 +23,6 @@ type Props = {
 	globalConfig: GlobalConfig
 	productsConfig?: ProductsConfig
 	product: CheckoutItemPassportOffering
-	products: Product[]
-	bundledProducts: Product[]
 	group: Product[]
 	categories?: CategoriesConfig
 	base: string
@@ -37,8 +33,6 @@ const {
 	globalConfig,
 	productsConfig,
 	product,
-	products,
-	bundledProducts,
 	group,
 	base,
 } = defineProps<Props>()
@@ -63,13 +57,6 @@ const price = computed(() => {
 		currency: yen && !unpriced ? '￥' : undefined,
 		price: yen && !unpriced ? yen : undefined,
 	}
-})
-const setsIncludingThis = computed(() => {
-	return products.filter((item) =>
-		(item.product.props.offering.bundle ?? []).find(
-			(payl) => bytes32Hex(payl) === product.payload,
-		),
-	)
 })
 const gridWidth = computed(() => {
 	return (product.props.passportItem.appearance?.grid?.w ?? 1) * 2
@@ -217,52 +204,6 @@ onMounted(() => {
 					class="text-xs"
 				></div>
 			</span>
-		</div>
-
-		<div
-			v-if="bundledProducts && bundledProducts.length > 0"
-			class="grid content-start gap-2.5 rounded-xl bg-teal-50 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
-		>
-			<span class="text-xl font-bold text-teal-500 lg:text-3xl"
-				>{{ i18n('BundledProducts') }}:</span
-			>
-			<List
-				:products="bundledProducts"
-				:langs="langs"
-				:exclude-link-when-not-available="true"
-				:categories="categories"
-				:base="base"
-			/>
-		</div>
-
-		<div
-			v-if="setsIncludingThis && setsIncludingThis.length > 0"
-			class="grid content-start gap-2.5 rounded-xl bg-neutral-100 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
-		>
-			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
-				>{{ i18n('SetsIncludingThis') }}:</span
-			>
-			<List
-				:products="setsIncludingThis"
-				:langs="langs"
-				:categories="categories"
-				:base="base"
-			/>
-		</div>
-
-		<div
-			v-if="products && products.length > 0"
-			class="grid gap-2.5 rounded-xl border border-neutral-300 p-3 lg:col-span-2 lg:gap-5 lg:p-8"
-		>
-			<span class="text-xl font-bold text-neutral-500 lg:text-3xl"
-				>{{ i18n('AllProducts') }}:</span
-			>
-			<List
-				:products="products"
-				:langs="langs"
-				:categories="categories"
-				:base="base"
-			/>
 		</div>
 	</div>
 </template>
