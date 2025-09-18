@@ -16,8 +16,8 @@ const i18nBase = i18nFactory({
 		typeof feature.image === 'string'
 			? { ja: feature.image, en: feature.image }
 			: feature.image,
-	title: feature.title,
-	description: feature.description,
+	title: feature.title ?? { en: '' },
+	description: feature.description ?? { en: '' },
 })
 const i18nLinkBase = feature.link
 	? i18nFactory({
