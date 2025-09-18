@@ -17,6 +17,8 @@ import {
 } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
 import Bg from '../../assets/bg_sticker.png'
+import { i18nWith } from '../../utils/i18n.ts'
+import ImageI18N from '../Image/ImageI18N.vue'
 
 type Props = {
 	langs: string[]
@@ -42,8 +44,7 @@ const langs = ref(_langs)
 const i18n = computed(() =>
 	i18nFactory({ ...product.props.offering.i18n, ...Strings })(langs.value),
 )
-const i18nInstant = (locale: ClubsI18nLocale) =>
-	i18nFactory({ i: locale })(langs.value)('i')
+const i18nInstant = i18nWith(langs.value)
 const bgImage = ref(`url(${productsConfig?.productBg ?? Bg.src})`)
 const completed = ref(false)
 const isNotForSale = computed(() => product.props.notForSale)
@@ -79,7 +80,12 @@ onMounted(() => {
 		class="grid grid-cols-1 gap-6 lg:grid-cols-[calc(60%-calc(var(--spacing)_*_6_/_2))_calc(40%-calc(var(--spacing)_*_6_/_2))]"
 	>
 		<div class="flex justify-between lg:col-span-2">
-			<img :src="globalConfig.logo" alt="Logo" class="max-w-80" />
+			<ImageI18N
+				:src="globalConfig.logo"
+				alt="Logo"
+				class="max-w-80"
+				:langs="langs"
+			/>
 		</div>
 
 		<div class="flex flex-col gap-3">

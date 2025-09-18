@@ -8,6 +8,8 @@ import type {
 	PassportItemDocument,
 } from '@devprotocol/clubs-plugin-passports'
 
+export type StringOrI18n = string | { ja: string; en: string }
+
 export type HomeConfig = {
 	hero: {
 		image: string
@@ -16,14 +18,10 @@ export type HomeConfig = {
 			ja: string
 			en: string
 		}
+		logo?: StringOrI18n
 	}
 	features: {
-		image:
-			| string
-			| {
-					ja: string
-					en: string
-			  }
+		image: StringOrI18n
 		title?: {
 			ja: string
 			en: string
@@ -47,7 +45,7 @@ export type GlobalConfig = {
 	bg?: string
 	backgroundGradient?: [string, string]
 	ink?: string
-	logo: string
+	logo: StringOrI18n
 	copyright?: string
 	marquee?: {
 		en: string[]

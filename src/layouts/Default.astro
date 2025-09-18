@@ -29,6 +29,8 @@ const {
 	signals?: string[]
 }
 
+const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
+
 const notDisplayConnection = signals?.includes('connection-button-hide')
 
 const title = metaTitle ? `${config.name} : ${metaTitle}` : config.name
@@ -127,11 +129,7 @@ const signalMarquee = signals?.find((s) => s === 'SHOW_MARQUEE') ? true : false
 								client:load
 								messages={globalConfig?.marquee}
 								color={homeConfig?.hero?.color}
-								langs={
-									Astro.request.headers.get('accept-language')?.split(',') ?? [
-										'en',
-									]
-								}
+								langs={langs}
 							/>
 						</div>
 					)
@@ -142,7 +140,7 @@ const signalMarquee = signals?.find((s) => s === 'SHOW_MARQUEE') ? true : false
 						<Hero
 							client:load
 							image={homeConfig?.hero?.image}
-							logo={globalConfig?.logo}
+							logo={homeConfig?.hero?.logo ?? globalConfig?.logo}
 							text={homeConfig?.hero?.text?.en}
 							gradientColor={homeConfig?.hero?.color}
 							copyright={globalConfig?.copyright}

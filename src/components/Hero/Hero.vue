@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
+import type { StringOrI18n } from '../../types'
+import ImageI18N from '../Image/ImageI18N.vue'
 
 type Props = {
 	image?: string
-	logo?: string
+	logo?: StringOrI18n
 	text?: string
 	gradientColor?: string
 	copyright?: string
+	langs?: string[]
 }
 
 const { image, logo, text } = defineProps<Props>()
@@ -33,7 +36,7 @@ const { image, logo, text } = defineProps<Props>()
 				<span
 					class="gradient row-start-2 flex flex-col justify-center gap-2 p-8 md:col-start-1 md:row-start-1"
 				>
-					<img :src="logo" class="" alt="" />
+					<ImageI18N :src="logo" class="" alt="" :langs="langs" />
 					<p v-if="text" class="leading-none text-white md:leading-normal">
 						{{ text }}
 					</p>

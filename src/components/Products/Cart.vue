@@ -11,6 +11,7 @@ import {
 } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
 import Clip from '../Clips/Clip.vue'
+import ImageI18N from '../Image/ImageI18N.vue'
 
 type Props = {
 	langs: string[]
@@ -63,7 +64,12 @@ onMounted(() => {
 		class="grid grid-cols-1 gap-6 lg:grid-cols-[calc(60%-calc(var(--spacing)_*_6_/_2))_calc(40%-calc(var(--spacing)_*_6_/_2))]"
 	>
 		<div class="flex justify-between lg:col-span-2">
-			<img :src="globalConfig.logo" alt="Logo" class="max-w-80" />
+			<ImageI18N
+				:src="globalConfig.logo"
+				alt="Logo"
+				class="max-w-80"
+				:langs="langs"
+			/>
 		</div>
 
 		<div class="flex flex-col gap-3">

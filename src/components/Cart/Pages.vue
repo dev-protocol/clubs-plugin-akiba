@@ -10,6 +10,7 @@ import { Pay } from '@devprotocol/clubs-plugin-payments/components'
 import { i18nFactory } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
 import { whenDefined } from '@devprotocol/util-ts'
+import ImageI18N from '../Image/ImageI18N.vue'
 
 type Props = {
 	langs: string[]
@@ -257,7 +258,12 @@ const handleBuy = () => {}
 	<div class="cart-container mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
 		<div class="mb-8 flex justify-between sm:mb-4">
 			<p class="text-2xl font-bold text-gray-900 sm:text-3xl">Cart</p>
-			<img :src="globalConfig.logo" alt="Logo" class="max-w-52 sm:max-w-80" />
+			<ImageI18N
+				:src="globalConfig.logo"
+				:langs="langs"
+				alt="Logo"
+				class="max-w-52 sm:max-w-80"
+			/>
 		</div>
 
 		<div
