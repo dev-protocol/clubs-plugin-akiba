@@ -57,7 +57,6 @@ export default () =>
 							features: [
 								{
 									image: Gallery1.src,
-									color: '#FF66C4',
 									title: { ja: 'ニュースキンが可能', en: 'New skin available' },
 									description: { ja: 'ただいまご予約受付中', en: 'Get Now' },
 									link: {
@@ -67,7 +66,6 @@ export default () =>
 								},
 								{
 									image: 'https://picsum.photos/512/308',
-									color: '#B63075',
 									title: {
 										ja: 'メタリック アート キャンバス',
 										en: 'Metallic Art Canvas',
@@ -80,14 +78,12 @@ export default () =>
 								},
 								{
 									image: Gallery2.src,
-									color: '#FF66C4',
 									title: { ja: 'ニュースキンが可能', en: 'New skin available' },
 									description: { ja: 'ただいまご予約受付中', en: 'Get Now' },
 									link: '',
 								},
 								{
 									image: Gallery3.src,
-									color: '#B63075',
 									title: {
 										ja: 'メタリック アート キャンバス２',
 										en: 'Metallic Art Canvas',
@@ -100,7 +96,6 @@ export default () =>
 								},
 								{
 									image: Gallery4.src,
-									color: '#FF66C4',
 									title: {
 										ja: 'ニュースキンが可能３',
 										en: 'New skin available',
