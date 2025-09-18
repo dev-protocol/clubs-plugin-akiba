@@ -12,8 +12,12 @@ type Props = {
 const { feature, asPlaceholder, langs } = defineProps<Props>()
 
 const i18nBase = i18nFactory({
-	title: feature.title,
-	description: feature.description,
+	image:
+		typeof feature.image === 'string'
+			? { ja: feature.image, en: feature.image }
+			: feature.image,
+	title: feature.title ?? { en: '' },
+	description: feature.description ?? { en: '' },
 })
 const i18nLinkBase = feature.link
 	? i18nFactory({
@@ -32,31 +36,32 @@ onMounted(() => {
 </script>
 
 <template>
-	<a
-		class="relative block flex aspect-[5/3] w-full overflow-hidden rounded-2xl md:aspect-[5/3] md:flex-row"
-		:href="i18nLink ? i18nLink('link') : undefined"
-		:role="feature.link ? 'link' : 'generic'"
-		:target="feature.link ? '_blank' : undefined"
-	>
-		<div
-			role="presentation"
-			class="absolute inset-0 bg-cover bg-no-repeat"
-			:style="`background-image: url(${feature.image});`"
-			:class="[{ '-m-3 animate-pulse blur-md': asPlaceholder }]"
-		></div>
+	<div>
+		<a
+			class="relative block flex aspect-[5/3] w-full overflow-hidden rounded-2xl md:aspect-[5/3] md:flex-row"
+			:href="i18nLink ? i18nLink('link') : undefined"
+			:role="feature.link ? 'link' : 'generic'"
+			:target="feature.link ? '_blank' : undefined"
+		>
+			<div
+				role="presentation"
+				class="absolute inset-0 bg-cover bg-no-repeat"
+				:style="`background-image: url(${i18n('image')});`"
+				:class="[{ '-m-3 animate-pulse blur-md': asPlaceholder }]"
+			></div>
+		</a>
 		<div
 			v-if="!asPlaceholder"
-			class="relative flex w-full flex-col items-start justify-end p-6 font-bold text-white"
-			:style="`background-image: linear-gradient(0deg, ${feature.color} 20%, transparent 50%);`"
+			class="flex w-full flex-col items-start justify-end py-2 font-bold"
 		>
-			<p class="text-[8.142vw] md:text-[1.852vw]">
+			<p v-if="i18n('title')" class="text-[8.142vw] md:text-[1.852vw]">
 				{{ i18n('title') }}
 			</p>
-			<p class="text-[3.563vw] md:text-[0.810vw]">
+			<p v-if="i18n('description')" class="text-[3.563vw] md:text-[0.810vw]">
 				{{ i18n('description') }}
 			</p>
 		</div>
-	</a>
+	</div>
 </template>
 
 <style scoped></style>
