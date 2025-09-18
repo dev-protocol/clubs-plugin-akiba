@@ -8,7 +8,7 @@ import type {
 	PassportItemDocument,
 } from '@devprotocol/clubs-plugin-passports'
 
-export type StringOrI18n = string | { ja: string; en: string }
+export type StringOrI18n = string | { [key: string]: string }
 
 export type HomeConfig = {
 	hero: {
