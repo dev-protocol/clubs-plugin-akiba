@@ -18,10 +18,12 @@ export type HomeConfig = {
 		}
 	}
 	features: {
-		image: string | {
-			ja: string
-			en: string
-		}
+		image:
+			| string
+			| {
+					ja: string
+					en: string
+			  }
 		title?: {
 			ja: string
 			en: string

@@ -12,7 +12,10 @@ type Props = {
 const { feature, asPlaceholder, langs } = defineProps<Props>()
 
 const i18nBase = i18nFactory({
-	image: typeof feature.image === 'string' ? { ja: feature.image, en: feature.image } : feature.image,
+	image:
+		typeof feature.image === 'string'
+			? { ja: feature.image, en: feature.image }
+			: feature.image,
 	title: feature.title,
 	description: feature.description,
 })
@@ -30,7 +33,6 @@ onMounted(() => {
 	i18n.value = i18nBase(navigator.languages)
 	i18nLink.value = i18nLinkBase?.(navigator.languages)
 })
-
 </script>
 
 <template>
