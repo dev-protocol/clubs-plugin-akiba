@@ -151,7 +151,7 @@ onMounted(() => {
 				<ul class="flex gap-2">
 					<li v-for="(item, i) in group" :key="i" class="flex-grow">
 						<a
-							:href="`/products/${item.id}`"
+							:href="`${base}/products/${item.id}`"
 							class="block h-full w-full rounded-xl border py-2 text-center ring-4 transition-shadow"
 							:class="{
 								'border-sky-600 ring-sky-600/70 hover:ring-sky-800/70':
