@@ -373,6 +373,7 @@ export default () =>
 				},
 				description: 'A jumping cat passport offering',
 				managedBy: 'devprotocol:clubs:plugin:passports',
+				groupOf: 'Cat (Jumping)',
 				i18n: {
 					name: {
 						en: 'Cat (Jumping)',
@@ -381,6 +382,10 @@ export default () =>
 					description: {
 						en: 'A jumping cat passport offering',
 						ja: 'ジャンプする猫のパスポートオファリング',
+					},
+					groupVar: {
+						en: 'S',
+						ja: 'S',
 					},
 				},
 			},

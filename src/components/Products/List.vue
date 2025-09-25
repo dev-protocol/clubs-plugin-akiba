@@ -9,7 +9,7 @@ import type {
 	Product,
 } from '../../types.ts'
 import { toProductsMap } from '../../utils/products.ts'
-import { i18nFactory } from '@devprotocol/clubs-core'
+import { bytes32Hex, i18nFactory } from '@devprotocol/clubs-core'
 import { whenDefined } from '@devprotocol/util-ts'
 import { Strings } from '../../i18n/index.ts'
 
@@ -35,17 +35,42 @@ const i18nBase = i18nFactory(Strings)
 const i18n = ref<ReturnType<typeof i18nBase>>(i18nBase(['en']))
 
 const items = computed(() => {
-	return Object.entries(toProductsMap(products, categories)).map(
-		([tag, prods]) => {
-			const category = categories?.find((c) => {
-				const key = c.as
-				return key === tag
-			})
-			console.log({ tag, category, prods })
-			return { tag, category, prods }
-		},
-	)
+	return Object.entries(
+		toProductsMap(
+			products.filter(
+				({
+					product: {
+						props: {
+							offering: { hidden },
+						},
+					},
+				}) => hidden !== true,
+			),
+			categories,
+		),
+	).map(([tag, prods]) => {
+		const category = categories?.find((c) => {
+			const key = c.as
+			return key === tag
+		})
+		console.log({ tag, category, prods })
+		return { tag, category, prods }
+	})
 })
+
+const bundledProducts = (item: Product) =>
+	item.product.props.offering.bundle
+		?.map((payload) =>
+			products.find(
+				(p) => bytes32Hex(p.product.payload) === bytes32Hex(payload),
+			),
+		)
+		.filter((p): p is Product => p !== undefined)
+
+const groupedProducts = (item: Product) =>
+	whenDefined(item.product.props.offering.groupOf, (groupOf) =>
+		products.filter((p) => p.product.props.offering.groupOf === groupOf),
+	)
 
 onMounted(() => {
 	i18n.value = i18nBase(navigator.languages)
@@ -82,6 +107,8 @@ onMounted(() => {
 						v-for="item in prods"
 						:key="item.id"
 						:composedItem="item.product"
+						:bundledProducts="bundledProducts(item)"
+						:groupedProducts="groupedProducts(item)"
 						:displayShortDescription="true"
 						:imageBackground="Bg.src"
 						:excludeLinkWhenNotAvailable="excludeLinkWhenNotAvailable"

@@ -12,10 +12,17 @@ import type { UndefinedOr } from '@devprotocol/util-ts'
 import config from '../../../config'
 import plugins from '../../../plugins'
 import ConnectButton from './ConnectButton.vue'
+import { Redis } from '@devprotocol/clubs-core/redis'
 
 const { page } = Astro.params
+const CLUB = process.env.CLUB
+const club = async () => {
+	const redis = await Redis.client()
+	const club = await redis.get(`${CLUB}`)
+	return club ? () => club : config
+}
 const options = {
-	config,
+	config: CLUB ? await club() : config,
 	plugins,
 } satisfies ClubsFunctionFactoryOptions
 

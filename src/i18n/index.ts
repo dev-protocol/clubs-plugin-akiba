@@ -1,4 +1,5 @@
 import { markdownToHtml, type ClubsI18nParts } from '@devprotocol/clubs-core'
+import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
 
 export const Strings = {
 	All: {
@@ -102,8 +103,22 @@ export const Strings = {
 		ja: `すべてのアイテム`,
 	},
 	NotForSale: {
-		en: 'Not for Sale',
-		ja: '非売品',
+		en: ([reason]) =>
+			reason === Reason.SetSaleOnly
+				? 'Set Only'
+				: reason === Reason.Unreleased
+					? 'To be released'
+					: 'Not for sale',
+		ja: ([reason]) =>
+			reason === Reason.SetSaleOnly
+				? 'セット販売のみ'
+				: reason === Reason.Unreleased
+					? '発売前'
+					: '非売品',
+	},
+	Size: {
+		en: ([size]) => (Number(size) > 1 ? `${size} sizes` : `${size} size`),
+		ja: ([size]) => (Number(size) > 1 ? `${size} サイズ` : `${size} サイズ`),
 	},
 	ProceedToCheckout: {
 		en: 'Proceed to checkout',

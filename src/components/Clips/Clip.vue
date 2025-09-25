@@ -6,7 +6,6 @@ import { bytes32Hex, i18nFactory } from '@devprotocol/clubs-core'
 
 import Modal from '../Home/Modal.vue'
 import ModalContent from './ModalContent.vue'
-import { toI18NDict } from '@devprotocol/clubs-plugin-passports/libs'
 import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 
 import {
@@ -20,9 +19,13 @@ import {
 	MEDIATYPE_IMAGE,
 } from '../../utils/filtering-clips.ts'
 import { Strings } from '../../i18n/index.ts'
+import type { Product } from '../../types.ts'
+import { i18nWith } from '../../utils/i18n.ts'
 
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
+	bundledProducts?: Product[]
+	groupedProducts?: Product[]
 	displayShortDescription?: boolean
 	imageBackground?: string
 	class?: string
@@ -44,6 +47,7 @@ const {
 const isDiscountActive = ref(false)
 const mounted = ref<boolean>()
 const langs = ref(_langs)
+const i18nInstant = i18nWith(langs.value)
 const i18nBase = i18nFactory(
 	composedItem.props.offering.i18n ?? { name: {}, description: {} },
 )
@@ -219,6 +223,30 @@ onMounted(async () => {
 				}"
 			>
 				{{ i18nAkiba(getTagName(composedItem.props)) }}
+			</div>
+			<div v-if="groupedProducts?.length" class="flex items-center gap-1">
+				<span class="text-xs text-blue-400">{{
+					i18nAkiba('Size', [String(groupedProducts.length)])
+				}}</span>
+				<span
+					v-for="(groupedProduct, i) in groupedProducts"
+					:key="groupedProduct.id"
+					class="max-w-30 truncate overflow-hidden rounded border border-black/10 px-1 py-0.5 text-xs text-ellipsis"
+					:class="{
+						'border-blue-500 text-blue-500':
+							groupedProduct.product.payload === composedItem.payload,
+						'border-blue-300 text-zinc-400':
+							groupedProduct.product.payload !== composedItem.payload,
+					}"
+				>
+					{{
+						i18nInstant(
+							groupedProduct.product.props.offering.i18n.groupVar ?? {
+								en: `${i + 1}`,
+							},
+						)
+					}}
+				</span>
 			</div>
 			<h3
 				class="overflow-hidden font-bold text-nowrap text-ellipsis"

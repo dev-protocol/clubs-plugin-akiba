@@ -10,7 +10,6 @@ import type { CheckoutItemPassportOffering } from '@devprotocol/clubs-plugin-pas
 import { Media } from '@devprotocol/clubs-plugin-passports/vue'
 import { CartButton } from '@devprotocol/clubs-plugin-payments/components'
 import {
-	ClubsI18nLocale,
 	i18nFactory,
 	markdownToHtml,
 	ProseTextInherit,
@@ -47,7 +46,9 @@ const i18n = computed(() =>
 const i18nInstant = i18nWith(langs.value)
 const bgImage = ref(`url(${productsConfig?.productBg ?? Bg.src})`)
 const completed = ref(false)
-const isNotForSale = computed(() => product.props.notForSale)
+const isNotForSale = computed(
+	() => product.props.notForSale || product.props.available === false,
+)
 const descriptionHtml = computed(() => {
 	return markdownToHtml(i18n.value('description'))
 })
@@ -185,7 +186,7 @@ onMounted(() => {
 					class="hs-button is-large is-fullwidth is-filled"
 					disabled
 				>
-					{{ i18n('NotForSale') }}
+					{{ i18n('NotForSale', [product.props.reason]) }}
 				</button>
 				<a
 					v-if="completed"
