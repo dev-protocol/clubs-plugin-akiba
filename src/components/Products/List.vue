@@ -16,6 +16,7 @@ import { Strings } from '../../i18n/index.ts'
 type Props = {
 	langs: string[]
 	products: Product[]
+	hideHiddenItems?: boolean
 	excludeLinkWhenNotAvailable?: boolean
 	categories?: CategoriesConfig
 	base: string
@@ -23,6 +24,7 @@ type Props = {
 
 const {
 	products,
+	hideHiddenItems = true,
 	excludeLinkWhenNotAvailable,
 	categories,
 	langs: _langs,
@@ -44,7 +46,7 @@ const items = computed(() => {
 							offering: { hidden },
 						},
 					},
-				}) => hidden !== true,
+				}) => (hideHiddenItems ? hidden !== true : true),
 			),
 			categories,
 		),
