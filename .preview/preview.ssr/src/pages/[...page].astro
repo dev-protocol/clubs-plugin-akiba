@@ -5,10 +5,12 @@ import {
 	type ClubsFunctionFactoryOptions,
 	type ClubsFunctionPageFactoryResult,
 	type ClubsGetStaticPathsItem,
+	decode,
+	encode,
 	pageFactory,
 	routerFactory,
 } from '@devprotocol/clubs-core'
-import type { UndefinedOr } from '@devprotocol/util-ts'
+import { whenDefined, type UndefinedOr } from '@devprotocol/util-ts'
 import config from '../../../config'
 import plugins from '../../../plugins'
 import ConnectButton from './ConnectButton.vue'
@@ -19,7 +21,13 @@ const CLUB = process.env.CLUB
 const club = async () => {
 	const redis = await Redis.client()
 	const club = await redis.get(`${CLUB}`)
-	return club ? () => club : config
+	const updated = whenDefined(whenDefined(club, decode), (c) =>
+		encode({
+			...c,
+			url: Astro.url.origin,
+		}),
+	)
+	return updated ? () => updated : config
 }
 const options = {
 	config: CLUB ? await club() : config,
