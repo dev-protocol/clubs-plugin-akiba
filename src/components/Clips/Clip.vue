@@ -21,6 +21,7 @@ import {
 import { Strings } from '../../i18n/index.ts'
 import type { Product } from '../../types.ts'
 import { i18nWith } from '../../utils/i18n.ts'
+import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
 
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
@@ -116,6 +117,13 @@ const payload = computed(() => {
 	return bytes32Hex(composedItem.payload)
 })
 
+const isUnreleased = computed(() => {
+	return (
+		composedItem.props.available === false &&
+		composedItem.props.reason === Reason.Unreleased
+	)
+})
+
 if (discountStart.value && discountEnd.value) {
 	const now = new Date().getTime()
 	isDiscountActive.value = discountStart.value < now && now < discountEnd.value
@@ -201,6 +209,7 @@ onMounted(async () => {
 				:key="composedItem.props.passportItem.itemAssetValue"
 				:item="composedItem.props.passportItem"
 				:langs="langs"
+				class="drop-shadow-[0_2px_1px_rgb(0_0_0/_0.5)]"
 				:videoClass="`rounded-md w-full max-w-full object-cover aspect-square pointer-events-none`"
 			/>
 			<div
@@ -248,19 +257,27 @@ onMounted(async () => {
 					}}
 				</span>
 			</div>
-			<h3
-				class="overflow-hidden font-bold text-nowrap text-ellipsis"
-				:class="{
-					'text-base':
-						DIGITAL_CARD.includes(tag) ||
-						BGM.includes(tag) ||
-						VIDEO.includes(tag),
-					'text-white': SKIN.includes(tag) && color?.isDark,
-					'text-black': SKIN.includes(tag) && color?.isLight,
-				}"
-			>
-				{{ title }}
-			</h3>
+			<div class="flex flex-wrap gap-1">
+				<h3
+					class="overflow-hidden font-bold text-nowrap text-ellipsis"
+					:class="{
+						'text-base':
+							DIGITAL_CARD.includes(tag) ||
+							BGM.includes(tag) ||
+							VIDEO.includes(tag),
+						'text-white': SKIN.includes(tag) && color?.isDark,
+						'text-black': SKIN.includes(tag) && color?.isLight,
+					}"
+				>
+					{{ title }}
+				</h3>
+				<div
+					v-if="isUnreleased"
+					class="rounded bg-neutral-500 px-1 py-0.5 text-xs text-white"
+				>
+					{{ i18nAkiba('NotForSale', [Reason.Unreleased]) }}
+				</div>
+			</div>
 			<div
 				class="flex w-full flex-col justify-start gap-0 text-sm"
 				:class="{
@@ -302,7 +319,7 @@ onMounted(async () => {
 						class="text-right text-[inherit]"
 						:class="{ 'text-sm': isDiscountActive }"
 					>
-						{{ price }}
+						{{ isUnreleased ? '-' : price }}
 					</span>
 				</p>
 			</div>

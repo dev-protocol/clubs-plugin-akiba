@@ -55,7 +55,6 @@ const items = computed(() => {
 			const key = c.as
 			return key === tag
 		})
-		console.log({ tag, category, prods })
 		return { tag, category, prods }
 	})
 })

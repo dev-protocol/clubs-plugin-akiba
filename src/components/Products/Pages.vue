@@ -18,6 +18,7 @@ import { Strings } from '../../i18n/index.ts'
 import Bg from '../../assets/bg_sticker.png'
 import { i18nWith } from '../../utils/i18n.ts'
 import ImageI18N from '../Image/ImageI18N.vue'
+import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
 
 type Props = {
 	langs: string[]
@@ -65,6 +66,12 @@ const gridWidth = computed(() => {
 })
 const gridHeight = computed(() => {
 	return (product.props.passportItem.appearance?.grid?.h ?? 1) * 2
+})
+const isUnreleased = computed(() => {
+	return (
+		product.props.available === false &&
+		product.props.reason === Reason.Unreleased
+	)
 })
 
 const onCartButtonComplete = () => {
@@ -146,7 +153,9 @@ onMounted(() => {
 			</h1>
 			<div class="text-sky-800">
 				<span>{{ price.currency }}</span
-				><span class="text-2xl font-bold">{{ price.price }}</span>
+				><span class="text-2xl font-bold">{{
+					isUnreleased ? '-' : price.price
+				}}</span>
 			</div>
 			<div v-if="group && group.length > 0">
 				<ul class="flex gap-2">
