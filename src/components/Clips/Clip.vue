@@ -126,6 +126,13 @@ const isNotForSale = computed(() => {
 	return composedItem.props.notForSale
 })
 
+const isSetOnly = computed(() => {
+	return (
+		composedItem.props.available === false &&
+		composedItem.props.reason === Reason.SetSaleOnly
+	)
+})
+
 if (discountStart.value && discountEnd.value) {
 	const now = new Date().getTime()
 	isDiscountActive.value = discountStart.value < now && now < discountEnd.value
@@ -217,22 +224,36 @@ onMounted(async () => {
 			/>
 		</div>
 		<div class="z-10 flex flex-col gap-1">
-			<div
-				class="w-fit rounded px-1.5 py-1 text-xs"
-				:class="{
-					'bg-[#00F329] text-black': DIGITAL_CARD.includes(tag),
-					'bg-[#DB00FF] text-white': SKIN.includes(tag),
-					'bg-[#FF5C00] text-white': BGM.includes(tag),
-					'bg-[#FF003C] text-white': VIDEO.includes(tag),
-					'bg-[#4200FF] text-white': SHORT_CLIP.includes(tag),
-					'bg-[#00D4FF] text-black': SHORT_VOICE.includes(tag),
-					'bg-[#964910] text-black': cat === 'Set',
-				}"
-			>
-				{{ i18nAkiba(getTagName(composedItem.props)) }}
+			<div class="flex flex-wrap gap-1">
+				<div
+					class="w-fit rounded px-1.5 py-1 text-xs"
+					:class="{
+						'bg-[#00F329] text-black': DIGITAL_CARD.includes(tag),
+						'bg-[#DB00FF] text-white': SKIN.includes(tag),
+						'bg-[#FF5C00] text-white': BGM.includes(tag),
+						'bg-[#FF003C] text-white': VIDEO.includes(tag),
+						'bg-[#4200FF] text-white': SHORT_CLIP.includes(tag),
+						'bg-[#00D4FF] text-black': SHORT_VOICE.includes(tag),
+						'bg-[#964910] text-black': cat === 'Set',
+					}"
+				>
+					{{ i18nAkiba(getTagName(composedItem.props)) }}
+				</div>
+				<div
+					v-if="isUnreleased"
+					class="rounded bg-neutral-500 px-1.5 py-1 text-xs text-white"
+				>
+					{{ i18nAkiba('NotForSale', [Reason.Unreleased]) }}
+				</div>
+				<div
+					v-if="isSetOnly"
+					class="rounded bg-yellow-500 px-1.5 py-1 text-xs text-black"
+				>
+					{{ i18nAkiba('NotForSale', [Reason.SetSaleOnly]) }}
+				</div>
 			</div>
 			<div v-if="groupedProducts?.length" class="flex items-center gap-1">
-				<span class="text-xs text-blue-400">{{
+				<span v-if="groupedProducts.length > 1" class="text-xs text-blue-400">{{
 					i18nAkiba('Size', [String(groupedProducts.length)])
 				}}</span>
 				<span
@@ -255,27 +276,19 @@ onMounted(async () => {
 					}}
 				</span>
 			</div>
-			<div class="flex flex-wrap gap-1">
-				<h3
-					class="overflow-hidden font-bold text-nowrap text-ellipsis"
-					:class="{
-						'text-base':
-							DIGITAL_CARD.includes(tag) ||
-							BGM.includes(tag) ||
-							VIDEO.includes(tag),
-						'text-white': SKIN.includes(tag) && color?.isDark,
-						'text-black': SKIN.includes(tag) && color?.isLight,
-					}"
-				>
-					{{ title }}
-				</h3>
-				<div
-					v-if="isUnreleased"
-					class="rounded bg-neutral-500 px-1 py-0.5 text-xs text-white"
-				>
-					{{ i18nAkiba('NotForSale', [Reason.Unreleased]) }}
-				</div>
-			</div>
+			<h3
+				class="overflow-hidden font-bold text-nowrap text-ellipsis"
+				:class="{
+					'text-base':
+						DIGITAL_CARD.includes(tag) ||
+						BGM.includes(tag) ||
+						VIDEO.includes(tag),
+					'text-white': SKIN.includes(tag) && color?.isDark,
+					'text-black': SKIN.includes(tag) && color?.isLight,
+				}"
+			>
+				{{ title }}
+			</h3>
 			<div
 				class="flex w-full flex-col justify-start gap-0 text-sm"
 				:class="{
@@ -315,7 +328,10 @@ onMounted(async () => {
 
 					<span
 						class="text-right text-[inherit]"
-						:class="{ 'text-sm': isDiscountActive }"
+						:class="{
+							'text-sm': isDiscountActive,
+							'text-gray-300': isUnreleased || isNotForSale,
+						}"
 					>
 						{{ isUnreleased || isNotForSale ? '-' : price }}
 					</span>

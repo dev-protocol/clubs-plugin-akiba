@@ -111,7 +111,7 @@ onMounted(() => {
 					:item="product.props.passportItem"
 					:langs="langs"
 					video-class="w-full max-w-full object-cover aspect-square"
-					class="rounded drop-shadow-sm"
+					class="rounded drop-shadow-[0_2px_1px_rgb(0_0_0/_0.5)]"
 					:class="{
 						'col-span-2 col-start-3': gridWidth === 2,
 						'col-span-4 col-start-2': gridWidth === 4,
