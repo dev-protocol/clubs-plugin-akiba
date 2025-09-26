@@ -373,7 +373,9 @@ const handleBuy = () => {}
 							class="flex flex-col items-start justify-between font-bold text-gray-900"
 						>
 							<span class="text-sm">Total</span>
-							<span class="text-xl">${{ totalAmount.toFixed(2) }}</span>
+							<span class="text-xl"
+								>{{ totalAmount.toFixed(2) }} {{ i18n('YEN') }}</span
+							>
 						</div>
 					</div>
 					<div v-if="isLoading" class="h-16 w-full rounded bg-gray-300"></div>
