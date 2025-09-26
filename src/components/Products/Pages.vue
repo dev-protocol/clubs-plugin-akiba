@@ -19,6 +19,7 @@ import Bg from '../../assets/bg_sticker.png'
 import { i18nWith } from '../../utils/i18n.ts'
 import ImageI18N from '../Image/ImageI18N.vue'
 import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
+import { SKIN } from '../../utils/filtering-clips.ts'
 
 type Props = {
 	langs: string[]
@@ -61,6 +62,9 @@ const price = computed(() => {
 		price: yen && !unpriced ? yen : undefined,
 	}
 })
+const isSkin = computed(() =>
+	SKIN.includes(product.props.passportItem.itemAssetType),
+)
 const gridWidth = computed(() => {
 	return (product.props.passportItem.appearance?.grid?.w ?? 1) * 2
 })
@@ -73,6 +77,10 @@ const isUnreleased = computed(() => {
 		product.props.reason === Reason.Unreleased
 	)
 })
+const itemOffering = computed(() => ({
+	...product.props.offering,
+	...product.props.passportItem,
+}))
 
 const onCartButtonComplete = () => {
 	completed.value = true
@@ -98,8 +106,9 @@ onMounted(() => {
 
 		<div class="flex flex-col gap-3">
 			<div
-				class="grid grid-cols-6 grid-rows-6 rounded"
+				class="rounded"
 				:class="{
+					'grid grid-cols-6 grid-rows-6': !isSkin,
 					'bg-center bg-repeat':
 						(productsConfig?.productBgType ?? 'tile') === 'tile',
 					'bg-cover bg-center': productsConfig?.productBgType === 'fill',
@@ -108,7 +117,7 @@ onMounted(() => {
 			>
 				<Media
 					v-if="(product.props.offering.bundle ?? []).length === 0"
-					:item="product.props.passportItem"
+					:item="itemOffering"
 					:langs="langs"
 					video-class="w-full max-w-full object-cover aspect-square"
 					class="rounded drop-shadow-[0_2px_1px_rgb(0_0_0/_0.5)]"
