@@ -350,7 +350,7 @@ const handleBuy = () => {}
 					>
 						<div class="mb-4 text-sm text-gray-900">Total</div>
 						<div class="text-2xl text-gray-900">
-							${{ totalAmount.toFixed(2) }}
+							{{ totalAmount.toFixed(2) }} {{ i18n('YEN') }}
 						</div>
 					</div>
 				</div>
