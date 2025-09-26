@@ -166,6 +166,7 @@ onMounted(async () => {
 			console.error(e)
 			return undefined
 		})
+		console.log('image', image.value, color.value)
 	}
 })
 </script>
@@ -330,7 +331,7 @@ onMounted(async () => {
 						class="text-right text-[inherit]"
 						:class="{
 							'text-sm': isDiscountActive,
-							'text-gray-300': isUnreleased || isNotForSale,
+							'opacity-50': isUnreleased || isNotForSale,
 						}"
 					>
 						{{ isUnreleased || isNotForSale ? '-' : price }}
@@ -339,7 +340,12 @@ onMounted(async () => {
 			</div>
 			<p
 				v-if="shortDescription"
-				class="line-clamp-2 overflow-hidden text-sm text-ellipsis text-gray-500"
+				class="line-clamp-2 overflow-hidden text-xs text-ellipsis"
+				:class="{
+					'text-gray-500': !SKIN.includes(tag),
+					'text-white opacity-50': SKIN.includes(tag) && color?.isDark,
+					'text-black opacity-50': SKIN.includes(tag) && color?.isLight,
+				}"
 			>
 				{{ shortDescription }}
 			</p>
