@@ -30,7 +30,6 @@ type Props = {
 	displayShortDescription?: boolean
 	imageBackground?: string
 	class?: string
-	excludeLinkWhenNotAvailable?: boolean
 	langs?: string[]
 	base: string
 }
@@ -39,7 +38,6 @@ const {
 	composedItem,
 	displayShortDescription = false,
 	class: className,
-	excludeLinkWhenNotAvailable,
 	imageBackground,
 	langs: _langs = ['en'],
 	base,
@@ -124,6 +122,10 @@ const isUnreleased = computed(() => {
 	)
 })
 
+const isNotForSale = computed(() => {
+	return composedItem.props.notForSale
+})
+
 if (discountStart.value && discountEnd.value) {
 	const now = new Date().getTime()
 	isDiscountActive.value = discountStart.value < now && now < discountEnd.value
@@ -179,12 +181,8 @@ onMounted(async () => {
 
 <template>
 	<a
-		:href="
-			composedItem.props.notForSale && excludeLinkWhenNotAvailable
-				? undefined
-				: `${base}/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`
-		"
-		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 p-1 md:gap-2 md:p-2"
+		:href="`${base}/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`"
+		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 bg-white p-1 md:gap-2 md:p-2"
 		:class="{
 			'bg-white':
 				DIGITAL_CARD.includes(tag) || BGM.includes(tag) || VIDEO.includes(tag),
@@ -319,7 +317,7 @@ onMounted(async () => {
 						class="text-right text-[inherit]"
 						:class="{ 'text-sm': isDiscountActive }"
 					>
-						{{ isUnreleased ? '-' : price }}
+						{{ isUnreleased || isNotForSale ? '-' : price }}
 					</span>
 				</p>
 			</div>

@@ -17,7 +17,6 @@ type Props = {
 	langs: string[]
 	products: Product[]
 	hideHiddenItems?: boolean
-	excludeLinkWhenNotAvailable?: boolean
 	categories?: CategoriesConfig
 	base: string
 }
@@ -25,7 +24,6 @@ type Props = {
 const {
 	products,
 	hideHiddenItems = true,
-	excludeLinkWhenNotAvailable,
 	categories,
 	langs: _langs,
 } = defineProps<Props>()
@@ -112,7 +110,6 @@ onMounted(() => {
 						:groupedProducts="groupedProducts(item)"
 						:displayShortDescription="true"
 						:imageBackground="Bg.src"
-						:excludeLinkWhenNotAvailable="excludeLinkWhenNotAvailable"
 						:langs="langs"
 						:base="base"
 					/>
