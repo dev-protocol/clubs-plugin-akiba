@@ -69,7 +69,7 @@
 		"@types/node": "22.18.7",
 		"@types/ramda": "0.31.1",
 		"astro": "^5.0.0",
-		"dotenv": "17.2.1",
+		"dotenv": "17.2.3",
 		"eslint": "^9.17.0",
 		"eslint-config-prettier": "^10.0.0",
 		"eslint-plugin-functional": "^9.0.0",
