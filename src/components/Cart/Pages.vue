@@ -350,7 +350,7 @@ const handleBuy = () => {}
 					>
 						<div class="mb-4 text-sm text-gray-900">Total</div>
 						<div class="text-2xl text-gray-900">
-							{{ totalAmount.toFixed(2) }} {{ i18n('YEN') }}
+							{{ totalAmount.toLocaleString() }} {{ i18n('YEN') }}
 						</div>
 					</div>
 				</div>
@@ -374,7 +374,7 @@ const handleBuy = () => {}
 						>
 							<span class="text-sm">Total</span>
 							<span class="text-xl"
-								>{{ totalAmount.toFixed(2) }} {{ i18n('YEN') }}</span
+								>{{ totalAmount.toLocaleString() }} {{ i18n('YEN') }}</span
 							>
 						</div>
 					</div>
