@@ -10,6 +10,7 @@ import type { Membership } from '@devprotocol/clubs-core'
 import type { MembersCountVisibilityValue } from '..'
 import type { GlobalConfig, HomeConfig } from '../types'
 import Marquee from '../components/Marquee/Marquee.vue'
+import { parsedLangs } from '../utils/langs'
 
 const { page } = Astro.params
 const {
@@ -29,7 +30,7 @@ const {
 	signals?: string[]
 }
 
-const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
+const langs = parsedLangs(Astro.request.headers.get('accept-language'))
 
 const notDisplayConnection = signals?.includes('connection-button-hide')
 

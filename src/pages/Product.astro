@@ -14,8 +14,9 @@ import type {
 import type { CheckoutItemPassportOffering } from '@devprotocol/clubs-plugin-passports'
 import { Strings } from '../i18n'
 import List from '../components/Products/List.vue'
+import { parsedLangs } from '../utils/langs'
 
-const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
+const langs = parsedLangs(Astro.request.headers.get('accept-language'))
 
 type Props = ClubsPropsPages & {
 	globalConfig: GlobalConfig

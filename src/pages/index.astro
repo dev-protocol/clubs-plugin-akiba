@@ -11,6 +11,7 @@ import type {
 	HomeConfig,
 	Product,
 } from '../types'
+import { parsedLangs } from '../utils/langs'
 
 type Props = ClubsPropsPages & {
 	memberships?: Membership[]
@@ -25,7 +26,7 @@ type Props = ClubsPropsPages & {
 
 const { base, homeConfig, products, categories } = Astro.props
 
-const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
+const langs = parsedLangs(Astro.request.headers.get('accept-language'))
 ---
 
 <Home

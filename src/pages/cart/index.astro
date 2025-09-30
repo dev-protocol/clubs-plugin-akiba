@@ -4,8 +4,9 @@ import type { ClubsPropsPages, Membership } from '@devprotocol/clubs-core'
 import type { ComposedItem, GlobalConfig, HomeConfig } from '../../types.ts'
 import type { SectionOrderingValue } from '../../index.ts'
 import type { CheckoutFromPassportOffering } from '@devprotocol/clubs-plugin-passports'
+import { parsedLangs } from '../../utils/langs'
 
-const langs = Astro.request.headers.get('accept-language')?.split(',') ?? ['en']
+const langs = parsedLangs(Astro.request.headers.get('accept-language'))
 
 type Props = ClubsPropsPages & {
 	memberships?: Membership[]
