@@ -1,6 +1,6 @@
 {
 	"name": "@devprotocol/clubs-plugin-akiba",
-	"version": "0.13.10",
+	"version": "0.13.11",
 	"type": "module",
 	"description": "Akiba theme plugin for clubs.",
 	"main": "dist/index.js",
