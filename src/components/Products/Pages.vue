@@ -15,11 +15,10 @@ import {
 	ProseTextInherit,
 } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
-import Bg from '../../assets/bg_sticker.png'
 import { i18nWith } from '../../utils/i18n.ts'
 import ImageI18N from '../Image/ImageI18N.vue'
 import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
-import { SKIN } from '../../utils/filtering-clips.ts'
+import ProductImage from './ProductImage.vue'
 
 type Props = {
 	langs: string[]
@@ -46,7 +45,6 @@ const i18n = computed(() =>
 	i18nFactory({ ...product.props.offering.i18n, ...Strings })(langs.value),
 )
 const i18nInstant = i18nWith(langs.value)
-const bgImage = ref(`url(${productsConfig?.productBg ?? Bg.src})`)
 const completed = ref(false)
 const isNotForSale = computed(
 	() => product.props.notForSale || product.props.available === false,
@@ -62,25 +60,12 @@ const price = computed(() => {
 		price: yen && !unpriced ? yen : undefined,
 	}
 })
-const isSkin = computed(() =>
-	SKIN.includes(product.props.passportItem.itemAssetType),
-)
-const gridWidth = computed(() => {
-	return (product.props.passportItem.appearance?.grid?.w ?? 1) * 2
-})
-const gridHeight = computed(() => {
-	return (product.props.passportItem.appearance?.grid?.h ?? 1) * 2
-})
 const isUnreleased = computed(() => {
 	return (
 		product.props.available === false &&
 		product.props.reason === Reason.Unreleased
 	)
 })
-const itemOffering = computed(() => ({
-	...product.props.offering,
-	...product.props.passportItem,
-}))
 
 const onCartButtonComplete = () => {
 	completed.value = true
@@ -105,39 +90,11 @@ onMounted(() => {
 		</div>
 
 		<div class="flex flex-col gap-3">
-			<div
-				class="rounded"
-				:class="{
-					'grid grid-cols-6 grid-rows-6': !isSkin,
-					'bg-center bg-repeat':
-						(productsConfig?.productBgType ?? 'tile') === 'tile',
-					'bg-cover bg-center': productsConfig?.productBgType === 'fill',
-				}"
-				:style="{ '--image': bgImage, backgroundImage: 'var(--image)' }"
-			>
-				<Media
-					v-if="(product.props.offering.bundle ?? []).length === 0"
-					:item="itemOffering"
-					:langs="langs"
-					video-class="w-full max-w-full object-cover aspect-square"
-					class="rounded drop-shadow-[0_2px_1px_rgb(0_0_0/_0.5)]"
-					:class="{
-						'col-span-2 col-start-3': gridWidth === 2,
-						'col-span-4 col-start-2': gridWidth === 4,
-						'col-span-6': gridWidth === 6,
-						'row-span-2 row-start-3': gridHeight === 2,
-						'row-span-4 row-start-2': gridHeight === 4,
-						'row-span-6': gridHeight === 6,
-					}"
-				/>
-				<Media
-					v-else
-					:item="product.props.passportItem"
-					:langs="langs"
-					video-class="w-full max-w-full object-cover aspect-square"
-					class="col-span-6 row-span-6 rounded"
-				/>
-			</div>
+			<ProductImage
+				:langs="langs"
+				:product="product"
+				:products-config="productsConfig"
+			/>
 			<div
 				v-if="
 					product.props.offering.previewImages &&
