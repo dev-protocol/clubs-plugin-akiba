@@ -68,11 +68,15 @@ export const Strings = {
 	},
 	Copyrights: {
 		en: markdownToHtml(
-			`Images, text, audio, video, and other data sold on this site are protected by copyright law.<br/>Reproduction, reprinting, distribution, or similar acts are prohibited and may be punishable by law.`,
+			`The displayed USD conversion is for reference only. The actual charge may differ based on your card issuer’s exchange rate, fees, and the timing of the transaction.<br/>Images, text, audio, video, and other data sold on this site are protected by copyright law.<br/>Reproduction, reprinting, distribution, or similar acts are prohibited and may be punishable by law.`,
 		),
 		ja: markdownToHtml(
 			`当サイトで販売されている画像・テキスト・音声・動画などのデータは著作権法により保護されています。<br/>データの複製、転載、配布、それに準ずる行為は禁止されており、法律により罰せられる場合があります`,
 		),
+	},
+	EstUSD: {
+		en: `The displayed USD conversion is for reference only. The actual charge may differ based on your card issuer’s exchange rate, fees, and the timing of the transaction.`,
+		ja: '',
 	},
 	BundledProducts: {
 		en: `This set includes`,
@@ -128,4 +132,5 @@ export const Strings = {
 		en: 'YEN',
 		ja: '円',
 	},
+	Lang: { en: 'en', ja: 'ja' },
 } satisfies ClubsI18nParts

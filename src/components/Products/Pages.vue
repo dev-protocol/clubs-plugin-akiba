@@ -20,6 +20,7 @@ import ImageI18N from '../Image/ImageI18N.vue'
 import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
 import ProductImage from './ProductImage.vue'
 import Type from '../Type/Type.vue'
+import ExchangeRate from '../ExchangeRate/ExchangeRate.vue'
 
 type Props = {
 	langs: string[]
@@ -125,6 +126,20 @@ onMounted(() => {
 				><span class="text-2xl font-bold">{{
 					isUnreleased ? '-' : price.price
 				}}</span>
+				<div
+					v-if="
+						i18n('Lang') === 'en' && price.price !== undefined && !isUnreleased
+					"
+				>
+					<ExchangeRate
+						prefix="$"
+						postfix=" approx."
+						:amount="price.price"
+						from="JPY"
+						to="USD"
+						loading-class="min-w-12"
+					/>
+				</div>
 			</div>
 			<div v-if="group && group.length > 0">
 				<ul class="flex gap-2">

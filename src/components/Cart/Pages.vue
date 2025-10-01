@@ -7,10 +7,11 @@ import type {
 	CheckoutItemPassportOffering,
 } from '@devprotocol/clubs-plugin-passports'
 import { Pay } from '@devprotocol/clubs-plugin-payments/components'
-import { i18nFactory } from '@devprotocol/clubs-core'
+import { i18nFactory, ProseTextInherit } from '@devprotocol/clubs-core'
 import { Strings } from '../../i18n/index.ts'
 import { whenDefined } from '@devprotocol/util-ts'
 import ImageI18N from '../Image/ImageI18N.vue'
+import ExchangeRate from '../ExchangeRate/ExchangeRate.vue'
 
 type Props = {
 	langs: string[]
@@ -327,6 +328,15 @@ const handleBuy = () => {}
 										{{ i18n('YEN') }}
 									</template>
 								</p>
+								<p v-if="i18n('Lang') === 'en'" class="text-xs text-gray-500">
+									(<ExchangeRate
+										prefix="~$"
+										:amount="totalAmount"
+										from="JPY"
+										to="USD"
+										loading-class="min-w-12"
+									/>)
+								</p>
 							</div>
 
 							<QuantitySelector
@@ -352,6 +362,20 @@ const handleBuy = () => {}
 						<div class="text-2xl text-gray-900">
 							{{ totalAmount.toLocaleString() }} {{ i18n('YEN') }}
 						</div>
+						<template v-if="i18n('Lang') === 'en'">
+							<p v-if="i18n('Lang') === 'en'">
+								(<ExchangeRate
+									prefix="~$"
+									:amount="totalAmount"
+									from="JPY"
+									to="USD"
+									loading-class="min-w-12"
+								/>)
+							</p>
+							<p class="mt-2 text-xs text-gray-500">
+								{{ i18n('EstUSD') }}
+							</p>
+						</template>
 					</div>
 				</div>
 			</div>
@@ -376,6 +400,15 @@ const handleBuy = () => {}
 							<span class="text-xl"
 								>{{ totalAmount.toLocaleString() }} {{ i18n('YEN') }}</span
 							>
+							<p v-if="i18n('Lang') === 'en'">
+								<ExchangeRate
+									prefix="Approximately $"
+									:amount="totalAmount"
+									from="JPY"
+									to="USD"
+									loading-class="min-w-12"
+								/>
+							</p>
 						</div>
 					</div>
 					<div v-if="isLoading" class="h-16 w-full rounded bg-gray-300"></div>
@@ -386,6 +419,12 @@ const handleBuy = () => {}
 						:customer="{ email: customerEmail }"
 					/>
 				</div>
+				<p
+					v-if="!isLoading && i18n('Lang') === 'en'"
+					class="mt-2 text-xs text-gray-500"
+				>
+					{{ i18n('EstUSD') }}
+				</p>
 			</div>
 		</div>
 	</div>

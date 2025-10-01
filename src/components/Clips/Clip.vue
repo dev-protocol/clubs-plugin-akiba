@@ -22,6 +22,7 @@ import { Strings } from '../../i18n/index.ts'
 import type { Product } from '../../types.ts'
 import { i18nWith } from '../../utils/i18n.ts'
 import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
+import ExchangeRate from '../ExchangeRate/ExchangeRate.vue'
 
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
@@ -128,6 +129,15 @@ const isNotForSale = computed(() => {
 
 const isSetOnly = computed(() => {
 	return composedItem.props.reason === Reason.SetSaleOnly
+})
+
+const showUSD = computed(() => {
+	return (
+		i18nAkiba.value('Lang') === 'en' &&
+		price.value !== undefined &&
+		!isNotForSale.value &&
+		!isUnreleased.value
+	)
 })
 
 if (discountStart.value && discountEnd.value) {
@@ -318,21 +328,38 @@ onMounted(async () => {
 					}"
 				>
 					<span
-						class="text-right text-[inherit]"
-						:class="{ 'text-sm': isDiscountActive }"
-					>
-						{{ currency }}
-					</span>
-
-					<span
-						class="text-right text-[inherit]"
+						class="contents"
 						:class="{
-							'text-sm': isDiscountActive,
-							'opacity-50': isUnreleased || isNotForSale,
+							'text-gray-500': showUSD && !SKIN.includes(tag),
+							'text-[inherit] opacity-50': showUSD && SKIN.includes(tag),
 						}"
 					>
-						{{ isUnreleased || isNotForSale ? '-' : price }}
+						<span
+							class="text-right text-[inherit]"
+							:class="{ 'text-sm': isDiscountActive }"
+						>
+							{{ currency }}
+						</span>
+
+						<span
+							class="text-right text-[inherit]"
+							:class="{
+								'text-sm': isDiscountActive,
+								'opacity-50': isUnreleased || isNotForSale,
+							}"
+						>
+							{{ isUnreleased || isNotForSale ? '-' : price }}
+						</span>
 					</span>
+					<span v-if="showUSD && price !== undefined" class="text-sm"
+						>(<ExchangeRate
+							prefix="~$"
+							:amount="price"
+							from="JPY"
+							to="USD"
+							loading-class="min-w-5"
+						/>)</span
+					>
 				</p>
 			</div>
 			<p

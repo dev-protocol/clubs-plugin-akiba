@@ -105,3 +105,10 @@ export type PassportItemAssetCategory =
 	| 'Unknown'
 
 export type ClipCategory = 'All' | PassportItemAssetCategory
+
+export type ExchangerateRateAPIResponse = {
+	conversion_rates: {
+		USD: number
+		JPY: number
+	}
+}
