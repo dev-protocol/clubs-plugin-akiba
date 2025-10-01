@@ -3,8 +3,8 @@ import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
 
 export const Strings = {
 	All: {
-		en: 'All',
-		ja: 'すべてのアイテム',
+		en: 'All Didigital Items',
+		ja: 'すべてのデジタルアイテム',
 	},
 	Sticker: {
 		en: 'Sticker',

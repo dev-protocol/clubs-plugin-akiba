@@ -19,6 +19,7 @@ import { i18nWith } from '../../utils/i18n.ts'
 import ImageI18N from '../Image/ImageI18N.vue'
 import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
 import ProductImage from './ProductImage.vue'
+import Type from '../Type/Type.vue'
 
 type Props = {
 	langs: string[]
@@ -115,8 +116,9 @@ onMounted(() => {
 		</div>
 
 		<div class="flex flex-col gap-5">
-			<h1>
+			<h1 class="flex items-center justify-between">
 				<span class="text-xl font-bold">{{ i18n('name') }}</span>
+				<Type :langs="langs" />
 			</h1>
 			<div class="text-sky-800">
 				<span>{{ price.currency }}</span
