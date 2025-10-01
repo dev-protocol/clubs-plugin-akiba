@@ -127,10 +127,7 @@ const isNotForSale = computed(() => {
 })
 
 const isSetOnly = computed(() => {
-	return (
-		composedItem.props.available === false &&
-		composedItem.props.reason === Reason.SetSaleOnly
-	)
+	return composedItem.props.reason === Reason.SetSaleOnly
 })
 
 if (discountStart.value && discountEnd.value) {
