@@ -2,6 +2,7 @@
 import { defineProps, onMounted, ref } from 'vue'
 import { i18nFactory } from '@devprotocol/clubs-core'
 import type { HomeConfig } from '../../types.ts'
+import Arrow from '../Icons/Arrow.vue'
 
 type Props = {
 	feature: HomeConfig['features'][0]
@@ -38,7 +39,7 @@ onMounted(() => {
 <template>
 	<div>
 		<a
-			class="relative block flex aspect-[5/3] w-full overflow-hidden rounded-2xl md:aspect-[5/3] md:flex-row"
+			class="peer relative block flex aspect-[5/3] w-full overflow-hidden rounded-xl md:aspect-[5/3] md:flex-row"
 			:href="i18nLink ? i18nLink('link') : undefined"
 			:role="feature.link ? 'link' : 'generic'"
 			:target="feature.link ? '_blank' : undefined"
@@ -50,6 +51,17 @@ onMounted(() => {
 				:class="[{ '-m-3 animate-pulse blur-md': asPlaceholder }]"
 			></div>
 		</a>
+		<div
+			v-if="i18nLink"
+			class="-mt-5 flex justify-end rounded-b-xl pt-5.5 pb-0.5 transition"
+			:class="{
+				'bg-slate-200 peer-hover:bg-black peer-hover:text-white':
+					!asPlaceholder,
+			}"
+		>
+			<Arrow class="mr-3 size-3" />
+		</div>
+
 		<div
 			v-if="!asPlaceholder"
 			class="flex w-full flex-col items-start justify-end py-2 font-bold"

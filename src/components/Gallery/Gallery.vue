@@ -70,7 +70,7 @@ const onClickSlideTo = (index: number) => {
 				:feature="feature"
 				:as-placeholder="true"
 				:langs="langs"
-				:class="['max-w-sm', { 'hidden md:flex': index > 0 }]"
+				:class="['w-full max-w-sm', { 'hidden md:block': index > 0 }]"
 			/>
 		</div>
 
