@@ -2,17 +2,20 @@
 import { defineProps } from 'vue'
 import type { StringOrI18n } from '../../types'
 import ImageI18N from '../Image/ImageI18N.vue'
+import { i18nWith } from '../../utils/i18n'
 
 type Props = {
 	image?: string
 	logo?: StringOrI18n
-	text?: string
+	text?: StringOrI18n
 	gradientColor?: string
 	copyright?: string
 	langs?: string[]
 }
 
-const { image, logo, text } = defineProps<Props>()
+const { image, logo, text, langs } = defineProps<Props>()
+
+const i18n = i18nWith(langs ?? ['en'])
 </script>
 
 <template>
@@ -38,7 +41,7 @@ const { image, logo, text } = defineProps<Props>()
 				>
 					<ImageI18N :src="logo" class="" alt="" :langs="langs" />
 					<p v-if="text" class="leading-none text-white md:leading-normal">
-						{{ text }}
+						{{ typeof text === 'string' ? text : i18n(text) }}
 					</p>
 					<p
 						v-if="copyright"
