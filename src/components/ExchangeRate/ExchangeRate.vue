@@ -9,7 +9,7 @@ const {
 	amount,
 	from,
 	to,
-	multiplier = 1.02,
+	multiplier = 1.04,
 	prefix,
 	postfix,
 	loadingClass,
