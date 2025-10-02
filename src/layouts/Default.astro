@@ -5,16 +5,29 @@ import type { UndefinedOr } from '@devprotocol/util-ts'
 import '@devprotocol/clubs-core/styles'
 import Header from '../components/Header/Header.astro'
 import Hero from '../components/Hero/Hero.vue'
-import type { ClubsNavigationLink as NavLink } from '@devprotocol/clubs-core'
+import type {
+	ClubsI18nLocale,
+	ClubsNavigationLink as NavLink,
+} from '@devprotocol/clubs-core'
 import type { Membership } from '@devprotocol/clubs-core'
 import type { MembersCountVisibilityValue } from '..'
 import type { GlobalConfig, HomeConfig } from '../types'
 import Marquee from '../components/Marquee/Marquee.vue'
 import { parsedLangs } from '../utils/langs'
+import { i18nWith } from '../utils/i18n'
 
 const { page } = Astro.params
 const {
-	theme2: { metaTitle, config, homeConfig, globalConfig, description, base },
+	theme2: {
+		metaTitle,
+		config,
+		homeConfig,
+		globalConfig,
+		description,
+		base,
+		favicon,
+		title: titleProp,
+	},
 	signals,
 } = Astro.props as {
 	theme2: {
@@ -26,15 +39,22 @@ const {
 		membersCountConfig?: MembersCountVisibilityValue
 		description?: string
 		base: string
+		favicon?: { src: string; type: string }
+		title?: ClubsI18nLocale
 	}
 	signals?: string[]
 }
 
 const langs = parsedLangs(Astro.request.headers.get('accept-language'))
+const i18n = i18nWith(langs)
 
 const notDisplayConnection = signals?.includes('connection-button-hide')
 
-const title = metaTitle ? `${config.name} : ${metaTitle}` : config.name
+const title = metaTitle
+	? `${config.name} : ${metaTitle}`
+	: titleProp
+		? i18n(titleProp)
+		: config.name
 
 const ogp = config.options?.find((option) => option.key === 'ogp')
 	?.value as UndefinedOr<{ image?: string }>
@@ -80,7 +100,13 @@ const signalMarquee = signals?.find((s) => s === 'SHOW_MARQUEE') ? true : false
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<title>{title}</title>
-		<link rel="icon" type="image/svg" href={avatarImgSrc || Favicon.src} />
+		{
+			favicon ? (
+				<link rel="icon" type={favicon.type} href={favicon.src} />
+			) : (
+				<link rel="icon" type="image/svg" href={avatarImgSrc || Favicon.src} />
+			)
+		}
 		<meta name="description" content={`${truncatedDescription}`} />
 		<meta property="og:title" content={title} />
 		<meta property="og:type" content="website" />

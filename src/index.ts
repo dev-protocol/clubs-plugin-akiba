@@ -6,6 +6,7 @@ import type {
 	ClubsThemePluginMeta,
 	ClubsNavigationLink as NavLink,
 	Membership,
+	ClubsI18nLocale,
 } from '@devprotocol/clubs-core'
 import { bytes32Hex, ClubsPluginCategory } from '@devprotocol/clubs-core'
 import { default as Layout } from './layouts/Default.astro'
@@ -247,6 +248,10 @@ export const getLayout = (async (options, config, { getPluginConfigById }) => {
 		)?.value ?? 'visible'
 	const description = homeConfig?.description
 	const base = config.url
+	const favicon = config.options?.find((option) => option.key === 'favicon')
+		?.value as UndefinedOr<{ src: string; type: string }>
+	const title = config.options?.find((option) => option.key === 'title')
+		?.value as UndefinedOr<ClubsI18nLocale>
 
 	return {
 		layout: Layout,
@@ -259,6 +264,8 @@ export const getLayout = (async (options, config, { getPluginConfigById }) => {
 				memberships,
 				description,
 				base,
+				favicon,
+				title,
 			},
 		},
 	}
