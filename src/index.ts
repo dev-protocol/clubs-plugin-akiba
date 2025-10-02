@@ -31,6 +31,7 @@ import {
 	PLUGIN_ID as PASSPORT_PLUGIN_ID,
 } from '@devprotocol/clubs-plugin-passports'
 import Product from './pages/Product.astro'
+import { productId } from './utils/products'
 
 export const colorPresets = {
 	Purple: {
@@ -143,7 +144,7 @@ export const getPagePaths = (async (options, config, utils) => {
 
 	const products = passportOfferingsWithComposedData.map(
 		(product: CheckoutItemPassportOffering) => ({
-			id: product.payload.slice(product.payload.length - 8),
+			id: productId(product.payload),
 			product,
 		}),
 	)

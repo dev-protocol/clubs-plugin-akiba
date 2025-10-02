@@ -44,3 +44,5 @@ export const toProductsMap = (
 		},
 	)
 }
+
+export const productId = (payload: string) => payload.slice(payload.length - 8)

@@ -12,6 +12,8 @@ import { Strings } from '../../i18n/index.ts'
 import { whenDefined } from '@devprotocol/util-ts'
 import ImageI18N from '../Image/ImageI18N.vue'
 import ExchangeRate from '../ExchangeRate/ExchangeRate.vue'
+import { Media } from '@devprotocol/clubs-plugin-passports/vue'
+import { productId } from '../../utils/products.ts'
 
 type Props = {
 	langs: string[]
@@ -259,12 +261,14 @@ const handleBuy = () => {}
 	<div class="cart-container mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
 		<div class="mb-8 flex justify-between sm:mb-4">
 			<p class="text-2xl font-bold text-gray-900 sm:text-3xl">Cart</p>
-			<ImageI18N
-				:src="globalConfig.logo"
-				:langs="langs"
-				alt="Logo"
-				class="max-w-52 sm:max-w-80"
-			/>
+			<a :href="base">
+				<ImageI18N
+					:src="globalConfig.logo"
+					:langs="langs"
+					alt="Logo"
+					class="max-w-52 sm:max-w-80"
+				/>
+			</a>
 		</div>
 
 		<div
@@ -308,13 +312,15 @@ const handleBuy = () => {}
 						class="cart-item bg-white p-3 sm:p-4"
 					>
 						<div class="flex items-center gap-3 sm:gap-4">
-							<img
-								:src="item.passportItem?.props.itemImageSrc"
-								:alt="item.passportItem?.props?.itemName"
+							<Media
+								:item="item.passportItem?.props.passportItem"
 								class="h-20 w-20 flex-shrink-0 rounded object-contain sm:h-40 sm:w-40"
 							/>
 
-							<div class="min-w-0 flex-1">
+							<a
+								:href="`${base}/products/${productId(item.payload)}`"
+								class="min-w-0 flex-1"
+							>
 								<p class="text-xs font-bold text-gray-900 sm:text-sm">
 									{{ item.passportItem?.props.itemName }}
 								</p>
@@ -330,14 +336,14 @@ const handleBuy = () => {}
 								</p>
 								<p v-if="i18n('Lang') === 'en'" class="text-xs text-gray-500">
 									(<ExchangeRate
-										prefix="~$"
+										prefix="≈$"
 										:amount="totalAmount"
 										from="JPY"
 										to="USD"
 										loading-class="min-w-12"
 									/>)
 								</p>
-							</div>
+							</a>
 
 							<QuantitySelector
 								v-if="!isCheckoutCompletedVisible"
@@ -365,7 +371,7 @@ const handleBuy = () => {}
 						<template v-if="i18n('Lang') === 'en'">
 							<p v-if="i18n('Lang') === 'en'">
 								(<ExchangeRate
-									prefix="~$"
+									prefix="≈$"
 									:amount="totalAmount"
 									from="JPY"
 									to="USD"

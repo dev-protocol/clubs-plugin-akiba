@@ -23,6 +23,7 @@ import type { Product } from '../../types.ts'
 import { i18nWith } from '../../utils/i18n.ts'
 import { Reason } from '@devprotocol/clubs-plugin-passports/constants'
 import ExchangeRate from '../ExchangeRate/ExchangeRate.vue'
+import { productId } from '../../utils/products.ts'
 
 type Props = {
 	composedItem: { payload: string; props: ComposedCheckoutOptions }
@@ -196,7 +197,7 @@ onMounted(async () => {
 
 <template>
 	<a
-		:href="`${base}/products/${composedItem.payload.slice(composedItem.payload.length - 8)}`"
+		:href="`${base}/products/${productId(composedItem.payload)}`"
 		class="flex flex-col gap-1 overflow-hidden rounded border border-gray-300 bg-white p-1 md:gap-2 md:p-2"
 		:class="{
 			'bg-white':
@@ -353,7 +354,7 @@ onMounted(async () => {
 					</span>
 					<span v-if="showUSD && price !== undefined" class="text-sm"
 						>(<ExchangeRate
-							prefix="~$"
+							prefix="≈$"
 							:amount="price"
 							from="JPY"
 							to="USD"

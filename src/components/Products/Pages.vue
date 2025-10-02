@@ -82,14 +82,14 @@ onMounted(() => {
 	<div
 		class="grid grid-cols-1 gap-6 lg:grid-cols-[calc(60%-calc(var(--spacing)_*_6_/_2))_calc(40%-calc(var(--spacing)_*_6_/_2))]"
 	>
-		<div class="flex justify-between lg:col-span-2">
+		<a :href="base" class="flex justify-between lg:col-span-2">
 			<ImageI18N
 				:src="globalConfig.logo"
 				alt="Logo"
 				class="max-w-80"
 				:langs="langs"
 			/>
-		</div>
+		</a>
 
 		<div class="flex flex-col gap-3">
 			<ProductImage
