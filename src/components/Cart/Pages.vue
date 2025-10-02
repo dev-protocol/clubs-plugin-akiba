@@ -258,7 +258,7 @@ const handleBuy = () => {}
 </script>
 
 <template>
-	<div class="cart-container mx-auto max-w-5xl px-4 py-6 sm:px-6 lg:px-8">
+	<div class="cart-container mx-auto max-w-5xl px-2 py-6 sm:px-6 lg:px-8">
 		<div class="mb-8 flex justify-between sm:mb-4">
 			<p class="text-2xl font-bold text-gray-900 sm:text-3xl">Cart</p>
 			<a :href="base">
@@ -287,7 +287,7 @@ const handleBuy = () => {}
 					<div
 						v-for="n in Math.max(cartItemTotal || 0, 1)"
 						:key="'skeleton-' + n"
-						class="cart-item bg-white p-3 sm:p-4"
+						class="cart-item bg-white sm:p-4"
 					>
 						<div class="flex animate-pulse items-center gap-3 sm:gap-4">
 							<div
@@ -312,10 +312,12 @@ const handleBuy = () => {}
 						class="cart-item bg-white p-3 sm:p-4"
 					>
 						<div class="flex items-center gap-3 sm:gap-4">
-							<Media
-								:item="item.passportItem?.props.passportItem"
-								class="h-20 w-20 flex-shrink-0 rounded object-contain sm:h-40 sm:w-40"
-							/>
+							<div class="size-12 flex-shrink-0 sm:size-40">
+								<Media
+									:item="item.passportItem?.props.passportItem"
+									class="rounded object-contain"
+								/>
+							</div>
 
 							<a
 								:href="`${base}/products/${productId(item.payload)}`"
